@@ -1,0 +1,23 @@
+{
+  "split_strategy": "subject",
+  "splits": {
+    "train": {
+      "metadata_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/train_metadata.csv",
+      "embeddings_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/train_embeddings.csv",
+      "windows_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/train_windows.npy",
+      "text_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/train_text.jsonl"
+    },
+    "val": {
+      "metadata_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/val_metadata.csv",
+      "embeddings_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/val_embeddings.csv",
+      "windows_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/val_windows.npy",
+      "text_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/val_text.jsonl"
+    },
+    "test": {
+      "metadata_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/test_metadata.csv",
+      "embeddings_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/test_embeddings.csv",
+      "windows_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/test_windows.npy",
+      "text_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2/test_text.jsonl"
+    }
+  }
+}

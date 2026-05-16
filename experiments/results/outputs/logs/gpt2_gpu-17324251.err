@@ -1,0 +1,12 @@
+Map:   0%|          | 0/4411 [00:00<?, ? examples/s]Map:  23%|██▎       | 1000/4411 [00:01<00:04, 789.81 examples/s]Map:  45%|████▌     | 2000/4411 [00:01<00:02, 1203.93 examples/s]Map:  68%|██████▊   | 3000/4411 [00:02<00:01, 1310.36 examples/s]Map:  91%|█████████ | 4000/4411 [00:02<00:00, 1505.89 examples/s]Map: 100%|██████████| 4411/4411 [00:03<00:00, 1568.42 examples/s]Map: 100%|██████████| 4411/4411 [00:03<00:00, 1349.84 examples/s]
+Map:   0%|          | 0/649 [00:00<?, ? examples/s]Map: 100%|██████████| 649/649 [00:00<00:00, 1262.10 examples/s]Map: 100%|██████████| 649/649 [00:00<00:00, 1242.63 examples/s]
+Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/scripts/train_pamap2_lm.py", line 32, in <module>
+    main()
+  File "/scratch/work/yangs9/ChatTS/scripts/train_pamap2_lm.py", line 23, in main
+    best_path = train_language_model(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/pamap2_forger/trainer.py", line 93, in train_language_model
+    training_args = TrainingArguments(
+                    ^^^^^^^^^^^^^^^^^^
+TypeError: TrainingArguments.__init__() got an unexpected keyword argument 'evaluation_strategy'

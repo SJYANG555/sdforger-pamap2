@@ -13,3 +13,12 @@ ckpt*
 vllm_input.txt
 tmp/
 vllm/
+
+# Local Triton environment and generated experiment artifacts.
+.conda-env/
+.mamba-root/
+artifacts/
+outputs/
+pamap2+physical+activity+monitoring/
+gpt2baseline/
+gpt2baseline_results_*.tar.gz

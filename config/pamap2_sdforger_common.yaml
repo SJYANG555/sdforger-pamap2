@@ -1,0 +1,5 @@
+notes:
+  description: |
+    Shared experiment assumptions for PAMAP2 SDForger-style runs.
+    Activities: walking, running, cycling, sitting, standing.
+    Subject split: train=101-106, val=107, test=108.

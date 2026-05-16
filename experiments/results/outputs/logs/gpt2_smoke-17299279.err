@@ -1,0 +1,18 @@
+Map:   0%|          | 0/64 [00:00<?, ? examples/s]Map: 100%|██████████| 64/64 [00:00<00:00, 168.19 examples/s]Map: 100%|██████████| 64/64 [00:00<00:00, 143.75 examples/s]
+Map:   0%|          | 0/16 [00:00<?, ? examples/s]Map: 100%|██████████| 16/16 [00:00<00:00, 319.53 examples/s]
+/scratch/work/yangs9/ChatTS/pamap2_forger/trainer.py:119: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Trainer.__init__`. Use `processing_class` instead.
+  trainer = Trainer(
+  0%|          | 0/32 [00:00<?, ?it/s]`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/scripts/run_gpt2_smoke_test.py", line 110, in <module>
+    main()
+  File "/scratch/work/yangs9/ChatTS/scripts/run_gpt2_smoke_test.py", line 26, in main
+    run_step([sys.executable, "scripts/train_pamap2_lm.py", "--config", config_path], "train_gpt2_smoke")
+  File "/scratch/work/yangs9/ChatTS/scripts/run_gpt2_smoke_test.py", line 12, in run_step
+    subprocess.run(command, cwd=PROJECT_ROOT, check=True)
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/scratch/work/yangs9/ChatTS/.conda-env/bin/python', 'scripts/train_pamap2_lm.py', '--config', 'config/pamap2_sdforger_gpt2_smoke.yaml']' died with <Signals.SIGKILL: 9>.
+[2026-04-18T22:52:07.099] error: Detected 1 oom_kill event in StepId=17299279.0. Some of the step tasks have been OOM Killed.
+srun: error: pe43: task 0: Out Of Memory
+srun: Terminating StepId=17299279.0

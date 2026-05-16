@@ -1,0 +1,111 @@
+[smoke] project_root=/scratch/work/yangs9/ChatTS
+[smoke] config=config/pamap2_sdforger_gpt2_smoke.yaml
+[smoke] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+Python 3.11.15
+{
+  "source_dataset_dir": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset",
+  "output_dataset_dir": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_smoke",
+  "split_sizes": {
+    "train": 64,
+    "val": 16,
+    "test": 16
+  },
+  "splits": {
+    "train": {
+      "num_windows": 64,
+      "activities": {
+        "cycling": 12,
+        "running": 4,
+        "sitting": 17,
+        "standing": 15,
+        "walking": 16
+      },
+      "subjects": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106
+      ]
+    },
+    "val": {
+      "num_windows": 16,
+      "activities": {
+        "cycling": 4,
+        "sitting": 2,
+        "standing": 5,
+        "walking": 5
+      },
+      "subjects": [
+        107
+      ]
+    },
+    "test": {
+      "num_windows": 16,
+      "activities": {
+        "cycling": 4,
+        "running": 2,
+        "sitting": 6,
+        "standing": 3,
+        "walking": 1
+      },
+      "subjects": [
+        108
+      ]
+    }
+  }
+}
+[2026-04-18 22:59:45,726] [WARNING] [real_accelerator.py:209:get_accelerator] Setting accelerator to CPU. If you have GPU or other accelerator, we were unable to detect it.
+[2026-04-18 22:59:45,729] [INFO] [real_accelerator.py:254:get_accelerator] Setting ds_accelerator to cpu (auto detect)
+{'loss': 1.2379, 'grad_norm': 5.860396862030029, 'learning_rate': 8e-05, 'epoch': 0.03}
+{'loss': 1.06, 'grad_norm': 4.559859275817871, 'learning_rate': 7.75e-05, 'epoch': 0.06}
+{'loss': 0.9545, 'grad_norm': 3.9419736862182617, 'learning_rate': 7.500000000000001e-05, 'epoch': 0.09}
+{'loss': 0.9265, 'grad_norm': 3.761780023574829, 'learning_rate': 7.25e-05, 'epoch': 0.12}
+{'loss': 0.9278, 'grad_norm': 5.532121658325195, 'learning_rate': 7.000000000000001e-05, 'epoch': 0.16}
+{'eval_loss': 0.8329095840454102, 'eval_runtime': 36.3564, 'eval_samples_per_second': 0.44, 'eval_steps_per_second': 0.22, 'epoch': 0.16}
+{'loss': 0.8585, 'grad_norm': 4.345473289489746, 'learning_rate': 6.75e-05, 'epoch': 0.19}
+{'loss': 0.836, 'grad_norm': 3.352543592453003, 'learning_rate': 6.500000000000001e-05, 'epoch': 0.22}
+{'loss': 0.8003, 'grad_norm': 3.129394769668579, 'learning_rate': 6.25e-05, 'epoch': 0.25}
+{'loss': 0.7489, 'grad_norm': 3.692840099334717, 'learning_rate': 6.000000000000001e-05, 'epoch': 0.28}
+{'loss': 0.7373, 'grad_norm': 2.9523754119873047, 'learning_rate': 5.75e-05, 'epoch': 0.31}
+{'eval_loss': 0.7068883180618286, 'eval_runtime': 35.9668, 'eval_samples_per_second': 0.445, 'eval_steps_per_second': 0.222, 'epoch': 0.31}
+{'loss': 0.7066, 'grad_norm': 3.269785165786743, 'learning_rate': 5.5e-05, 'epoch': 0.34}
+{'loss': 0.7103, 'grad_norm': 3.4722728729248047, 'learning_rate': 5.25e-05, 'epoch': 0.38}
+{'loss': 0.7042, 'grad_norm': 2.9832754135131836, 'learning_rate': 5e-05, 'epoch': 0.41}
+{'loss': 0.6575, 'grad_norm': 2.8435871601104736, 'learning_rate': 4.75e-05, 'epoch': 0.44}
+{'loss': 0.6569, 'grad_norm': 3.5064687728881836, 'learning_rate': 4.5e-05, 'epoch': 0.47}
+{'eval_loss': 0.674858033657074, 'eval_runtime': 35.9739, 'eval_samples_per_second': 0.445, 'eval_steps_per_second': 0.222, 'epoch': 0.47}
+{'loss': 0.6473, 'grad_norm': 2.6202948093414307, 'learning_rate': 4.25e-05, 'epoch': 0.5}
+{'loss': 0.6908, 'grad_norm': 2.8234057426452637, 'learning_rate': 4e-05, 'epoch': 0.53}
+{'loss': 0.7131, 'grad_norm': 3.6599068641662598, 'learning_rate': 3.7500000000000003e-05, 'epoch': 0.56}
+{'loss': 0.6273, 'grad_norm': 2.5376760959625244, 'learning_rate': 3.5000000000000004e-05, 'epoch': 0.59}
+{'loss': 0.6626, 'grad_norm': 2.46402645111084, 'learning_rate': 3.2500000000000004e-05, 'epoch': 0.62}
+{'eval_loss': 0.6604442000389099, 'eval_runtime': 35.9544, 'eval_samples_per_second': 0.445, 'eval_steps_per_second': 0.223, 'epoch': 0.62}
+{'loss': 0.6565, 'grad_norm': 3.02827787399292, 'learning_rate': 3.0000000000000004e-05, 'epoch': 0.66}
+{'loss': 0.6706, 'grad_norm': 2.9874401092529297, 'learning_rate': 2.75e-05, 'epoch': 0.69}
+{'loss': 0.6327, 'grad_norm': 2.557758331298828, 'learning_rate': 2.5e-05, 'epoch': 0.72}
+{'loss': 0.6248, 'grad_norm': 2.031071662902832, 'learning_rate': 2.25e-05, 'epoch': 0.75}
+{'loss': 0.6644, 'grad_norm': 2.767500877380371, 'learning_rate': 2e-05, 'epoch': 0.78}
+{'eval_loss': 0.6447960138320923, 'eval_runtime': 35.9656, 'eval_samples_per_second': 0.445, 'eval_steps_per_second': 0.222, 'epoch': 0.78}
+{'loss': 0.6257, 'grad_norm': 2.7139034271240234, 'learning_rate': 1.7500000000000002e-05, 'epoch': 0.81}
+{'loss': 0.6397, 'grad_norm': 2.3506064414978027, 'learning_rate': 1.5000000000000002e-05, 'epoch': 0.84}
+{'loss': 0.6707, 'grad_norm': 2.4584848880767822, 'learning_rate': 1.25e-05, 'epoch': 0.88}
+{'loss': 0.6221, 'grad_norm': 2.4206976890563965, 'learning_rate': 1e-05, 'epoch': 0.91}
+{'loss': 0.6256, 'grad_norm': 3.8068363666534424, 'learning_rate': 7.500000000000001e-06, 'epoch': 0.94}
+{'eval_loss': 0.6403234004974365, 'eval_runtime': 35.8875, 'eval_samples_per_second': 0.446, 'eval_steps_per_second': 0.223, 'epoch': 0.94}
+{'loss': 0.699, 'grad_norm': 2.92325758934021, 'learning_rate': 5e-06, 'epoch': 0.97}
+{'loss': 0.6603, 'grad_norm': 3.2207093238830566, 'learning_rate': 2.5e-06, 'epoch': 1.0}
+{'train_runtime': 740.6911, 'train_samples_per_second': 0.086, 'train_steps_per_second': 0.043, 'train_loss': 0.7392641548067331, 'epoch': 1.0}
+/scratch/work/yangs9/ChatTS/outputs/checkpoints/gpt2_smoke/best
+{"num_generated": 0, "output_dir": "/scratch/work/yangs9/ChatTS/outputs/generated/gpt2_smoke"}
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/similarity/gpt2_smoke", "rows": 0}
+[smoke] start: build_smoke_dataset
+[smoke] done: build_smoke_dataset
+[smoke] start: train_gpt2_smoke
+[smoke] done: train_gpt2_smoke
+[smoke] start: generate_smoke
+[smoke] done: generate_smoke
+[smoke] start: evaluate_similarity_smoke
+[smoke] done: evaluate_similarity_smoke
+[smoke] start: evaluate_utility_smoke

@@ -1,0 +1,7 @@
+{
+  "num_metric_rows": 1,
+  "notes": [
+    "Synthetic dataset is empty. Skipped synthetic_only and real_plus_synthetic settings."
+  ],
+  "synthetic_window_count": 0
+}

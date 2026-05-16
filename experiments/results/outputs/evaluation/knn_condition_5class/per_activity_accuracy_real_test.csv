@@ -1,0 +1,6 @@
+source,activity_id,activity_name,num_samples,accuracy
+real_test,2,sitting,177,0.15254237288135594
+real_test,3,standing,184,0.9728260869565217
+real_test,4,walking,190,0.9631578947368421
+real_test,5,running,115,0.9043478260869565
+real_test,6,cycling,191,0.9109947643979057

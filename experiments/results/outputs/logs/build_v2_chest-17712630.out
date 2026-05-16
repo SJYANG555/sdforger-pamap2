@@ -1,0 +1,117 @@
+[build-v2] project_root=/scratch/work/yangs9/ChatTS
+[build-v2] config=config/pamap2_sdforger_gpt2_5class_v2_chest.yaml
+[build-v2] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+{
+  "source_preprocessed_dir": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_baseline_protocol_5act",
+  "output_dir": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2_chest",
+  "split_strategy": "subject",
+  "embedding": {
+    "method": "fastica",
+    "standardization": "per_channel_train",
+    "fastica_max_iter": 3000,
+    "fastica_tol": 0.001,
+    "n_components_per_channel": {
+      "chest_acc_16g_x": 6,
+      "chest_acc_16g_y": 6,
+      "chest_acc_16g_z": 6,
+      "chest_gyro_x": 6,
+      "chest_gyro_y": 6,
+      "chest_gyro_z": 6
+    },
+    "total_embedding_values": 36,
+    "window_size": 256,
+    "channel_names": [
+      "chest_acc_16g_x",
+      "chest_acc_16g_y",
+      "chest_acc_16g_z",
+      "chest_gyro_x",
+      "chest_gyro_y",
+      "chest_gyro_z"
+    ]
+  },
+  "embedding_artifacts": {
+    "reducer_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2_chest/reducer.pkl",
+    "channel_scaler_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2_chest/channel_scaler.json"
+  },
+  "channel_schema": {
+    "source_selected_channels": [
+      "hand_acc_16g_x",
+      "hand_acc_16g_y",
+      "hand_acc_16g_z",
+      "hand_gyro_x",
+      "hand_gyro_y",
+      "hand_gyro_z",
+      "chest_acc_16g_x",
+      "chest_acc_16g_y",
+      "chest_acc_16g_z",
+      "chest_gyro_x",
+      "chest_gyro_y",
+      "chest_gyro_z",
+      "ankle_acc_16g_x",
+      "ankle_acc_16g_y",
+      "ankle_acc_16g_z",
+      "ankle_gyro_x",
+      "ankle_gyro_y",
+      "ankle_gyro_z"
+    ],
+    "selected_channels": [
+      "chest_acc_16g_x",
+      "chest_acc_16g_y",
+      "chest_acc_16g_z",
+      "chest_gyro_x",
+      "chest_gyro_y",
+      "chest_gyro_z"
+    ],
+    "selected_channel_prefixes": [
+      "chest_"
+    ],
+    "num_channels": 6,
+    "window_size": 256
+  },
+  "splits": {
+    "train": {
+      "num_windows": 4411,
+      "subjects": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106
+      ],
+      "activities": [
+        "cycling",
+        "running",
+        "sitting",
+        "standing",
+        "walking"
+      ]
+    },
+    "val": {
+      "num_windows": 649,
+      "subjects": [
+        107
+      ],
+      "activities": [
+        "cycling",
+        "running",
+        "sitting",
+        "standing",
+        "walking"
+      ]
+    },
+    "test": {
+      "num_windows": 857,
+      "subjects": [
+        108
+      ],
+      "activities": [
+        "cycling",
+        "running",
+        "sitting",
+        "standing",
+        "walking"
+      ]
+    }
+  }
+}

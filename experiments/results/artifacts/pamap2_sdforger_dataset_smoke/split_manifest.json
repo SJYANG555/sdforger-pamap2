@@ -1,0 +1,23 @@
+{
+  "split_strategy": "subject",
+  "splits": {
+    "train": {
+      "metadata_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\train_metadata.csv",
+      "embeddings_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\train_embeddings.csv",
+      "windows_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\train_windows.npy",
+      "text_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\train_text.jsonl"
+    },
+    "val": {
+      "metadata_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\val_metadata.csv",
+      "embeddings_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\val_embeddings.csv",
+      "windows_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\val_windows.npy",
+      "text_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\val_text.jsonl"
+    },
+    "test": {
+      "metadata_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\test_metadata.csv",
+      "embeddings_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\test_embeddings.csv",
+      "windows_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\test_windows.npy",
+      "text_path": "C:\\Users\\ysj\\Desktop\\ChatTS\\artifacts\\pamap2_sdforger_dataset\\test_text.jsonl"
+    }
+  }
+}

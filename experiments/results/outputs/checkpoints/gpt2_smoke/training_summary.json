@@ -1,0 +1,8 @@
+{
+  "model_id_or_path": "openai-community/gpt2",
+  "train_jsonl": "artifacts/pamap2_sdforger_dataset_smoke/train_text.jsonl",
+  "val_jsonl": "artifacts/pamap2_sdforger_dataset_smoke/val_text.jsonl",
+  "peft_enabled": false,
+  "best_checkpoint": "/scratch/work/yangs9/ChatTS/outputs/checkpoints/gpt2_smoke/best",
+  "latest_checkpoint": "/scratch/work/yangs9/ChatTS/outputs/checkpoints/gpt2_smoke/latest"
+}

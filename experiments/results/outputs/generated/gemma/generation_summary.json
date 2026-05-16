@@ -1,0 +1,25 @@
+{
+  "num_generated_embeddings": 227,
+  "source_model_path": "outputs/checkpoints/gemma/best",
+  "reducer_path": "artifacts/pamap2_sdforger_dataset/reducer.pkl",
+  "filter_stats": {
+    "before_filter": 256,
+    "after_missing_filter": 227,
+    "after_dedup_filter": 227,
+    "after_norm_filter": 227
+  },
+  "activities": [
+    "sitting",
+    "standing"
+  ],
+  "num_prompts": 256,
+  "num_parsed_candidates": 256,
+  "num_parse_success": 256,
+  "effective_max_new_tokens": 640,
+  "effective_min_new_tokens": 324,
+  "do_sample": true,
+  "duplicate_candidate_count": 0,
+  "unique_candidate_count": 227,
+  "duplicate_ratio": 0.0,
+  "unique_ratio": 1.0
+}

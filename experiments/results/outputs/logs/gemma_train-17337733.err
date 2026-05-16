@@ -1,0 +1,39 @@
+Fetching 3 files:   0%|          | 0/3 [00:00<?, ?it/s]Fetching 3 files:  33%|███▎      | 1/3 [01:13<02:27, 73.71s/it]Fetching 3 files:  67%|██████▋   | 2/3 [01:32<00:41, 41.30s/it]Fetching 3 files: 100%|██████████| 3/3 [01:32<00:00, 30.77s/it]
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:04<00:09,  4.79s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:09<00:04,  4.61s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:09<00:00,  2.68s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:09<00:00,  3.22s/it]
+Map:   0%|          | 0/4411 [00:00<?, ? examples/s]Map:  23%|██▎       | 1000/4411 [00:00<00:03, 1034.10 examples/s]Map:  45%|████▌     | 2000/4411 [00:01<00:01, 1511.38 examples/s]Map:  68%|██████▊   | 3000/4411 [00:01<00:00, 1865.37 examples/s]Map:  91%|█████████ | 4000/4411 [00:02<00:00, 2065.11 examples/s]Map: 100%|██████████| 4411/4411 [00:02<00:00, 2171.13 examples/s]Map: 100%|██████████| 4411/4411 [00:02<00:00, 1821.34 examples/s]
+Map:   0%|          | 0/649 [00:00<?, ? examples/s]Map: 100%|██████████| 649/649 [00:00<00:00, 1452.10 examples/s]Map: 100%|██████████| 649/649 [00:00<00:00, 1423.88 examples/s]
+/scratch/work/yangs9/ChatTS/pamap2_forger/trainer.py:160: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Trainer.__init__`. Use `processing_class` instead.
+  trainer = Trainer(
+Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/scripts/train_pamap2_lm.py", line 32, in <module>
+    main()
+  File "/scratch/work/yangs9/ChatTS/scripts/train_pamap2_lm.py", line 23, in main
+    best_path = train_language_model(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/pamap2_forger/trainer.py", line 160, in train_language_model
+    trainer = Trainer(
+              ^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/trainer.py", line 633, in __init__
+    unwrapped_model = self.accelerator.unwrap_model(model)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/accelerate/accelerator.py", line 3232, in unwrap_model
+    return extract_model_from_parallel(model, keep_fp32_wrapper, keep_torch_compile)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/accelerate/utils/other.py", line 258, in extract_model_from_parallel
+    from deepspeed import DeepSpeedEngine
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/deepspeed/__init__.py", line 25, in <module>
+    from . import ops
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/deepspeed/ops/__init__.py", line 15, in <module>
+    from ..git_version_info import compatible_ops as __compatible_ops__
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/deepspeed/git_version_info.py", line 29, in <module>
+    op_compatible = builder.is_compatible()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/deepspeed/ops/op_builder/fp_quantizer.py", line 35, in is_compatible
+    sys_cuda_major, _ = installed_cuda_version()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/deepspeed/ops/op_builder/builder.py", line 51, in installed_cuda_version
+    raise MissingCUDAException("CUDA_HOME does not exist, unable to compile CUDA op(s)")
+deepspeed.ops.op_builder.builder.MissingCUDAException: CUDA_HOME does not exist, unable to compile CUDA op(s)

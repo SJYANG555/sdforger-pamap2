@@ -1,0 +1,20 @@
+{
+  "num_generated_embeddings": 1,
+  "source_model_path": "outputs/checkpoints/gpt2_smoke/best",
+  "reducer_path": "artifacts/pamap2_sdforger_dataset_smoke/reducer.pkl",
+  "filter_stats": {
+    "before_filter": 12,
+    "after_missing_filter": 12,
+    "after_dedup_filter": 1,
+    "after_norm_filter": 1
+  },
+  "activities": [
+    "sitting"
+  ],
+  "num_prompts": 12,
+  "num_parsed_candidates": 12,
+  "num_parse_success": 12,
+  "effective_max_new_tokens": 512,
+  "effective_min_new_tokens": 360,
+  "do_sample": false
+}

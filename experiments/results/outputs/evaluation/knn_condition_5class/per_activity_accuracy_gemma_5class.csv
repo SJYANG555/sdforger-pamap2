@@ -1,0 +1,6 @@
+source,activity_id,activity_name,num_samples,accuracy
+gemma_5class,2,sitting,175,0.9428571428571428
+gemma_5class,3,standing,126,0.47619047619047616
+gemma_5class,4,walking,121,0.0
+gemma_5class,5,running,87,0.0
+gemma_5class,6,cycling,127,0.0

@@ -1,0 +1,3 @@
+[compare-v2-compact] project_root=/scratch/work/yangs9/ChatTS
+[compare-v2-compact] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+/scratch/work/yangs9/ChatTS/outputs/plots/model_comparison_5class_v2_compact

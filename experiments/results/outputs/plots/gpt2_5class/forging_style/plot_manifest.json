@@ -1,0 +1,9 @@
+{
+  "training_curve": "outputs/plots/gpt2_5class/forging_style/01_training_curve.png",
+  "embedding_by_activity": "outputs/plots/gpt2_5class/forging_style/02_embedding_pca_by_activity.png",
+  "embedding_source_overlay": "outputs/plots/gpt2_5class/forging_style/03_embedding_pca_source_overlay.png",
+  "window_examples": "outputs/plots/gpt2_5class/forging_style/04_window_examples_ch0.png",
+  "similarity_metrics": "outputs/plots/gpt2_5class/forging_style/05_similarity_metrics.png",
+  "utility_metrics": "outputs/plots/gpt2_5class/forging_style/06_utility_metrics.png",
+  "confusion_matrices": "outputs/plots/gpt2_5class/forging_style/07_confusion_matrices.png"
+}

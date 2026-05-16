@@ -1,0 +1,7 @@
+[evaluate-gpt2-compact-v2] project_root=/scratch/work/yangs9/ChatTS
+[evaluate-gpt2-compact-v2] config=config/pamap2_sdforger_gpt2_5class_v2_compact.yaml
+[evaluate-gpt2-compact-v2] dataset=artifacts/pamap2_sdforger_dataset_gpt2_compact_v2
+[evaluate-gpt2-compact-v2] generated=outputs/generated/gpt2_5class_v2_compact_ckpt1300_reparsed
+[evaluate-gpt2-compact-v2] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/similarity/gpt2_5class_v2_compact", "rows": 6}
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/utility/gpt2_5class_v2_compact", "rows": 3}

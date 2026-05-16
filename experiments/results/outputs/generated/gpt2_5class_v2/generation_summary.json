@@ -1,0 +1,22 @@
+{
+  "num_generated_embeddings": 0,
+  "source_model_path": "outputs/checkpoints/gpt2_5class_v2/best",
+  "reducer_path": "artifacts/pamap2_sdforger_dataset_v2/reducer.pkl",
+  "filter_stats": {
+    "before_filter": 857,
+    "after_missing_filter": 0,
+    "after_dedup_filter": 0,
+    "after_norm_filter": 0
+  },
+  "activities": [],
+  "num_prompts": 857,
+  "num_parsed_candidates": 857,
+  "num_parse_success": 857,
+  "effective_max_new_tokens": 950,
+  "effective_min_new_tokens": 700,
+  "do_sample": true,
+  "duplicate_candidate_count": 0,
+  "unique_candidate_count": 0,
+  "duplicate_ratio": null,
+  "unique_ratio": null
+}

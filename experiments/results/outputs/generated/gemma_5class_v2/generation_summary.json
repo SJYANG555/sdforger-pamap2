@@ -1,0 +1,30 @@
+{
+  "num_generated_embeddings": 857,
+  "source_model_path": "outputs/checkpoints/gemma_5class_v2/best",
+  "reducer_path": "artifacts/pamap2_sdforger_dataset_v2/reducer.pkl",
+  "filter_stats": {
+    "before_filter": 857,
+    "after_missing_filter": 857,
+    "after_dedup_filter": 857,
+    "after_norm_filter": 857
+  },
+  "activities": [
+    "cycling",
+    "running",
+    "sitting",
+    "standing",
+    "walking"
+  ],
+  "num_prompts": 857,
+  "num_parsed_candidates": 857,
+  "num_parse_success": 857,
+  "recovered_from_failed_save": true,
+  "recovery_reason": "original Slurm job failed while saving generated_windows.npy because /scratch was full; generated_embeddings.csv was complete",
+  "effective_max_new_tokens": null,
+  "effective_min_new_tokens": null,
+  "do_sample": true,
+  "duplicate_candidate_count": 0,
+  "unique_candidate_count": 857,
+  "duplicate_ratio": 0.0,
+  "unique_ratio": 1.0
+}

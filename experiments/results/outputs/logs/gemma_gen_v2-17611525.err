@@ -1,0 +1,14 @@
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:03<00:06,  3.32s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:06<00:03,  3.34s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:07<00:00,  1.96s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:07<00:00,  2.33s/it]
+Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/scripts/generate_pamap2_synthetic.py", line 46, in <module>
+    main()
+  File "/scratch/work/yangs9/ChatTS/scripts/generate_pamap2_synthetic.py", line 33, in main
+    result = generate_synthetic_dataset(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/pamap2_forger/generate.py", line 242, in generate_synthetic_dataset
+    np.save(output_dir / "generated_windows.npy", windows)
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/numpy/lib/npyio.py", line 546, in save
+    format.write_array(fid, arr, allow_pickle=allow_pickle,
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/numpy/lib/format.py", line 730, in write_array
+    array.tofile(fp)
+OSError: 3949056 requested and 0 written

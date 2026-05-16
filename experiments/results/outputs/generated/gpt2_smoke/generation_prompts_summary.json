@@ -1,0 +1,8 @@
+{
+  "prompt_metadata_path": "artifacts/pamap2_sdforger_dataset_smoke/test_metadata.csv",
+  "reference_embeddings_path": "artifacts/pamap2_sdforger_dataset_smoke/train_embeddings.csv",
+  "num_prompts": 12,
+  "num_generated_rows_before_filter": 12,
+  "num_generated_rows_after_filter": 1,
+  "raw_generations_path": "/scratch/work/yangs9/ChatTS/outputs/generated/gpt2_smoke/raw_generations.jsonl"
+}

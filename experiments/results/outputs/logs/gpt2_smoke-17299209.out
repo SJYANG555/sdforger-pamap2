@@ -1,0 +1,61 @@
+[smoke] project_root=/scratch/work/yangs9/ChatTS
+[smoke] config=config/pamap2_sdforger_gpt2_smoke.yaml
+[smoke] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+Python 3.11.15
+{
+  "source_dataset_dir": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset",
+  "output_dataset_dir": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_smoke",
+  "split_sizes": {
+    "train": 64,
+    "val": 16,
+    "test": 16
+  },
+  "splits": {
+    "train": {
+      "num_windows": 64,
+      "activities": {
+        "cycling": 12,
+        "running": 4,
+        "sitting": 17,
+        "standing": 15,
+        "walking": 16
+      },
+      "subjects": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106
+      ]
+    },
+    "val": {
+      "num_windows": 16,
+      "activities": {
+        "cycling": 4,
+        "sitting": 2,
+        "standing": 5,
+        "walking": 5
+      },
+      "subjects": [
+        107
+      ]
+    },
+    "test": {
+      "num_windows": 16,
+      "activities": {
+        "cycling": 4,
+        "running": 2,
+        "sitting": 6,
+        "standing": 3,
+        "walking": 1
+      },
+      "subjects": [
+        108
+      ]
+    }
+  }
+}
+[smoke] start: build_smoke_dataset
+[smoke] done: build_smoke_dataset
+[smoke] start: train_gpt2_smoke
