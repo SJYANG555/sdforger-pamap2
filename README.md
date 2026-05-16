@@ -44,6 +44,44 @@ Training summaries are archived for:
 
 Generation and evaluation folders also include earlier comparison runs such as `gpt2_5class`, `gemma_5class`, compact checkpoint reparsing, mock outputs, and KNN condition-consistency comparisons when available.
 
+## Formal Experiment Metrics
+
+The table below summarizes formal GPT-2 and Gemma experiment runs archived in `experiments/results`. Smoke tests, mock outputs, and empty-synthetic checks are excluded. Similarity values come from each run's `overall_mean` row in `similarity_metrics.csv`; utility values come from `utility_metrics.csv`.
+
+| Experiment | Generated kept | Retention | Duplicate ratio | Overall DTW | Overall MDD | Synthetic-only acc | Real+synthetic acc |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `gpt2` | 256 | 100.0% | 0.0% | 333.136 | 0.595 | 0.319 | 0.915 |
+| `gemma` | 227 | 88.7% | 0.0% | 314.328 | 0.528 | 0.400 | 0.902 |
+| `gpt2_5class` | 856 | 99.9% | 0.0% | 443.852 | 1.120 | 0.305 | 0.924 |
+| `gemma_5class` | 636 | 74.2% | 0.0% | 344.462 | 0.751 | 0.347 | 0.915 |
+| `gpt2_5class_v2` | 0 | 0.0% | - | - | - | - | - |
+| `gemma_5class_v2` | 857 | 100.0% | 0.0% | 282.136 | 0.811 | 0.350 | 0.912 |
+| `gpt2_5class_v2_compact_ckpt1300` | 0 | 0.0% | 0.0% | 338.688 | 0.861 | 0.488 | 0.931 |
+| `gpt2_5class_v2_compact_ckpt1300_reparsed` | 835 | 97.4% | 0.0% | 338.688 | 0.861 | 0.488 | 0.931 |
+| `gpt2_5class_v2_hand` | 57 | 6.7% | 0.0% | 634.814 | 1.739 | 0.677 | 0.923 |
+| `gemma_5class_v2_hand` | 362 | 42.2% | 0.0% | 498.475 | 1.884 | 0.258 | 0.925 |
+| `gpt2_5class_v2_chest` | 13 | 1.5% | 0.0% | 178.294 | 0.248 | 0.384 | 0.942 |
+| `gemma_5class_v2_chest` | 695 | 81.1% | 0.0% | 109.989 | 0.363 | 0.138 | 0.947 |
+| `gpt2_5class_v2_hand_chest` | 749 | 87.4% | 0.0% | 412.565 | 1.401 | 0.705 | 0.921 |
+| `gemma_5class_v2_hand_chest` | 857 | 100.0% | 0.0% | 289.192 | 0.873 | 0.600 | 0.957 |
+
+Notes:
+
+- Lower `DTW` and `MDD` are better for similarity.
+- Higher utility accuracy is better. `synthetic_only` trains the HAR classifier only on synthetic windows; `real_plus_synthetic` augments real training windows with synthetic windows.
+- The compact GPT-2 checkpoint initially generated zero embeddings; the reparsed archive recovered 835 usable embeddings and shares the compact evaluation metrics.
+
+### KNN Condition Consistency
+
+| Evaluation set | Source | Samples | Accuracy | Macro F1 | Weighted F1 |
+|---|---|---:|---:|---:|---:|
+| 5-class | `real_test` | 857 | 0.778 | 0.758 | 0.749 |
+| 5-class | `gpt2_5class` | 856 | 0.217 | 0.118 | 0.125 |
+| 5-class | `gemma_5class` | 636 | 0.354 | 0.196 | 0.240 |
+| 5-class v2 compact | `real_test` | 857 | 0.778 | 0.758 | 0.749 |
+| 5-class v2 compact | `gpt2_5class` | 835 | 0.660 | 0.618 | 0.634 |
+| 5-class v2 compact | `gemma_5class` | 857 | 0.635 | 0.521 | 0.548 |
+
 ## Reproduction entry points
 
 Assuming you are already on Triton:
