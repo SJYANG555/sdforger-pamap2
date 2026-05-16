@@ -1,0 +1,10 @@
+[evaluate-v2-variant] project_root=/scratch/work/yangs9/ChatTS
+[evaluate-v2-variant] config=config/pamap2_sdforger_gpt2_5class_v2_chest.yaml
+[evaluate-v2-variant] dataset=artifacts/pamap2_sdforger_dataset_v2_chest
+[evaluate-v2-variant] generated=outputs/generated/gpt2_5class_v2_chest
+[evaluate-v2-variant] similarity=outputs/evaluation/similarity/gpt2_5class_v2_chest
+[evaluate-v2-variant] utility=outputs/evaluation/utility/gpt2_5class_v2_chest
+[evaluate-v2-variant] plots=outputs/plots/gpt2_5class_v2_chest
+[evaluate-v2-variant] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/similarity/gpt2_5class_v2_chest", "rows": 6}
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/utility/gpt2_5class_v2_chest", "rows": 3}

@@ -1,0 +1,6 @@
+source,activity_id,activity_name,num_samples,accuracy
+gpt2_5class,2,sitting,156,0.6217948717948718
+gpt2_5class,3,standing,184,0.9510869565217391
+gpt2_5class,4,walking,190,0.3473684210526316
+gpt2_5class,5,running,114,0.24561403508771928
+gpt2_5class,6,cycling,191,0.9685863874345549

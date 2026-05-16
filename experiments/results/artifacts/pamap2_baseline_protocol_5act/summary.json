@@ -1,0 +1,289 @@
+{
+  "num_rows_after_cleaning": 862281,
+  "num_windows": 5917,
+  "window_size": 256,
+  "num_channels": 18,
+  "activities": [
+    {
+      "activity_id": 2,
+      "activity_name": "sitting",
+      "num_rows": 184645,
+      "num_windows": 1386,
+      "duration_seconds": 1846.87
+    },
+    {
+      "activity_id": 3,
+      "activity_name": "standing",
+      "num_rows": 188984,
+      "num_windows": 1352,
+      "duration_seconds": 1891.8999999999999
+    },
+    {
+      "activity_id": 4,
+      "activity_name": "walking",
+      "num_rows": 229709,
+      "num_windows": 1307,
+      "duration_seconds": 2355.6299999999956
+    },
+    {
+      "activity_id": 5,
+      "activity_name": "running",
+      "num_rows": 95641,
+      "num_windows": 623,
+      "duration_seconds": 976.079999999999
+    },
+    {
+      "activity_id": 6,
+      "activity_name": "cycling",
+      "num_rows": 163302,
+      "num_windows": 1249,
+      "duration_seconds": 1645.1399999999999
+    }
+  ],
+  "subjects_detail": [
+    {
+      "subject_id": 101,
+      "num_rows": 110617,
+      "num_windows": 766,
+      "duration_seconds": 1117.56
+    },
+    {
+      "subject_id": 102,
+      "num_rows": 112608,
+      "num_windows": 749,
+      "duration_seconds": 1141.4399999999998
+    },
+    {
+      "subject_id": 103,
+      "num_rows": 77439,
+      "num_windows": 548,
+      "duration_seconds": 780.2700000000011
+    },
+    {
+      "subject_id": 104,
+      "num_rows": 102769,
+      "num_windows": 680,
+      "duration_seconds": 1038.2899999999968
+    },
+    {
+      "subject_id": 105,
+      "num_rows": 128006,
+      "num_windows": 877,
+      "duration_seconds": 1293.6299999999983
+    },
+    {
+      "subject_id": 106,
+      "num_rows": 114851,
+      "num_windows": 791,
+      "duration_seconds": 1156.8499999999992
+    },
+    {
+      "subject_id": 107,
+      "num_rows": 96257,
+      "num_windows": 649,
+      "duration_seconds": 974.5600000000004
+    },
+    {
+      "subject_id": 108,
+      "num_rows": 119734,
+      "num_windows": 857,
+      "duration_seconds": 1213.0199999999982
+    }
+  ],
+  "channels": [
+    {
+      "channel": "hand_acc_16g_x",
+      "mean": -6.246822857794878,
+      "std": 6.275950182625279,
+      "min": -145.367,
+      "max": 62.8596
+    },
+    {
+      "channel": "hand_acc_16g_y",
+      "mean": 3.5209689128649155,
+      "std": 7.832000293736498,
+      "min": -82.5509,
+      "max": 155.699
+    },
+    {
+      "channel": "hand_acc_16g_z",
+      "mean": 3.574179195915907,
+      "std": 3.8175623387813524,
+      "min": -101.452,
+      "max": 116.977
+    },
+    {
+      "channel": "hand_gyro_x",
+      "mean": -0.007326403902518098,
+      "std": 1.2683980569091862,
+      "min": -27.8044,
+      "max": 26.4158
+    },
+    {
+      "channel": "hand_gyro_y",
+      "mean": 0.0339411832849549,
+      "std": 1.016347505658062,
+      "min": -7.60901,
+      "max": 14.1337
+    },
+    {
+      "channel": "hand_gyro_z",
+      "mean": -0.0009949042016951946,
+      "std": 1.7800636417375326,
+      "min": -14.2647,
+      "max": 14.3384
+    },
+    {
+      "channel": "chest_acc_16g_x",
+      "mean": 0.4340326983615698,
+      "std": 1.5317259348212997,
+      "min": -39.2034,
+      "max": 27.5223
+    },
+    {
+      "channel": "chest_acc_16g_y",
+      "mean": 8.957395226962424,
+      "std": 4.157849121146991,
+      "min": -17.0678,
+      "max": 58.3256
+    },
+    {
+      "channel": "chest_acc_16g_z",
+      "mean": -2.0610801489610306,
+      "std": 3.669254471868831,
+      "min": -37.7546,
+      "max": 20.4775
+    },
+    {
+      "channel": "chest_gyro_x",
+      "mean": 0.005626861358968935,
+      "std": 0.42776556035998986,
+      "min": -6.91997,
+      "max": 10.8644
+    },
+    {
+      "channel": "chest_gyro_y",
+      "mean": 0.024165840850200022,
+      "std": 0.5732833497069785,
+      "min": -4.92635,
+      "max": 6.01528
+    },
+    {
+      "channel": "chest_gyro_z",
+      "mean": -0.02777300432594001,
+      "std": 0.3315992669539906,
+      "min": -3.97186,
+      "max": 3.05259
+    },
+    {
+      "channel": "ankle_acc_16g_x",
+      "mean": 10.376204494588018,
+      "std": 6.4101065139774205,
+      "min": -112.15,
+      "max": 157.232
+    },
+    {
+      "channel": "ankle_acc_16g_y",
+      "mean": 0.5505350375539209,
+      "std": 7.568772333773136,
+      "min": -155.356,
+      "max": 153.633
+    },
+    {
+      "channel": "ankle_acc_16g_z",
+      "mean": -2.4937084447901627,
+      "std": 4.0044612722803015,
+      "min": -156.179,
+      "max": 158.872
+    },
+    {
+      "channel": "ankle_gyro_x",
+      "mean": 0.013709378813444783,
+      "std": 1.0437114742519071,
+      "min": -13.3856,
+      "max": 12.6809
+    },
+    {
+      "channel": "ankle_gyro_y",
+      "mean": -0.03200246966137314,
+      "std": 0.6713503554988132,
+      "min": -7.70104,
+      "max": 6.00254
+    },
+    {
+      "channel": "ankle_gyro_z",
+      "mean": -0.010752060889877313,
+      "std": 2.2149196621814324,
+      "min": -14.0196,
+      "max": 14.4827
+    }
+  ],
+  "subjects": [
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108
+  ],
+  "selected_activity_ids": [
+    4,
+    5,
+    6,
+    2,
+    3
+  ],
+  "selected_activity_names": [
+    "walking",
+    "running",
+    "cycling",
+    "sitting",
+    "standing"
+  ],
+  "selected_channels": [
+    "hand_acc_16g_x",
+    "hand_acc_16g_y",
+    "hand_acc_16g_z",
+    "hand_gyro_x",
+    "hand_gyro_y",
+    "hand_gyro_z",
+    "chest_acc_16g_x",
+    "chest_acc_16g_y",
+    "chest_acc_16g_z",
+    "chest_gyro_x",
+    "chest_gyro_y",
+    "chest_gyro_z",
+    "ankle_acc_16g_x",
+    "ankle_acc_16g_y",
+    "ankle_acc_16g_z",
+    "ankle_gyro_x",
+    "ankle_gyro_y",
+    "ankle_gyro_z"
+  ],
+  "normalization": "zscore",
+  "window_stride": 128,
+  "feature_reducer": "pca",
+  "compact_representation": {
+    "method": "pca",
+    "n_components": 8,
+    "explained_variance_ratio": [
+      0.09077782928943634,
+      0.07292557507753372,
+      0.06037484481930733,
+      0.048015084117650986,
+      0.04031361639499664,
+      0.033554982393980026,
+      0.03228375315666199,
+      0.019736528396606445
+    ]
+  },
+  "llm_ready_fields": [
+    "condition_text",
+    "activity_name",
+    "subject_id",
+    "embedding_placeholder",
+    "stats_placeholder"
+  ]
+}

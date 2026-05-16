@@ -1,0 +1,7 @@
+{
+  "reference_embeddings_path": "artifacts/pamap2_sdforger_dataset_gpt2_compact_v2/train_embeddings.csv",
+  "num_prompts": 857,
+  "num_generated_rows_before_filter": 857,
+  "num_generated_rows_after_filter": 835,
+  "raw_generations_path": "/scratch/work/yangs9/ChatTS/outputs/generated/gpt2_5class_v2_compact_ckpt1300_reparsed/raw_generations.jsonl"
+}

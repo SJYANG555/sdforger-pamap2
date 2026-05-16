@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/scripts/make_plots.py", line 60, in <module>
+    main()
+  File "/scratch/work/yangs9/ChatTS/scripts/make_plots.py", line 38, in main
+    plot_training_curve(args.training_log_csv, str(output_dir / "training_curve.png"))
+  File "/scratch/work/yangs9/ChatTS/pamap2_forger/visualization.py", line 13, in plot_training_curve
+    frame = pd.read_csv(log_csv_path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 300, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1645, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1904, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/pandas/io/common.py", line 926, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'outputs/checkpoints/gpt2/training_log_history.csv'

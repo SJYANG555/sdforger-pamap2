@@ -1,0 +1,3 @@
+[knn-v2-compact] project_root=/scratch/work/yangs9/ChatTS
+[knn-v2-compact] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/knn_condition_5class_v2_compact", "rows": 3}

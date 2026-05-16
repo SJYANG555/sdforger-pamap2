@@ -1,0 +1,16 @@
+{
+  "reducer_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2_hand/reducer.pkl",
+  "channel_scaler_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_v2_hand/channel_scaler.json",
+  "window_size": 256,
+  "channel_names": [
+    "hand_acc_16g_x",
+    "hand_acc_16g_y",
+    "hand_acc_16g_z",
+    "hand_gyro_x",
+    "hand_gyro_y",
+    "hand_gyro_z"
+  ],
+  "embedding_method": "fastica",
+  "embedding_n_components": 6,
+  "embedding_standardization": "per_channel_train"
+}

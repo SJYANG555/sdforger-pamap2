@@ -1,0 +1,80 @@
+Map:   0%|          | 0/4411 [00:00<?, ? examples/s]Map:  23%|██▎       | 1000/4411 [00:00<00:02, 1210.75 examples/s]Map:  45%|████▌     | 2000/4411 [00:01<00:01, 1519.15 examples/s]Map:  68%|██████▊   | 3000/4411 [00:02<00:00, 1476.66 examples/s]Map:  91%|█████████ | 4000/4411 [00:02<00:00, 1625.77 examples/s]Map: 100%|██████████| 4411/4411 [00:02<00:00, 1666.31 examples/s]Map: 100%|██████████| 4411/4411 [00:02<00:00, 1568.20 examples/s]
+Map:   0%|          | 0/649 [00:00<?, ? examples/s]Map: 100%|██████████| 649/649 [00:00<00:00, 1247.02 examples/s]Map: 100%|██████████| 649/649 [00:00<00:00, 1227.88 examples/s]
+/scratch/work/yangs9/ChatTS/pamap2_forger/trainer.py:126: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Trainer.__init__`. Use `processing_class` instead.
+  trainer = Trainer(
+  0%|          | 0/2760 [00:00<?, ?it/s]huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/scripts/train_pamap2_lm.py", line 32, in <module>
+    main()
+  File "/scratch/work/yangs9/ChatTS/scripts/train_pamap2_lm.py", line 23, in main
+    best_path = train_language_model(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/pamap2_forger/trainer.py", line 135, in train_language_model
+    trainer.train()
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/trainer.py", line 2240, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/trainer.py", line 2509, in _inner_training_loop
+    batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches, args.device)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/trainer.py", line 5263, in get_batch_samples
+    batch_samples.append(next(epoch_iterator))
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/accelerate/data_loader.py", line 577, in __iter__
+    current_batch = next(dataloader_iter)
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 708, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1480, in _next_data
+    return self._process_data(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 1505, in _process_data
+    data.reraise()
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/torch/_utils.py", line 733, in reraise
+    raise exception
+ValueError: Caught ValueError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/tokenization_utils_base.py", line 778, in convert_to_tensors
+    tensor = as_tensor(value)
+             ^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/tokenization_utils_base.py", line 740, in as_tensor
+    return torch.tensor(value)
+           ^^^^^^^^^^^^^^^^^^^
+ValueError: expected sequence of length 814 at dim 1 (got 828)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/torch/utils/data/_utils/worker.py", line 349, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 55, in fetch
+    return self.collate_fn(data)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/data/data_collator.py", line 46, in __call__
+    return self.torch_call(features)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/data/data_collator.py", line 1013, in torch_call
+    batch = pad_without_fast_tokenizer_warning(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/data/data_collator.py", line 67, in pad_without_fast_tokenizer_warning
+    padded = tokenizer.pad(*pad_args, **pad_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/tokenization_utils_base.py", line 3386, in pad
+    return BatchEncoding(batch_outputs, tensor_type=return_tensors)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/tokenization_utils_base.py", line 242, in __init__
+    self.convert_to_tensors(tensor_type=tensor_type, prepend_batch_axis=prepend_batch_axis)
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/site-packages/transformers/tokenization_utils_base.py", line 794, in convert_to_tensors
+    raise ValueError(
+ValueError: Unable to create tensor, you should probably activate truncation and/or padding with 'padding=True' 'truncation=True' to have batched tensors with the same length. Perhaps your features (`labels` in this case) have excessive nesting (inputs type `list` where type `int` is expected).
+
+  0%|          | 0/2760 [00:00<?, ?it/s]

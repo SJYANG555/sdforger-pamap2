@@ -1,0 +1,31 @@
+#!/bin/bash -l
+#SBATCH --job-name=gpt2_smoke
+#SBATCH --account=aalto_use+
+#SBATCH --partition=interactive
+#SBATCH --time=00:30:00
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --output=/scratch/work/yangs9/ChatTS/outputs/logs/%x-%j.out
+#SBATCH --error=/scratch/work/yangs9/ChatTS/outputs/logs/%x-%j.err
+
+set -euo pipefail
+
+PROJECT_ROOT="/scratch/work/yangs9/ChatTS"
+CONDA_ENV_PATH="/scratch/work/yangs9/ChatTS/.conda-env"
+CONFIG_PATH="config/pamap2_sdforger_gpt2_smoke.yaml"
+
+cd "$PROJECT_ROOT"
+mkdir -p outputs/logs outputs/checkpoints outputs/generated outputs/evaluation outputs/plots
+
+module load scicomp-python-env
+eval "$(mamba shell hook --shell bash)"
+mamba activate "$CONDA_ENV_PATH"
+
+echo "[smoke] project_root=$PROJECT_ROOT"
+echo "[smoke] config=$CONFIG_PATH"
+echo "[smoke] python=$(which python)"
+python --version
+
+srun python scripts/run_gpt2_smoke_test.py --config "$CONFIG_PATH"
+
+echo "[smoke] completed"

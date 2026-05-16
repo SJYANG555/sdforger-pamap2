@@ -1,0 +1,23 @@
+name: pamap2-sdforger
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - numpy<2
+  - scipy
+  - pandas
+  - scikit-learn
+  - matplotlib
+  - pyyaml
+  - tqdm
+  - pip:
+      - torch==2.6.0
+      - transformers==4.52.4
+      - datasets
+      - accelerate
+      - peft
+      - tensorboard
+      - deepspeed==0.16.9

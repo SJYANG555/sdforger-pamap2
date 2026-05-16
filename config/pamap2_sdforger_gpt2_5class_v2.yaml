@@ -1,0 +1,82 @@
+data:
+  preprocessed_dir: artifacts/pamap2_baseline_protocol_5act
+  output_dir: artifacts/pamap2_sdforger_dataset_v2
+  split_strategy: subject
+  train_subjects: [101, 102, 103, 104, 105, 106]
+  val_subjects: [107]
+  test_subjects: [108]
+  random_seed: 42
+
+embedding:
+  method: fastica
+  n_components: 6
+  variance_explained: 0.7
+  standardization: per_channel_train
+  fastica_max_iter: 3000
+  fastica_tol: 0.001
+  input_tokens_precision: 4
+  permute_columns: false
+  text_template: structured_v2
+  include_context_columns: true
+  reducer_artifact_name: reducer.pkl
+  scaler_artifact_name: channel_scaler.json
+
+training:
+  model_id_or_path: openai-community/gpt2
+  output_dir: outputs/checkpoints/gpt2_5class_v2
+  learning_rate: 8.0e-5
+  num_train_epochs: 10
+  per_device_train_batch_size: 4
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 4
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  logging_steps: 10
+  eval_steps: 100
+  save_steps: 100
+  save_total_limit: 3
+  seed: 42
+  max_seq_length: 1024
+  use_fp16: false
+  use_bf16: false
+  gradient_checkpointing: false
+  early_stopping_patience: 5
+  dataloader_num_workers: 2
+  report_to: [tensorboard]
+  peft:
+    enabled: false
+
+generation:
+  prompt_split: test
+  max_new_tokens: 1280
+  min_new_tokens: 700
+  num_return_sequences: 1
+  temperature: 0.7
+  top_p: 0.9
+  top_k: 20
+  do_sample: true
+  repetition_penalty: 1.05
+  batch_size: 4
+  max_prompts: null
+  norm_filter_iqr_factor: 3.0
+  deduplicate: true
+  output_dir: outputs/generated/gpt2_5class_v2
+
+similarity:
+  max_lag: 32
+  max_samples_per_activity: 128
+  dtw_window: null
+  random_seed: 42
+  output_dir: outputs/evaluation/similarity/gpt2_5class_v2
+
+utility:
+  classifier: random_forest
+  random_seed: 42
+  output_dir: outputs/evaluation/utility/gpt2_5class_v2
+  n_estimators: 300
+  max_depth: null
+
+plots:
+  output_dir: outputs/plots/gpt2_5class_v2
+  max_examples_per_activity: 3
+  embedding_scatter_max_points: 1000

@@ -1,0 +1,20 @@
+{
+  "gpt2_overlay": "outputs/plots/final_forging_overlay/gpt2_forging_overlay_three_channels.png",
+  "gemma_overlay": "outputs/plots/final_forging_overlay/gemma_forging_overlay_three_channels.png",
+  "gpt2_vs_gemma_overlay": "outputs/plots/final_forging_overlay/gpt2_vs_gemma_forging_overlay_three_channels.png",
+  "GPT-2_walking": "outputs/plots/final_forging_overlay/by_activity/gpt2/gpt2_walking_overlay.png",
+  "GPT-2_running": "outputs/plots/final_forging_overlay/by_activity/gpt2/gpt2_running_overlay.png",
+  "GPT-2_cycling": "outputs/plots/final_forging_overlay/by_activity/gpt2/gpt2_cycling_overlay.png",
+  "GPT-2_sitting": "outputs/plots/final_forging_overlay/by_activity/gpt2/gpt2_sitting_overlay.png",
+  "GPT-2_standing": "outputs/plots/final_forging_overlay/by_activity/gpt2/gpt2_standing_overlay.png",
+  "Gemma_walking": "outputs/plots/final_forging_overlay/by_activity/gemma/gemma_walking_overlay.png",
+  "Gemma_running": "outputs/plots/final_forging_overlay/by_activity/gemma/gemma_running_overlay.png",
+  "Gemma_cycling": "outputs/plots/final_forging_overlay/by_activity/gemma/gemma_cycling_overlay.png",
+  "Gemma_sitting": "outputs/plots/final_forging_overlay/by_activity/gemma/gemma_sitting_overlay.png",
+  "Gemma_standing": "outputs/plots/final_forging_overlay/by_activity/gemma/gemma_standing_overlay.png",
+  "gpt2_vs_gemma_walking": "outputs/plots/final_forging_overlay/by_activity/gpt2_vs_gemma/gpt2_vs_gemma_walking_overlay.png",
+  "gpt2_vs_gemma_running": "outputs/plots/final_forging_overlay/by_activity/gpt2_vs_gemma/gpt2_vs_gemma_running_overlay.png",
+  "gpt2_vs_gemma_cycling": "outputs/plots/final_forging_overlay/by_activity/gpt2_vs_gemma/gpt2_vs_gemma_cycling_overlay.png",
+  "gpt2_vs_gemma_sitting": "outputs/plots/final_forging_overlay/by_activity/gpt2_vs_gemma/gpt2_vs_gemma_sitting_overlay.png",
+  "gpt2_vs_gemma_standing": "outputs/plots/final_forging_overlay/by_activity/gpt2_vs_gemma/gpt2_vs_gemma_standing_overlay.png"
+}

@@ -1,0 +1,25 @@
+[generate-gpu] project_root=/scratch/work/yangs9/ChatTS
+[generate-gpu] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+Python 3.11.15
+Sun Apr 19 01:08:31 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.126.20             Driver Version: 580.126.20     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-SXM2-16GB           On  |   00000000:89:00.0 Off |                    0 |
+| N/A   33C    P0             43W /  300W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+{"num_generated": 0, "output_dir": "/scratch/work/yangs9/ChatTS/outputs/generated/gpt2_smoke"}
+[generate-gpu] completed

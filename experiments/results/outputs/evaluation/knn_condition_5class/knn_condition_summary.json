@@ -1,0 +1,29 @@
+{
+  "classifier": "StandardScaler + KNeighborsClassifier",
+  "n_neighbors": 5,
+  "train_source": "real_train",
+  "train_samples": 4411,
+  "sources": [
+    {
+      "source": "real_test",
+      "num_samples": 857,
+      "accuracy": 0.7782963827304551,
+      "macro_f1": 0.7576806457536113,
+      "weighted_f1": 0.7494446767492636
+    },
+    {
+      "source": "gpt2_5class",
+      "num_samples": 856,
+      "accuracy": 0.21728971962616822,
+      "macro_f1": 0.11760253387219484,
+      "weighted_f1": 0.12482759631860553
+    },
+    {
+      "source": "gemma_5class",
+      "num_samples": 636,
+      "accuracy": 0.35377358490566035,
+      "macro_f1": 0.19563507892187587,
+      "weighted_f1": 0.24043997561544656
+    }
+  ]
+}

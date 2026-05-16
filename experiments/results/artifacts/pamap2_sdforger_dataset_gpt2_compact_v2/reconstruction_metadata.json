@@ -1,0 +1,28 @@
+{
+  "reducer_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_gpt2_compact_v2/reducer.pkl",
+  "channel_scaler_path": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_gpt2_compact_v2/channel_scaler.json",
+  "window_size": 256,
+  "channel_names": [
+    "hand_acc_16g_x",
+    "hand_acc_16g_y",
+    "hand_acc_16g_z",
+    "hand_gyro_x",
+    "hand_gyro_y",
+    "hand_gyro_z",
+    "chest_acc_16g_x",
+    "chest_acc_16g_y",
+    "chest_acc_16g_z",
+    "chest_gyro_x",
+    "chest_gyro_y",
+    "chest_gyro_z",
+    "ankle_acc_16g_x",
+    "ankle_acc_16g_y",
+    "ankle_acc_16g_z",
+    "ankle_gyro_x",
+    "ankle_gyro_y",
+    "ankle_gyro_z"
+  ],
+  "embedding_method": "fastica",
+  "embedding_n_components": 6,
+  "embedding_standardization": "per_channel_train"
+}

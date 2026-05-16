@@ -1,0 +1,7 @@
+[evaluate] project_root=/scratch/work/yangs9/ChatTS
+[evaluate] config=config/pamap2_sdforger_gemma2_2b.yaml
+[evaluate] dataset=artifacts/pamap2_sdforger_dataset
+[evaluate] generated=outputs/generated/gemma
+[evaluate] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/similarity/gemma", "rows": 3}
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/utility/gemma", "rows": 3}

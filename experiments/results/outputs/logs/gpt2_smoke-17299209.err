@@ -1,0 +1,24 @@
+Map:   0%|          | 0/64 [00:00<?, ? examples/s]Map: 100%|██████████| 64/64 [00:00<00:00, 144.26 examples/s]Map: 100%|██████████| 64/64 [00:00<00:00, 131.66 examples/s]
+Map:   0%|          | 0/16 [00:00<?, ? examples/s]Map: 100%|██████████| 16/16 [00:00<00:00, 351.73 examples/s]
+Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/scripts/train_pamap2_lm.py", line 32, in <module>
+    main()
+  File "/scratch/work/yangs9/ChatTS/scripts/train_pamap2_lm.py", line 23, in main
+    best_path = train_language_model(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/work/yangs9/ChatTS/pamap2_forger/trainer.py", line 93, in train_language_model
+    training_args = TrainingArguments(
+                    ^^^^^^^^^^^^^^^^^^
+TypeError: TrainingArguments.__init__() got an unexpected keyword argument 'evaluation_strategy'
+Traceback (most recent call last):
+  File "/scratch/work/yangs9/ChatTS/scripts/run_gpt2_smoke_test.py", line 110, in <module>
+    main()
+  File "/scratch/work/yangs9/ChatTS/scripts/run_gpt2_smoke_test.py", line 26, in main
+    run_step([sys.executable, "scripts/train_pamap2_lm.py", "--config", config_path], "train_gpt2_smoke")
+  File "/scratch/work/yangs9/ChatTS/scripts/run_gpt2_smoke_test.py", line 12, in run_step
+    subprocess.run(command, cwd=PROJECT_ROOT, check=True)
+  File "/scratch/work/yangs9/ChatTS/.conda-env/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/scratch/work/yangs9/ChatTS/.conda-env/bin/python', 'scripts/train_pamap2_lm.py', '--config', 'config/pamap2_sdforger_gpt2_smoke.yaml']' returned non-zero exit status 1.
+srun: error: pe71: task 0: Exited with exit code 1
+srun: Terminating StepId=17299209.0
