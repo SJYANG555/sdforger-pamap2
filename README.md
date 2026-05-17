@@ -41,12 +41,14 @@ Training summaries are archived for:
 - `gemma_5class_v2_hand`
 - `gemma_5class_v2_chest`
 - `gemma_5class_v2_hand_chest`
+- `llama32_3b_5class_v2`
+- `llama32_3b_5class_v2_hand_chest`
 
 Generation and evaluation folders also include earlier comparison runs such as `gpt2_5class`, `gemma_5class`, compact checkpoint reparsing, mock outputs, and KNN condition-consistency comparisons when available.
 
 ## Formal Experiment Metrics
 
-The table below summarizes formal GPT-2 and Gemma experiment runs archived in `experiments/results`. Smoke tests, mock outputs, and empty-synthetic checks are excluded. Similarity values come from each run's `overall_mean` row in `similarity_metrics.csv`; utility values come from `utility_metrics.csv`.
+The table below summarizes formal GPT-2, Gemma, and Llama experiment runs archived in `experiments/results`. Smoke tests, mock outputs, and empty-synthetic checks are excluded. Similarity values come from each run's `overall_mean` row in `similarity_metrics.csv`; utility values come from `utility_metrics.csv`.
 
 | Experiment | Generated kept | Retention | Duplicate ratio | Overall DTW | Overall MDD | Synthetic-only acc | Real+synthetic acc |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -64,12 +66,16 @@ The table below summarizes formal GPT-2 and Gemma experiment runs archived in `e
 | `gemma_5class_v2_chest` | 695 | 81.1% | 0.0% | 109.989 | 0.363 | 0.138 | 0.947 |
 | `gpt2_5class_v2_hand_chest` | 749 | 87.4% | 0.0% | 412.565 | 1.401 | 0.705 | 0.921 |
 | `gemma_5class_v2_hand_chest` | 857 | 100.0% | 0.0% | 289.192 | 0.873 | 0.600 | 0.957 |
+| `llama32_3b_5class_v2` | 844 | 98.5% | 0.0% | 300.361 | 0.842 | 0.433 | 0.929 |
+| `llama32_3b_5class_v2_hand_chest` | 847 | 98.8% | 0.0% | 304.369 | 0.921 | 0.296 | 0.952 |
 
 Notes:
 
 - Lower `DTW` and `MDD` are better for similarity.
 - Higher utility accuracy is better. `synthetic_only` trains the HAR classifier only on synthetic windows; `real_plus_synthetic` augments real training windows with synthetic windows.
 - The compact GPT-2 checkpoint initially generated zero embeddings; the reparsed archive recovered 835 usable embeddings and shares the compact evaluation metrics.
+- Report-ready GPT-2/Gemma/Llama comparison figures are archived under `experiments/results/outputs/plots/report_model_comparison_5class_v2/` for the 18-channel full-body and 12-channel hand+chest five-class settings.
+- Llama generation used longer strong-GPU Slurm retries after the initial V100 generation jobs reached the time limit.
 
 ### KNN Condition Consistency
 
@@ -118,4 +124,3 @@ sacct -j JOBID --format=JobID,JobName,State,ExitCode,Elapsed
 tail -f outputs/logs/<job-log>.out
 cat outputs/logs/<job-log>.err
 ```
-

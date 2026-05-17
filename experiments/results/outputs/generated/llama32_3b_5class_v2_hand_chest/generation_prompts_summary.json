@@ -1,0 +1,8 @@
+{
+  "prompt_metadata_path": "artifacts/pamap2_sdforger_dataset_v2_hand_chest/test_metadata.csv",
+  "reference_embeddings_path": "artifacts/pamap2_sdforger_dataset_v2_hand_chest/train_embeddings.csv",
+  "num_prompts": 857,
+  "num_generated_rows_before_filter": 857,
+  "num_generated_rows_after_filter": 847,
+  "raw_generations_path": "/scratch/work/yangs9/ChatTS/outputs/generated/llama32_3b_5class_v2_hand_chest/raw_generations.jsonl"
+}

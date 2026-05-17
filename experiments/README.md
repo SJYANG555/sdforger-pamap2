@@ -41,8 +41,20 @@ Training summaries are archived for:
 - `gemma_5class_v2_hand`
 - `gemma_5class_v2_chest`
 - `gemma_5class_v2_hand_chest`
+- `llama32_3b_5class_v2`
+- `llama32_3b_5class_v2_hand_chest`
 
 Generation and evaluation folders also include earlier comparison runs such as `gpt2_5class`, `gemma_5class`, compact checkpoint reparsing, mock outputs, and KNN condition-consistency comparisons when available.
+
+## Llama 3.2 comparison addendum
+
+The Llama 3.2 3B five-class runs are archived in the same format as the earlier GPT-2 and Gemma experiments:
+
+- 18-channel full-body: `experiments/results/outputs/{checkpoints,generated,evaluation}/.../llama32_3b_5class_v2`
+- 12-channel hand+chest: `experiments/results/outputs/{checkpoints,generated,evaluation}/.../llama32_3b_5class_v2_hand_chest`
+- report figures and summary tables: `experiments/results/outputs/plots/report_model_comparison_5class_v2/`
+
+Both Llama settings use the same five activities as the prior formal runs: cycling, running, sitting, standing, and walking.
 
 ## Reproduction entry points
 
@@ -80,4 +92,3 @@ sacct -j JOBID --format=JobID,JobName,State,ExitCode,Elapsed
 tail -f outputs/logs/<job-log>.out
 cat outputs/logs/<job-log>.err
 ```
-

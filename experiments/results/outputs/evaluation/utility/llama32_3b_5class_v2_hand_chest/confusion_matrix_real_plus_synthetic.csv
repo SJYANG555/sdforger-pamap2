@@ -1,0 +1,6 @@
+,sitting,standing,walking,running,cycling
+sitting,168,7,2,0,0
+standing,4,174,6,0,0
+walking,0,4,186,0,0
+running,0,8,3,104,0
+cycling,4,3,0,0,184

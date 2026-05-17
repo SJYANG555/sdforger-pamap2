@@ -1,0 +1,2 @@
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:47<00:47, 47.31s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:01<00:00, 27.59s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:01<00:00, 30.55s/it]
+A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.

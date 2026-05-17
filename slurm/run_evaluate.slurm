@@ -12,6 +12,9 @@ PROJECT_ROOT="${PROJECT_ROOT:-$PWD}"
 CONFIG_PATH="${CONFIG_PATH:-config/pamap2_sdforger_gpt2.yaml}"
 DATASET_DIR="${DATASET_DIR:-artifacts/pamap2_sdforger_dataset}"
 GENERATED_DIR="${GENERATED_DIR:-outputs/generated/gpt2}"
+CHECKPOINT_DIR="${CHECKPOINT_DIR:-outputs/checkpoints/gpt2}"
+SIMILARITY_OUTPUT_DIR="${SIMILARITY_OUTPUT_DIR:-outputs/evaluation/similarity/gpt2}"
+UTILITY_OUTPUT_DIR="${UTILITY_OUTPUT_DIR:-outputs/evaluation/utility/gpt2}"
 PLOTS_DIR="${PLOTS_DIR:-outputs/plots/gpt2}"
 CONDA_ENV_PATH="${CONDA_ENV_PATH:-/scratch/work/yangs9/ChatTS/.conda-env}"
 export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$PROJECT_ROOT/.mamba-root}"
@@ -37,7 +40,7 @@ python scripts/evaluate_similarity.py \
   --real-metadata "$DATASET_DIR/test_metadata.csv" \
   --synthetic-windows "$GENERATED_DIR/generated_windows.npy" \
   --synthetic-metadata "$GENERATED_DIR/generated_embeddings.csv" \
-  --output-dir outputs/evaluation/similarity/gpt2
+  --output-dir "$SIMILARITY_OUTPUT_DIR"
 
 python scripts/evaluate_utility.py \
   --config "$CONFIG_PATH" \
@@ -47,11 +50,11 @@ python scripts/evaluate_utility.py \
   --real-test-metadata "$DATASET_DIR/test_metadata.csv" \
   --synthetic-windows "$GENERATED_DIR/generated_windows.npy" \
   --synthetic-metadata "$GENERATED_DIR/generated_embeddings.csv" \
-  --output-dir outputs/evaluation/utility/gpt2
+  --output-dir "$UTILITY_OUTPUT_DIR"
 
 python scripts/make_plots.py \
   --config "$CONFIG_PATH" \
-  --training-log-csv outputs/checkpoints/gpt2/training_log_history.csv \
+  --training-log-csv "$CHECKPOINT_DIR/training_log_history.csv" \
   --real-windows "$DATASET_DIR/test_windows.npy" \
   --real-metadata "$DATASET_DIR/test_metadata.csv" \
   --synthetic-windows "$GENERATED_DIR/generated_windows.npy" \

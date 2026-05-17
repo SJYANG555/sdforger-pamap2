@@ -1,0 +1,7 @@
+[evaluate] project_root=/scratch/work/yangs9/ChatTS
+[evaluate] config=config/pamap2_sdforger_llama32_3b_5class_v2.yaml
+[evaluate] dataset=artifacts/pamap2_sdforger_dataset_v2
+[evaluate] generated=outputs/generated/llama32_3b_5class_v2
+[evaluate] python=/scratch/work/yangs9/ChatTS/.conda-env/bin/python
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/similarity/llama32_3b_5class_v2", "rows": 6}
+{"output_dir": "/scratch/work/yangs9/ChatTS/outputs/evaluation/utility/llama32_3b_5class_v2", "rows": 3}
