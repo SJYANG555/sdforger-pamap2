@@ -6,12 +6,16 @@ The full Triton workspace contains large generated assets under `artifacts/` and
 
 ## What is included
 
-- `results/artifacts/`: dataset manifests, split manifests, reconstruction metadata, and resolved configs.
-- `results/outputs/checkpoints/`: training summaries and resolved training configs.
-- `results/outputs/generated/`: generation summaries, prompt summaries, generated embedding CSVs, parser/filter debug CSVs, and resolved configs.
-- `results/outputs/evaluation/`: similarity, utility, and condition-consistency metrics and summaries.
-- `results/outputs/plots/`: generated figures and plot manifests.
-- `results/outputs/logs/`: Slurm stdout/stderr logs from the recorded runs.
+- `pamap2_forger/`: the PAMAP2 SDForger-style data, embedding, generation, training, metric, and plotting modules.
+- `scripts/`: command-line entry points for dataset building, training, generation, evaluation, and report plotting.
+- `config/`: experiment configs for GPT-2, Gemma 2 2B, Llama 3.2 3B, sensor subsets, and related comparison runs.
+- `slurm/`: Triton Slurm job scripts for CPU preprocessing/evaluation and GPU training/generation.
+- `experiments/results/artifacts/`: dataset manifests, split manifests, reconstruction metadata, and resolved configs.
+- `experiments/results/outputs/checkpoints/`: training summaries and resolved training configs.
+- `experiments/results/outputs/generated/`: generation summaries, prompt summaries, generated embedding CSVs, parser/filter debug CSVs, and resolved configs.
+- `experiments/results/outputs/evaluation/`: similarity, utility, and condition-consistency metrics and summaries.
+- `experiments/results/outputs/plots/`: generated figures and plot manifests.
+- `experiments/results/outputs/logs/`: Slurm stdout/stderr logs from the recorded runs.
 
 ## What is not included
 
@@ -24,6 +28,27 @@ Large binary outputs remain on Triton and are not copied into this archive:
 - local environments such as `.conda-env/` and `.mamba-root/`
 
 If those assets need to be shared later, use Git LFS, a GitHub Release, or an external artifact store rather than regular Git history.
+
+## Pipeline Overview
+
+This repository archives the code pipeline used for the PAMAP2 + SDForger-style time-series generation experiments:
+
+1. Build PAMAP2 windows with `scripts/build_pamap2_sdforger_dataset.py`.
+   The dataset code in `pamap2_forger/dataset.py` selects the target activities, sensor channels, window size, stride, and train/validation/test split.
+2. Convert each window into SDForger-style descriptors.
+   `pamap2_forger/embeddings.py` extracts compact statistical embeddings and `pamap2_forger/text.py` serializes them into text prompts for causal language models.
+3. Fine-tune a language model with `scripts/train_pamap2_lm.py`.
+   `pamap2_forger/trainer.py` supports the GPT-2 baseline and PEFT/LoRA-style larger model runs such as Gemma 2 2B and Llama 3.2 3B.
+4. Generate synthetic embedding text with `scripts/generate_pamap2_synthetic.py`.
+   `pamap2_forger/generate.py` parses generated text, filters invalid candidates, and reconstructs synthetic windows through `pamap2_forger/reconstruction.py`.
+5. Evaluate synthetic data quality.
+   `scripts/evaluate_similarity.py` computes SDForger-style similarity metrics (`MDD`, `ACD`, `SD`, `KD`, `ED`, `DTW`), and `scripts/evaluate_utility.py` evaluates downstream HAR utility with real-only, synthetic-only, and real+synthetic RandomForest classifiers.
+6. Produce report figures.
+   `scripts/make_plots.py`, `scripts/plot_5class_model_comparison.py`, and `scripts/plot_report_model_comparison.py` generate training curves, utility plots, model comparisons, and similarity matrices.
+
+The main formal comparison uses five PAMAP2 activities: cycling, running, sitting, standing, and walking. The current report-ready comparison covers the 18-channel full-body setting and the 12-channel hand+chest setting across GPT-2, Gemma 2 2B, and Llama 3.2 3B.
+
+CPU jobs are used for dataset building, similarity evaluation, utility evaluation, and plotting. GPU jobs are used for language-model training and generation; Triton GPU Slurm scripts request GPUs with `#SBATCH --gpus=1`.
 
 ## Recorded experiment families
 
