@@ -7,6 +7,7 @@ The full Triton workspace contains large generated assets under `artifacts/` and
 ## What is included
 
 - `pamap2_forger/`: the PAMAP2 SDForger-style data, embedding, generation, training, metric, and plotting modules.
+- `mmfit_forger/`: the MM-Fit wearable-window dataset builder used for the five-class exercise generation experiment.
 - `scripts/`: command-line entry points for dataset building, training, generation, evaluation, and report plotting.
 - `config/`: experiment configs for GPT-2, Gemma 2 2B, Llama 3.2 3B, sensor subsets, and related comparison runs.
 - `slurm/`: Triton Slurm job scripts for CPU preprocessing/evaluation and GPU training/generation.
@@ -49,6 +50,72 @@ This repository archives the code pipeline used for the PAMAP2 + SDForger-style 
 The main formal comparison uses five PAMAP2 activities: cycling, running, sitting, standing, and walking. The current report-ready comparison covers the 18-channel full-body setting and the 12-channel hand+chest setting across GPT-2, Gemma 2 2B, and Llama 3.2 3B.
 
 CPU jobs are used for dataset building, similarity evaluation, utility evaluation, and plotting. GPU jobs are used for language-model training and generation; Triton GPU Slurm scripts request GPUs with `#SBATCH --gpus=1`.
+
+## MM-Fit Extension
+
+This archive also includes an MM-Fit extension for SDForger-style exercise time-series generation. MM-Fit is handled as a separate pipeline so the original PAMAP2 code path remains intact.
+
+The first MM-Fit experiment uses the official non-video MM-Fit ZIP, selecting smartwatch accelerometer and gyroscope streams from both wrists:
+
+- sensor streams: `sw_l_acc`, `sw_l_gyr`, `sw_r_acc`, `sw_r_gyr`
+- window length: 5 seconds
+- resampled length: 250 steps at 50 Hz
+- channels: 12
+- classes: `squats`, `pushups`, `lunges`, `bicep_curls`, `jumping_jacks`
+- split: official workout-session split
+  - train sessions: `1, 2, 3, 4, 6, 7, 8, 16, 17, 18`
+  - validation sessions: `14, 15, 19`
+  - test sessions: `0, 5, 12, 13, 20`
+
+MM-Fit entry points:
+
+- dataset build: `scripts/build_mmfit_sdforger_dataset.py`
+- generation: `scripts/generate_mmfit_synthetic.py`
+- configs:
+  - `config/mmfit_sdforger_gpt2_5class.yaml`
+  - `config/mmfit_sdforger_gemma2_2b_5class.yaml`
+  - `config/mmfit_sdforger_llama32_3b_5class.yaml`
+- Slurm scripts:
+  - `slurm/run_build_mmfit_dataset.slurm`
+  - `slurm/run_train_mmfit_*_h100.slurm`
+  - `slurm/run_generate_mmfit_*_h100.slurm`
+  - `slurm/run_evaluate_mmfit_*.slurm`
+
+### MM-Fit Model Comparison
+
+The MM-Fit five-class experiment was run on Triton with GPT-2, Gemma 2 2B LoRA, and Llama 3.2 3B LoRA. Generated tensors, checkpoints, and plots remain on Triton and are not committed to Git.
+
+Generation summary:
+
+| Model | Prompts | Parse success | Kept synthetic windows | Activity coverage | Duplicate count |
+|---|---:|---:|---:|---|---:|
+| GPT-2 | 406 | 379 | 116 | 4/5, missing `jumping_jacks` | 0 |
+| Gemma 2 2B LoRA | 406 | 406 | 369 | 5/5 | 0 |
+| Llama 3.2 3B LoRA | 406 | 406 | 391 | 5/5 | 0 |
+
+Similarity metrics use the `overall_mean` row. Lower values are generally better:
+
+| Model | MDD | ACD | SD | KD | ED | DTW |
+|---|---:|---:|---:|---:|---:|---:|
+| GPT-2 | 0.435 | 0.258 | 0.0168 | 4.553 | 113.98 | 294.53 |
+| Gemma 2 2B LoRA | 0.305 | 0.228 | 0.0146 | 4.172 | 86.46 | 218.92 |
+| Llama 3.2 3B LoRA | 0.251 | 0.245 | 0.0149 | 6.751 | 98.43 | 254.72 |
+
+HAR utility:
+
+| Model | Synthetic-only accuracy | Synthetic-only macro F1 | Real+synthetic accuracy | Real+synthetic macro F1 |
+|---|---:|---:|---:|---:|
+| GPT-2 | 0.783 | 0.637 | 0.998 | 0.997 |
+| Gemma 2 2B LoRA | 0.515 | 0.538 | 0.975 | 0.974 |
+| Llama 3.2 3B LoRA | 0.333 | 0.270 | 0.985 | 0.984 |
+
+The real-only baseline for this MM-Fit split is `0.995` accuracy and `0.995` macro F1.
+
+Interpretation:
+
+- Gemma gives the most balanced result: complete five-class coverage, high retention, and the best overall similarity profile.
+- GPT-2 gives the strongest synthetic-only utility, but it retains far fewer windows and misses `jumping_jacks`, so its high utility should be interpreted cautiously.
+- Llama gives complete coverage and the largest retained set, but its synthetic-only HAR utility is weak compared with GPT-2 and Gemma.
 
 ## Recorded experiment families
 
