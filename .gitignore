@@ -22,3 +22,11 @@ outputs/
 pamap2+physical+activity+monitoring/
 gpt2baseline/
 gpt2baseline_results_*.tar.gz
+
+# Keep lightweight archived summaries even though raw outputs are ignored.
+!results/
+!results/outputs/
+!results/outputs/evaluation/
+!results/outputs/evaluation/summary/
+!results/outputs/evaluation/summary/*.csv
+!results/outputs/evaluation/summary/*.tex

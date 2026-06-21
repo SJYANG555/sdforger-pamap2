@@ -1,6 +1,7 @@
-import json
-import os
 import inspect
+import json
+import math
+import os
 from pathlib import Path
 from typing import Dict, List, Union
 
@@ -123,13 +124,30 @@ def resolve_tokenizer_and_model(config: TrainingConfig):
             "up_proj",
             "down_proj",
         ]
+        peft_kwargs = {
+            "task_type": getattr(TaskType, config.peft.task_type),
+            "r": config.peft.r,
+            "lora_alpha": config.peft.alpha,
+            "lora_dropout": config.peft.dropout,
+            "bias": config.peft.bias,
+            "target_modules": peft_target_modules,
+        }
+        if config.peft.train_last_fraction is not None:
+            if not 0 < config.peft.train_last_fraction <= 1:
+                raise ValueError(f"peft.train_last_fraction must be in (0, 1], got {config.peft.train_last_fraction}")
+            num_layers = getattr(model.config, "num_hidden_layers", None)
+            if num_layers is None:
+                raise ValueError("peft.train_last_fraction requires model.config.num_hidden_layers")
+            train_layer_count = max(1, math.ceil(num_layers * config.peft.train_last_fraction))
+            start_layer = max(0, num_layers - train_layer_count)
+            lora_signature = inspect.signature(LoraConfig.__init__)
+            if "layers_to_transform" not in lora_signature.parameters:
+                raise ValueError("Installed PEFT does not support layers_to_transform for partial-layer LoRA.")
+            peft_kwargs["layers_to_transform"] = list(range(start_layer, num_layers))
+            peft_kwargs["layers_pattern"] = config.peft.layers_pattern
+
         peft_cfg = LoraConfig(
-            task_type=getattr(TaskType, config.peft.task_type),
-            r=config.peft.r,
-            lora_alpha=config.peft.alpha,
-            lora_dropout=config.peft.dropout,
-            bias=config.peft.bias,
-            target_modules=peft_target_modules,
+            **peft_kwargs,
         )
         model = get_peft_model(model, peft_cfg)
         if config.gradient_checkpointing and hasattr(model, "enable_input_require_grads"):

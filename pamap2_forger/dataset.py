@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Dict, Tuple, Union
+from typing import Dict, List, Tuple, Union
 
 import numpy as np
 import pandas as pd
@@ -46,9 +46,49 @@ def resolve_splits(metadata: pd.DataFrame, config: DataConfig) -> Dict[str, pd.D
     }
 
 
+def filter_selected_activities(metadata: pd.DataFrame, config: DataConfig) -> pd.DataFrame:
+    if not config.selected_activities:
+        return metadata.copy()
+
+    requested = {str(activity).strip().lower().replace(" ", "_") for activity in config.selected_activities}
+    activity_names = metadata["activity_name"].astype(str).str.lower().str.replace(" ", "_", regex=False)
+    activity_ids = metadata["activity_id"].astype(str)
+    mask = activity_names.isin(requested) | activity_ids.isin(requested)
+    filtered = metadata.loc[mask].copy()
+    if filtered.empty:
+        available = sorted(metadata["activity_name"].dropna().astype(str).unique().tolist())
+        raise ValueError(f"selected_activities matched no windows. requested={sorted(requested)}, available={available}")
+    return filtered
+
+
 def select_windows(windows: np.ndarray, metadata: pd.DataFrame, subset_metadata: pd.DataFrame) -> np.ndarray:
     indexer = subset_metadata["window_id"].to_numpy(dtype=int)
     return windows[indexer]
+
+
+def compute_window_stats_frame(
+    windows: np.ndarray,
+    channel_names: List[str],
+    stats: List[str],
+    precision: int,
+) -> pd.DataFrame:
+    rows = []
+    requested = [stat.lower() for stat in stats]
+    for window in windows:
+        row = {}
+        for channel_idx, channel_name in enumerate(channel_names):
+            values = window[:, channel_idx]
+            prefix = f"stat_{channel_name}"
+            if "mean" in requested:
+                row[f"{prefix}_mean"] = round(float(values.mean()), precision)
+            if "std" in requested:
+                row[f"{prefix}_std"] = round(float(values.std(ddof=0)), precision)
+            if "min" in requested:
+                row[f"{prefix}_min"] = round(float(values.min()), precision)
+            if "max" in requested:
+                row[f"{prefix}_max"] = round(float(values.max()), precision)
+        rows.append(row)
+    return pd.DataFrame(rows)
 
 
 def resolve_channel_selection(channel_names: list[str], config: DataConfig) -> Tuple[list[int], list[str]]:
@@ -80,6 +120,7 @@ def build_sdforger_dataset(config: DataConfig, embedding: EmbeddingConfig) -> Di
     source_channel_names = list(preproc_summary["selected_channels"])
     channel_indexes, channel_names = resolve_channel_selection(source_channel_names, config)
     windows = windows[:, :, channel_indexes]
+    metadata = filter_selected_activities(metadata, config)
     split_frames = resolve_splits(metadata, config)
 
     reducer = WindowReducer(
@@ -98,10 +139,31 @@ def build_sdforger_dataset(config: DataConfig, embedding: EmbeddingConfig) -> Di
 
     all_embedding_frames: Dict[str, pd.DataFrame] = {"train": train_embeddings}
     split_window_tensors: Dict[str, np.ndarray] = {"train": train_windows}
+    split_stats_frames: Dict[str, pd.DataFrame] = {}
+    if embedding.include_window_stats_prompt:
+        split_stats_frames["train"] = compute_window_stats_frame(
+            train_windows,
+            channel_names,
+            embedding.window_stats,
+            embedding.window_stats_precision,
+        )
     for split_name in ("val", "test"):
         split_windows = select_windows(windows, metadata, split_frames[split_name])
         split_window_tensors[split_name] = split_windows
         all_embedding_frames[split_name] = reducer.transform(split_windows, split_frames[split_name])
+        if embedding.include_window_stats_prompt:
+            split_stats_frames[split_name] = compute_window_stats_frame(
+                split_windows,
+                channel_names,
+                embedding.window_stats,
+                embedding.window_stats_precision,
+            )
+
+    prompt_stat_columns = (
+        split_stats_frames["train"].columns.tolist()
+        if embedding.include_window_stats_prompt and "train" in split_stats_frames
+        else []
+    )
 
     manifest = {
         "source_preprocessed_dir": str(Path(config.preprocessed_dir).resolve()),
@@ -119,6 +181,12 @@ def build_sdforger_dataset(config: DataConfig, embedding: EmbeddingConfig) -> Di
             "num_channels": len(channel_names),
             "window_size": int(windows.shape[1]),
         },
+        "prompt_window_stats": {
+            "enabled": bool(embedding.include_window_stats_prompt),
+            "stats": embedding.window_stats,
+            "precision": int(embedding.window_stats_precision),
+        },
+        "selected_activities": config.selected_activities,
         "splits": {},
     }
     split_manifest = {"split_strategy": config.split_strategy, "splits": {}}
@@ -126,18 +194,25 @@ def build_sdforger_dataset(config: DataConfig, embedding: EmbeddingConfig) -> Di
     for split_name, frame in all_embedding_frames.items():
         frame.to_csv(output_dir / f"{split_name}_embeddings.csv", index=False)
         np.save(output_dir / f"{split_name}_windows.npy", split_window_tensors[split_name])
+        text_frame = frame
+        split_meta = split_frames[split_name].copy().reset_index(drop=True)
+        if embedding.include_window_stats_prompt:
+            stats_frame = split_stats_frames[split_name].reset_index(drop=True)
+            text_frame = pd.concat([frame.reset_index(drop=True), stats_frame], axis=1)
+            split_meta = pd.concat([split_meta, stats_frame], axis=1)
         text_records = dataframe_to_text_records(
-            frame=frame,
+            frame=text_frame,
             eos_token="<|endoftext|>",
             permute=embedding.permute_columns,
             text_template=embedding.text_template,
             input_tokens_precision=embedding.input_tokens_precision,
+            prompt_stat_columns=prompt_stat_columns,
+            prompt_stats_precision=embedding.window_stats_precision,
         )
         with open(output_dir / f"{split_name}_text.jsonl", "w", encoding="utf-8") as fp:
             for record in text_records:
                 fp.write(json.dumps(record, ensure_ascii=False) + "\n")
 
-        split_meta = split_frames[split_name].copy()
         split_meta.to_csv(output_dir / f"{split_name}_metadata.csv", index=False)
         manifest["splits"][split_name] = {
             "num_windows": int(len(split_meta)),

@@ -61,10 +61,16 @@ def build_generation_prompts(
     max_prompts: int = None,
 ) -> List[Dict[str, Any]]:
     metadata = pd.read_csv(metadata_path)
+    prompt_stat_columns = [column for column in metadata.columns if column.startswith("stat_")]
     records = metadata.to_dict(orient="records")
     prompts: List[Dict[str, Any]] = []
     for row in maybe_limit_records(records, max_prompts):
-        prompt = build_generation_prompt(row=row, numeric_columns=numeric_columns, text_template=text_template)
+        prompt = build_generation_prompt(
+            row=row,
+            numeric_columns=numeric_columns,
+            text_template=text_template,
+            prompt_stat_columns=prompt_stat_columns,
+        )
         prompts.append({"prompt": prompt, **row})
     return prompts
 
@@ -77,7 +83,23 @@ def generate_texts(
     config: GenerationConfig,
     numeric_column_count: int,
 ) -> List[Dict[str, Any]]:
+    import os
     import torch
+
+    if os.environ.get("TORCHDYNAMO_DISABLE") == "1":
+        try:
+            torch._dynamo.disable()
+        except AttributeError:
+            pass
+    try:
+        torch._dynamo.config.cache_size_limit = max(torch._dynamo.config.cache_size_limit, 128)
+        if hasattr(torch._dynamo.config, "accumulated_cache_size_limit"):
+            torch._dynamo.config.accumulated_cache_size_limit = max(
+                torch._dynamo.config.accumulated_cache_size_limit,
+                1024,
+            )
+    except AttributeError:
+        pass
 
     outputs: List[Dict[str, Any]] = []
     target_token_budget = numeric_column_count * 8
