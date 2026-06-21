@@ -1,0 +1,286 @@
+\documentclass[aspectratio=169,11pt]{ctexbeamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{siunitx}
+
+\definecolor{goodgreen}{RGB}{0,130,80}
+\definecolor{warnorange}{RGB}{190,100,0}
+\definecolor{softblue}{RGB}{40,90,160}
+
+\newcommand{\up}{\(\uparrow\)}
+\newcommand{\down}{\(\downarrow\)}
+\newcommand{\best}[1]{\textcolor{goodgreen}{\textbf{#1}}}
+\newcommand{\note}[1]{\textcolor{warnorange}{#1}}
+
+\title[PAMAP2 Synthetic Generation]{PAMAP2 Walking/Running Synthetic Time-Series Generation}
+\subtitle{Gemma2-2B LoRA with Sensor Selection, Epoch Scaling, and Statistical Prompts}
+\author{Your Name}
+\institute{Aalto University}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Goal and Evaluation Protocol}
+\begin{itemize}
+  \item Task: generate PAMAP2 sensor windows for two activities: \textbf{walking} and \textbf{running}.
+  \item Model: \textbf{Gemma2-2B + LoRA/PEFT}; base model frozen; LoRA applied to the last 30\% layers.
+  \item Window setup: 256 samples, stride 128.
+  \item Evaluation:
+  \begin{itemize}
+    \item \textbf{Generation validity}: valid generated windows after parsing/filtering.
+    \item \textbf{Class balance}: generated running vs walking counts.
+    \item \textbf{Similarity}: ED and DTW, lower is better.
+    \item \textbf{Utility}: Random Forest HAR accuracy using synthetic-only and real+synthetic training.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Improvement Roadmap}
+\begin{enumerate}
+  \item Reduce activities from five PAMAP2 classes to \textbf{walking/running}.
+  \item Sensor selection:
+  \begin{itemize}
+    \item full body, hand, chest
+    \item acceleration-only and gyroscope-only variants
+  \end{itemize}
+  \item Epoch scaling: compare \textbf{5, 10, 20 epochs}.
+  \item Embedding dimension test: ICA8 was tested but did not show consistent benefit.
+  \item Statistical prompt: add per-window statistical summaries to the text prompt.
+  \item Final combined test: \textbf{statistics prompt + epoch scaling}.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Real-vs-Real Similarity Baseline}
+\small
+\begin{itemize}
+  \item Reference: split real test data into two random halves within each class and compute real-vs-real ED/DTW.
+  \item Ratios below 1.0 mean synthetic-vs-real is closer than this random real-vs-real baseline.
+\end{itemize}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrr}
+\toprule
+Input setting & Real ED \down & Real DTW \down \\
+\midrule
+full & 81.13 & 65.95 \\
+hand & 46.66 & 61.03 \\
+chest & 27.80 & 31.83 \\
+hand acc & 45.35 & 100.34 \\
+chest acc & 27.61 & 56.20 \\
+hand gyro & 10.91 & 21.73 \\
+chest gyro & 3.21 & 7.47 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Baseline: Two-Activity Sensor Selection, 5 Epochs}
+\small
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrr}
+\toprule
+Variant & Valid & Run & Walk & ED \down & DTW \down & Synthetic-only acc \up \\
+\midrule
+full & 83/305 & 27 & 56 & 250.19 & 374.43 & 0.390 \\
+hand & 226/305 & 82 & 144 & 194.01 & 620.21 & \best{0.921} \\
+chest & 213/305 & 102 & 111 & 23.98 & 70.21 & 0.384 \\
+hand acc & 181/305 & 71 & 110 & 193.85 & 1130.98 & 0.387 \\
+chest acc & 274/305 & 110 & 164 & 22.81 & 135.44 & 0.220 \\
+hand gyro & 202/305 & 94 & 108 & 12.04 & 84.79 & 0.387 \\
+chest gyro & 249/305 & 101 & 148 & \best{2.32} & \best{8.44} & 0.374 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\vspace{0.5em}
+\begin{itemize}
+  \item \textbf{hand}: strongest utility, but weak similarity.
+  \item \textbf{chest gyro}: strongest similarity, but weak utility.
+  \item This reveals a fidelity--utility gap.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Baseline: Distance Ratios Against Real-vs-Real}
+\small
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrr}
+\toprule
+Variant & ED & ED / real & DTW & DTW / real \\
+\midrule
+full & 250.19 & 3.08 & 374.43 & 5.68 \\
+hand & 194.01 & 4.16 & 620.21 & 10.16 \\
+chest & 23.98 & \best{0.86} & 70.21 & 2.21 \\
+hand acc & 193.85 & 4.27 & 1130.98 & 11.27 \\
+chest acc & 22.81 & \best{0.83} & 135.44 & 2.41 \\
+hand gyro & 12.04 & 1.10 & 84.79 & 3.90 \\
+chest gyro & \best{2.32} & \best{0.72} & \best{8.44} & 1.13 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\vspace{0.5em}
+\begin{itemize}
+  \item ED can be better than real-vs-real for chest/chest acc/chest gyro.
+  \item DTW remains harder; only chest gyro approaches the real baseline.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Epoch Scaling Without Statistical Prompt}
+\small
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrr}
+\toprule
+Variant & Epoch & Valid & Run & Walk & DTW / real \down & Synthetic-only acc \up \\
+\midrule
+hand & 5 & 226/305 & 82 & 144 & 10.16 & \best{0.921} \\
+hand & 10 & 75/305 & 39 & 36 & 11.11 & 0.820 \\
+hand & 20 & 139/305 & 52 & 87 & 10.75 & 0.377 \\
+chest gyro & 5 & 249/305 & 101 & 148 & 1.13 & 0.374 \\
+chest gyro & 10 & 294/305 & 115 & 179 & \best{0.74} & 0.370 \\
+chest gyro & 20 & 301/305 & 114 & 187 & 1.06 & 0.370 \\
+chest & 5 & 213/305 & 102 & 111 & 2.21 & 0.384 \\
+chest & 10 & 298/305 & 110 & 188 & 1.68 & 0.380 \\
+chest & 20 & 74/305 & 28 & 46 & 2.90 & 0.626 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\vspace{0.5em}
+\begin{itemize}
+  \item More epochs did \textbf{not} consistently improve utility.
+  \item Some 20-epoch runs produced fewer valid windows or unstable class distributions.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Statistical Prompt: Main Results}
+\small
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrr}
+\toprule
+Variant & Epoch & Valid & Run & Walk & ED / real \down & Synthetic-only acc \up \\
+\midrule
+hand + stats & 5 & 301/305 & 113 & 188 & 3.91 & \best{0.928} \\
+hand + stats & 10 & 261/305 & 107 & 154 & 4.56 & 0.846 \\
+hand + stats & 20 & 284/305 & 104 & 180 & 4.44 & 0.921 \\
+chest gyro + stats & 5 & 283/305 & 112 & 171 & 0.47 & 0.449 \\
+chest gyro + stats & 10 & 303/305 & 115 & 188 & 0.52 & 0.374 \\
+chest gyro + stats & 20 & 271/305 & 84 & 187 & 0.62 & \best{0.564} \\
+chest + stats & 5 & 270/305 & 107 & 163 & \best{0.69} & 0.370 \\
+chest + stats & 10 & 303/305 & 114 & 189 & 0.78 & 0.370 \\
+chest + stats & 20 & 222/305 & 98 & 124 & 0.99 & 0.374 \\
+chest acc + stats & 5 & 280/305 & 101 & 179 & 0.86 & 0.370 \\
+chest acc + stats & 10 & 284/305 & 100 & 184 & 1.17 & 0.475 \\
+chest acc + stats & 20 & 294/305 & 104 & 190 & 0.72 & 0.377 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Statistical Prompt: DTW and Utility Trade-Off}
+\small
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrr}
+\toprule
+Variant & Epoch & DTW \down & DTW / real \down & Synthetic-only F1 \up & Real+Syn acc \up \\
+\midrule
+hand + stats & 5 & 566.88 & 9.29 & \best{0.925} & 0.970 \\
+hand + stats & 10 & 633.47 & 10.38 & 0.844 & 0.970 \\
+hand + stats & 20 & 631.67 & 10.35 & 0.919 & 0.957 \\
+chest gyro + stats & 5 & \best{5.53} & \best{0.74} & 0.412 & 0.954 \\
+chest gyro + stats & 10 & 5.94 & 0.80 & 0.298 & 0.957 \\
+chest gyro + stats & 20 & 7.59 & 1.02 & 0.554 & 0.957 \\
+chest + stats & 5 & 49.53 & 1.56 & 0.293 & 0.967 \\
+chest acc + stats & 20 & 103.24 & 1.84 & 0.307 & 0.967 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\vspace{0.5em}
+\begin{itemize}
+  \item hand + stats remains the best utility-oriented configuration.
+  \item chest gyro + stats gives the best time-series similarity.
+  \item Longer training changes the trade-off but does not dominate 5 epochs.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Best Configurations by Objective}
+\small
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lllrrr}
+\toprule
+Objective & Best setting & Why & Valid & DTW / real & Synthetic-only acc \\
+\midrule
+Utility & hand + stats, 5 ep & highest synthetic-only accuracy & 301/305 & 9.29 & \best{0.928} \\
+Similarity & chest gyro + stats, 5 ep & low ED/DTW vs real baseline & 283/305 & \best{0.74} & 0.449 \\
+Similarity + more epochs & chest gyro + stats, 20 ep & better utility, still low ED & 271/305 & 1.02 & 0.564 \\
+Generation validity & chest gyro + stats, 10 ep & nearly all prompts valid & \best{303/305} & 0.80 & 0.374 \\
+Chest-only control & chest + stats, 5 ep & good ED ratio, stable valid count & 270/305 & 1.56 & 0.370 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\vspace{0.5em}
+\begin{itemize}
+  \item No single configuration is best on all metrics.
+  \item Statistical prompts consistently improve validity and often improve utility.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Where to Place Qualitative Curve Figures}
+\begin{itemize}
+  \item After baseline sensor-selection slides:
+  \begin{itemize}
+    \item Compare \textbf{hand} vs \textbf{chest gyro}.
+    \item Show why hand may classify well while chest gyro matches waveform shape better.
+  \end{itemize}
+  \item After statistical prompt slides:
+  \begin{itemize}
+    \item Show \textbf{hand + stats, 5 epoch} curves.
+    \item Show \textbf{chest gyro + stats, 5 or 20 epoch} curves.
+  \end{itemize}
+  \item Recommended figure order:
+  \begin{enumerate}
+    \item Real walking/running examples.
+    \item Baseline synthetic examples.
+    \item Stats-prompt synthetic examples.
+    \item Failure or imbalance examples, if useful.
+  \end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusions}
+\begin{itemize}
+  \item Reducing PAMAP2 to \textbf{walking/running} made the generation task more stable.
+  \item Sensor choice matters:
+  \begin{itemize}
+    \item \textbf{hand} is best for utility.
+    \item \textbf{chest gyro} is best for waveform similarity.
+  \end{itemize}
+  \item More epochs alone are not sufficient; 10/20 epochs can reduce validity or utility.
+  \item ICA8 did not provide a consistent improvement and was not continued.
+  \item \textbf{Statistical prompts are the most useful improvement}:
+  \begin{itemize}
+    \item hand + stats improves utility and validity.
+    \item chest gyro + stats preserves strong similarity and improves utility relative to baseline.
+  \end{itemize}
+  \item Main insight: fidelity metrics and downstream utility measure different aspects of synthetic quality.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Backup: Metric Interpretation}
+\begin{itemize}
+  \item \textbf{Valid generated count}: how many generated candidates survive parsing, deduplication, and norm filtering.
+  \item \textbf{Running/Walking count}: checks whether accuracy is inflated by class imbalance.
+  \item \textbf{ED}: Euclidean distance between real and synthetic prototype windows.
+  \item \textbf{DTW}: temporal alignment distance between real and synthetic prototype windows.
+  \item \textbf{ED/real, DTW/real}: normalized against a real-vs-real random split baseline.
+  \item \textbf{Synthetic-only utility}: train classifier on synthetic data only, test on real data.
+  \item \textbf{Real+synthetic utility}: train on real plus synthetic, test on real data.
+\end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,6 +1,6 @@
 import random
 import re
-from typing import Any, Dict, Iterable, List, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import pandas as pd
 
@@ -24,17 +24,33 @@ def embeddings_to_text(
     permute: bool = True,
     text_template: str = "fim_template_textual_encoding",
     input_tokens_precision: int = 4,
+    prompt_stat_columns: Optional[List[str]] = None,
+    prompt_stats_precision: int = 3,
 ) -> str:
     ordered_columns = list(columns)
     if permute:
         random.shuffle(ordered_columns)
 
+    prompt_stat_columns = prompt_stat_columns or []
     categorical_columns = [col for col in ordered_columns if col in CONTEXT_COLUMNS or not _is_float_like(row[col])]
-    numeric_columns = [col for col in ordered_columns if col not in CONTEXT_COLUMNS and _is_float_like(row[col])]
+    numeric_columns = [
+        col
+        for col in ordered_columns
+        if col not in CONTEXT_COLUMNS and col not in prompt_stat_columns and _is_float_like(row[col])
+    ]
 
     if text_template in {"structured_v2", "compact_values_v2"}:
-        stable_numeric_columns = sorted(numeric_columns, key=_numeric_sort_key)
-        prompt = build_generation_prompt(row=row, numeric_columns=stable_numeric_columns, text_template=text_template)
+        stable_numeric_columns = sorted(
+            [column for column in numeric_columns if column.startswith("value_")],
+            key=_numeric_sort_key,
+        )
+        prompt = build_generation_prompt(
+            row=row,
+            numeric_columns=stable_numeric_columns,
+            text_template=text_template,
+            prompt_stat_columns=prompt_stat_columns,
+            prompt_stats_precision=prompt_stats_precision,
+        )
         if text_template == "compact_values_v2":
             target = ", ".join([_format_value(row[col], input_tokens_precision) for col in stable_numeric_columns])
             return f"{prompt}{target} [end]{eos_token}"
@@ -72,6 +88,8 @@ def dataframe_to_text_records(
     permute: bool,
     text_template: str,
     input_tokens_precision: int,
+    prompt_stat_columns: Optional[List[str]] = None,
+    prompt_stats_precision: int = 3,
 ) -> List[Dict[str, Any]]:
     columns = frame.columns.tolist()
     records: List[Dict[str, Any]] = []
@@ -83,6 +101,8 @@ def dataframe_to_text_records(
             permute=permute,
             text_template=text_template,
             input_tokens_precision=input_tokens_precision,
+            prompt_stat_columns=prompt_stat_columns,
+            prompt_stats_precision=prompt_stats_precision,
         )
         records.append({"text": text, **row})
     return records
@@ -92,27 +112,35 @@ def build_generation_prompt(
     row: Dict[str, Any],
     numeric_columns: Iterable[str],
     text_template: str = "fim_template_textual_encoding",
+    prompt_stat_columns: Optional[Iterable[str]] = None,
+    prompt_stats_precision: int = 3,
 ) -> str:
     numeric_columns = list(numeric_columns)
+    prompt_stat_columns = list(prompt_stat_columns or [])
     if text_template in {"structured_v2", "compact_values_v2"}:
         activity_name = str(row["activity_name"])
         motion_hint = MOTION_HINTS.get(activity_name, "human motion")
+        stats_summary = _format_stats_summary(row, prompt_stat_columns, prompt_stats_precision)
         if text_template == "compact_values_v2":
+            stats_segment = f"stats={stats_summary}; " if stats_summary else ""
             return (
                 f"Condition: activity={activity_name}; "
                 f"activity_id={int(row['activity_id'])}; "
                 f"subject_id={int(row['subject_id'])}; "
                 f"window_id={int(row['window_id'])}; "
+                f"{stats_segment}"
                 f"hint={motion_hint}; "
                 f"task=PAMAP2_embedding_{len(numeric_columns)}_values\n"
                 "Target values:\n"
             )
+        stats_block = f"window_stats = {stats_summary}\n" if stats_summary else ""
         return (
             "Condition:\n"
             f"activity_name = {activity_name}\n"
             f"activity_id = {int(row['activity_id'])}\n"
             f"subject_id = {int(row['subject_id'])}\n"
             f"window_id = {int(row['window_id'])}\n"
+            f"{stats_block}"
             "task = generate a standardized PAMAP2 18-channel 256-step motion embedding\n"
             f"motion_hint = {motion_hint}\n\n"
             f"Input:\nvalues = [blank] x {len(numeric_columns)}\n\n"
@@ -236,6 +264,15 @@ def _format_value(value: Any, precision: int) -> str:
     if _is_float_like(value):
         return f"{float(value):.{precision}f}"
     return str(value)
+
+
+def _format_stats_summary(row: Dict[str, Any], columns: Iterable[str], precision: int) -> str:
+    parts: List[str] = []
+    for column in columns:
+        if column not in row or not _is_float_like(row[column]):
+            continue
+        parts.append(f"{column}={_format_value(row[column], precision)}")
+    return "; ".join(parts)
 
 
 def _numeric_sort_key(column: str) -> Tuple[int, str]:

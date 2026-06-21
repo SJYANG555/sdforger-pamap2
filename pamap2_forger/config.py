@@ -9,6 +9,7 @@ import yaml
 class DataConfig:
     preprocessed_dir: str
     output_dir: str
+    selected_activities: Optional[List[str]] = None
     selected_channels: Optional[List[str]] = None
     selected_channel_prefixes: Optional[List[str]] = None
     split_strategy: str = "subject"
@@ -32,6 +33,9 @@ class EmbeddingConfig:
     permute_columns: bool = True
     text_template: str = "fim_template_textual_encoding"
     include_context_columns: bool = True
+    include_window_stats_prompt: bool = False
+    window_stats: List[str] = field(default_factory=lambda: ["mean", "std", "min", "max"])
+    window_stats_precision: int = 3
     reducer_artifact_name: str = "reducer.pkl"
     scaler_artifact_name: str = "channel_scaler.json"
 
@@ -45,6 +49,8 @@ class PeftConfig:
     dropout: float = 0.05
     bias: str = "none"
     target_modules: Optional[List[str]] = None
+    train_last_fraction: Optional[float] = None
+    layers_pattern: str = "layers"
     task_type: str = "CAUSAL_LM"
 
 
