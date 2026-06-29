@@ -1,0 +1,79 @@
+% --- New slides: statistics-consistency filtering analysis ---
+% Requires the same packages as previous slides: booktabs, adjustbox.
+
+\begin{frame}{Distance Ratio Interpretation for Filtered Results}
+\small
+\begin{itemize}
+  \item Distance ratio is computed against a real-vs-real reference:
+  \[
+    \mathrm{ratio}=\frac{d(\mathrm{synthetic},\mathrm{real})}{d(\mathrm{real},\mathrm{real})}.
+  \]
+  \item For \textbf{chest gyro}, values far below 1.0 are not necessarily better: synthetic windows can become smoother or less diverse than real windows. Ratios closer to 1.0 are more interpretable.
+  \item For \textbf{hand}, generated distances are still much larger than the real reference, so smaller ratios remain preferable.
+  \item Reference distances: chest gyro ED=3.21, DTW=7.47; hand ED=46.66, DTW=61.03.
+  \item ``Acc'' below is synthetic-only HAR accuracy. ``Valid'' is valid windows after filtering; no-filter rows use /305 prompts, filtered rows use /valid-generated before stats filtering.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Chest Gyro: Stats-Consistency Filtering}
+\scriptsize
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrrrrr}
+\toprule
+Setting & Filter & Valid & Acc & $\Delta$Acc & ED & ED/ref & DTW & DTW/ref \\
+\midrule
+Chest gyro stats, ep5 & No filter & 283/305 & 0.449 & -- & 1.50 & 0.47 & 5.53 & 0.74 \\
+ & Loose 70\% & 199/283 & 0.643 & +0.193 & 2.24 & 0.70 & 7.57 & 1.01 \\
+ & Medium 50\% & 142/283 & 0.872 & +0.423 & 2.85 & 0.89 & 9.61 & 1.29 \\
+ & Strict 35\% & 100/283 & 0.921 & +0.472 & 3.92 & 1.22 & 15.52 & 2.08 \\
+\addlinespace
+Chest gyro stats ICA12, ep5 & No filter & 302/305 & 0.898 & -- & 1.83 & 0.57 & 6.16 & 0.83 \\
+ & Loose 70\% & 212/302 & 0.898 & +0.000 & 2.29 & 0.71 & 7.01 & 0.94 \\
+ & Medium 50\% & 151/302 & 0.908 & +0.010 & 2.63 & 0.82 & 9.33 & 1.25 \\
+ & Strict 35\% & 106/302 & 0.931 & +0.033 & 3.91 & 1.22 & 16.44 & 2.20 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\vspace{0.4em}
+\begin{itemize}
+  \item Stats filtering improves synthetic-only accuracy for both chest-gyro settings.
+  \item However, strict filtering moves DTW/ref away from the real-vs-real scale. For chest, the best-looking distance is not necessarily the smallest value, but a ratio closer to 1.0.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Hand: Stats-Consistency Filtering}
+\scriptsize
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrrrrr}
+\toprule
+Setting & Filter & Valid & Acc & $\Delta$Acc & ED & ED/ref & DTW & DTW/ref \\
+\midrule
+Hand stats, ep5 & No filter & 301/305 & 0.928 & -- & 182.53 & 3.91 & 566.88 & 9.29 \\
+ & Loose 70\% & 212/301 & 0.925 & -0.003 & 182.56 & 3.91 & 554.23 & 9.08 \\
+ & Medium 50\% & 151/301 & 0.928 & +0.000 & 178.00 & 3.81 & 537.83 & 8.81 \\
+ & Strict 35\% & 106/301 & 0.938 & +0.010 & 181.85 & 3.90 & 548.85 & 8.99 \\
+\addlinespace
+Hand stats ICA12, ep5 & No filter & 178/305 & 0.928 & -- & 179.53 & 3.85 & 558.73 & 9.15 \\
+ & Loose 70\% & 126/178 & 0.934 & +0.007 & 180.81 & 3.88 & 556.47 & 9.12 \\
+ & Medium 50\% & 90/178 & 0.934 & +0.007 & 184.75 & 3.96 & 575.64 & 9.43 \\
+ & Strict 35\% & 64/178 & 0.934 & +0.007 & 185.16 & 3.97 & 561.58 & 9.20 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\vspace{0.4em}
+\begin{itemize}
+  \item Hand distances are still far above the real-vs-real baseline, so lower ED/ref and DTW/ref are preferable.
+  \item Filtering gives only small accuracy gains; it is more useful for selecting qualitative examples than for broadly improving fidelity.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Accuracy vs. Distance-Ratio Trade-Off}
+\small
+\begin{itemize}
+  \item \textbf{Chest gyro stats, ep5}: strict filtering improves accuracy from 0.449 to 0.921, but DTW/ref increases from 0.74 to 2.08.
+  \item \textbf{Chest gyro stats ICA12, ep5}: strict filtering improves accuracy from 0.898 to 0.931, but DTW/ref increases from 0.83 to 2.20.
+  \item \textbf{Hand stats, ep5}: strict filtering gives a small accuracy gain from 0.928 to 0.938; medium filtering gives the lowest DTW/ref among the filtered variants.
+  \item \textbf{Hand stats ICA12, ep5}: filtering improves accuracy slightly to 0.934, but distance ratios do not consistently improve.
+  \item Overall, stats-consistency filtering is useful for choosing better qualitative cases, but should not be claimed as universally improving waveform fidelity.
+\end{itemize}
+\end{frame}

@@ -1,0 +1,720 @@
+{
+  "output_dir": "/scratch/work/yangs9/ChatTS/outputs/plots/gemma_2act_stats_normalized_overlays",
+  "space": "real windows standardized with reducer.channel_scaler; generated embeddings decoded before final channel inverse standardization",
+  "runs": [
+    {
+      "run_name": "hand_stats",
+      "epoch": "5epoch",
+      "base_dataset": "hand",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_hand_stats",
+      "generated_dir": "outputs/generated/gemma_2act_hand_stats",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/hand_stats_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/hand_stats_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        6
+      ],
+      "synthetic_shape": [
+        301,
+        256,
+        6
+      ],
+      "real_channel_mean": [
+        -0.07665900141000748,
+        -0.9542179703712463,
+        -0.09477899968624115,
+        -0.23653200268745422,
+        0.11537399888038635,
+        -0.04707299917936325
+      ],
+      "synthetic_channel_mean": [
+        -0.10287400335073471,
+        -0.1319890022277832,
+        0.05450199916958809,
+        -0.0042039998807013035,
+        -0.009197000414133072,
+        0.007044000085443258
+      ],
+      "real_channel_std": [
+        1.0433449745178223,
+        1.0381499528884888,
+        0.792244017124176,
+        0.9885600209236145,
+        0.9914669990539551,
+        1.0579299926757812
+      ],
+      "synthetic_channel_std": [
+        0.6787639856338501,
+        0.5196239948272705,
+        0.5034589767456055,
+        0.5292620062828064,
+        0.738569974899292,
+        0.8632659912109375
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 188,
+        "running": 113
+      },
+      "channels": [
+        "hand_acc_16g_x",
+        "hand_acc_16g_y",
+        "hand_acc_16g_z",
+        "hand_gyro_x",
+        "hand_gyro_y",
+        "hand_gyro_z"
+      ]
+    },
+    {
+      "run_name": "hand_stats_ep10",
+      "epoch": "10epoch",
+      "base_dataset": "hand",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_hand_stats",
+      "generated_dir": "outputs/generated/gemma_2act_hand_stats_ep10",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/hand_stats_ep10_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/hand_stats_ep10_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        6
+      ],
+      "synthetic_shape": [
+        261,
+        256,
+        6
+      ],
+      "real_channel_mean": [
+        -0.07665900141000748,
+        -0.9542179703712463,
+        -0.09477899968624115,
+        -0.23653200268745422,
+        0.11537399888038635,
+        -0.04707299917936325
+      ],
+      "synthetic_channel_mean": [
+        0.016481000930070877,
+        0.032345000654459,
+        -0.03159099817276001,
+        0.001610000035725534,
+        0.020329000428318977,
+        0.0050849998369812965
+      ],
+      "real_channel_std": [
+        1.0433449745178223,
+        1.0381499528884888,
+        0.792244017124176,
+        0.9885600209236145,
+        0.9914669990539551,
+        1.0579299926757812
+      ],
+      "synthetic_channel_std": [
+        0.577131986618042,
+        0.6138020157814026,
+        0.3953459858894348,
+        0.42966899275779724,
+        0.5956720113754272,
+        0.6614980101585388
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 154,
+        "running": 107
+      },
+      "channels": [
+        "hand_acc_16g_x",
+        "hand_acc_16g_y",
+        "hand_acc_16g_z",
+        "hand_gyro_x",
+        "hand_gyro_y",
+        "hand_gyro_z"
+      ]
+    },
+    {
+      "run_name": "hand_stats_ep20",
+      "epoch": "20epoch",
+      "base_dataset": "hand",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_hand_stats",
+      "generated_dir": "outputs/generated/gemma_2act_hand_stats_ep20",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/hand_stats_ep20_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/hand_stats_ep20_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        6
+      ],
+      "synthetic_shape": [
+        284,
+        256,
+        6
+      ],
+      "real_channel_mean": [
+        -0.07665900141000748,
+        -0.9542179703712463,
+        -0.09477899968624115,
+        -0.23653200268745422,
+        0.11537399888038635,
+        -0.04707299917936325
+      ],
+      "synthetic_channel_mean": [
+        -0.07184500247240067,
+        -0.00228599994443357,
+        0.027758000418543816,
+        -0.00010599999950500205,
+        0.015374000184237957,
+        -0.004377999808639288
+      ],
+      "real_channel_std": [
+        1.0433449745178223,
+        1.0381499528884888,
+        0.792244017124176,
+        0.9885600209236145,
+        0.9914669990539551,
+        1.0579299926757812
+      ],
+      "synthetic_channel_std": [
+        0.5491600036621094,
+        0.6066100001335144,
+        0.46320000290870667,
+        0.5114840269088745,
+        0.6838639974594116,
+        0.7145270109176636
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 180,
+        "running": 104
+      },
+      "channels": [
+        "hand_acc_16g_x",
+        "hand_acc_16g_y",
+        "hand_acc_16g_z",
+        "hand_gyro_x",
+        "hand_gyro_y",
+        "hand_gyro_z"
+      ]
+    },
+    {
+      "run_name": "chest_gyro_stats",
+      "epoch": "5epoch",
+      "base_dataset": "chest_gyro",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_gyro_stats_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_gyro_stats_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        283,
+        256,
+        3
+      ],
+      "real_channel_mean": [
+        -0.008666999638080597,
+        0.010439000092446804,
+        0.013372999615967274
+      ],
+      "synthetic_channel_mean": [
+        -0.0023769999388605356,
+        0.0027890000492334366,
+        -0.0010319999419152737
+      ],
+      "real_channel_std": [
+        0.8164340257644653,
+        0.8528649806976318,
+        0.8901559710502625
+      ],
+      "synthetic_channel_std": [
+        0.40130800008773804,
+        0.5441840291023254,
+        0.4703879952430725
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 171,
+        "running": 112
+      },
+      "channels": [
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ]
+    },
+    {
+      "run_name": "chest_gyro_stats_ep10",
+      "epoch": "10epoch",
+      "base_dataset": "chest_gyro",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats_ep10",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_gyro_stats_ep10_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_gyro_stats_ep10_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        303,
+        256,
+        3
+      ],
+      "real_channel_mean": [
+        -0.008666999638080597,
+        0.010439000092446804,
+        0.013372999615967274
+      ],
+      "synthetic_channel_mean": [
+        -0.0030479999259114265,
+        0.013275000266730785,
+        0.002647999906912446
+      ],
+      "real_channel_std": [
+        0.8164340257644653,
+        0.8528649806976318,
+        0.8901559710502625
+      ],
+      "synthetic_channel_std": [
+        0.4038600027561188,
+        0.5517299771308899,
+        0.4847019910812378
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 188,
+        "running": 115
+      },
+      "channels": [
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ]
+    },
+    {
+      "run_name": "chest_gyro_stats_ep20",
+      "epoch": "20epoch",
+      "base_dataset": "chest_gyro",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats_ep20",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_gyro_stats_ep20_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_gyro_stats_ep20_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        271,
+        256,
+        3
+      ],
+      "real_channel_mean": [
+        -0.008666999638080597,
+        0.010439000092446804,
+        0.013372999615967274
+      ],
+      "synthetic_channel_mean": [
+        -0.001867000013589859,
+        0.005936000030487776,
+        -0.004647000227123499
+      ],
+      "real_channel_std": [
+        0.8164340257644653,
+        0.8528649806976318,
+        0.8901559710502625
+      ],
+      "synthetic_channel_std": [
+        0.4409869909286499,
+        0.677486002445221,
+        0.7168530225753784
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 187,
+        "running": 84
+      },
+      "channels": [
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ]
+    },
+    {
+      "run_name": "chest_stats_ep5",
+      "epoch": "5epoch",
+      "base_dataset": "chest",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_stats_ep5",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_stats_ep5_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_stats_ep5_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        6
+      ],
+      "synthetic_shape": [
+        270,
+        256,
+        6
+      ],
+      "real_channel_mean": [
+        -0.008049000054597855,
+        0.04706300050020218,
+        0.457614004611969,
+        -0.008666999638080597,
+        0.010439000092446804,
+        0.013372999615967274
+      ],
+      "synthetic_channel_mean": [
+        -0.0015369999455288053,
+        0.004217000212520361,
+        0.2594889998435974,
+        0.0013099999632686377,
+        -0.013000000268220901,
+        0.008124999701976776
+      ],
+      "real_channel_std": [
+        1.12008798122406,
+        1.1828229427337646,
+        1.061669945716858,
+        0.8164340257644653,
+        0.8528649806976318,
+        0.8901559710502625
+      ],
+      "synthetic_channel_std": [
+        0.4494749903678894,
+        0.6828709840774536,
+        0.4831869900226593,
+        0.424345999956131,
+        0.6224150061607361,
+        0.5245220065116882
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 163,
+        "running": 107
+      },
+      "channels": [
+        "chest_acc_16g_x",
+        "chest_acc_16g_y",
+        "chest_acc_16g_z",
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ]
+    },
+    {
+      "run_name": "chest_stats_ep10",
+      "epoch": "10epoch",
+      "base_dataset": "chest",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_stats_ep10",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_stats_ep10_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_stats_ep10_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        6
+      ],
+      "synthetic_shape": [
+        303,
+        256,
+        6
+      ],
+      "real_channel_mean": [
+        -0.008049000054597855,
+        0.04706300050020218,
+        0.457614004611969,
+        -0.008666999638080597,
+        0.010439000092446804,
+        0.013372999615967274
+      ],
+      "synthetic_channel_mean": [
+        0.009204999543726444,
+        0.0029929999727755785,
+        0.14291900396347046,
+        0.00171999994199723,
+        -2.2000000171829015e-05,
+        0.008736999705433846
+      ],
+      "real_channel_std": [
+        1.12008798122406,
+        1.1828229427337646,
+        1.061669945716858,
+        0.8164340257644653,
+        0.8528649806976318,
+        0.8901559710502625
+      ],
+      "synthetic_channel_std": [
+        0.5844879746437073,
+        0.8609790205955505,
+        0.5031620264053345,
+        0.5722180008888245,
+        0.8266310095787048,
+        0.7038599848747253
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 189,
+        "running": 114
+      },
+      "channels": [
+        "chest_acc_16g_x",
+        "chest_acc_16g_y",
+        "chest_acc_16g_z",
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ]
+    },
+    {
+      "run_name": "chest_stats_ep20",
+      "epoch": "20epoch",
+      "base_dataset": "chest",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_stats_ep20",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_stats_ep20_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_stats_ep20_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        6
+      ],
+      "synthetic_shape": [
+        222,
+        256,
+        6
+      ],
+      "real_channel_mean": [
+        -0.008049000054597855,
+        0.04706300050020218,
+        0.457614004611969,
+        -0.008666999638080597,
+        0.010439000092446804,
+        0.013372999615967274
+      ],
+      "synthetic_channel_mean": [
+        -0.025723999366164207,
+        -0.0005050000036135316,
+        0.26346901059150696,
+        -0.0035550000611692667,
+        -0.015394999645650387,
+        -0.005419000051915646
+      ],
+      "real_channel_std": [
+        1.12008798122406,
+        1.1828229427337646,
+        1.061669945716858,
+        0.8164340257644653,
+        0.8528649806976318,
+        0.8901559710502625
+      ],
+      "synthetic_channel_std": [
+        0.6001420021057129,
+        0.9523749947547913,
+        0.5490310192108154,
+        0.6492000222206116,
+        0.8530229926109314,
+        0.636676013469696
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 124,
+        "running": 98
+      },
+      "channels": [
+        "chest_acc_16g_x",
+        "chest_acc_16g_y",
+        "chest_acc_16g_z",
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ]
+    },
+    {
+      "run_name": "chest_acc_stats_ep5",
+      "epoch": "5epoch",
+      "base_dataset": "chest_acc",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_acc_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_acc_stats_ep5",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_acc_stats_ep5_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_acc_stats_ep5_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        280,
+        256,
+        3
+      ],
+      "real_channel_mean": [
+        -0.008049000054597855,
+        0.04706300050020218,
+        0.457614004611969
+      ],
+      "synthetic_channel_mean": [
+        0.007734000217169523,
+        0.0012700000079348683,
+        0.021338000893592834
+      ],
+      "real_channel_std": [
+        1.12008798122406,
+        1.1828229427337646,
+        1.061669945716858
+      ],
+      "synthetic_channel_std": [
+        0.3810180127620697,
+        0.43223899602890015,
+        0.4105510115623474
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 179,
+        "running": 101
+      },
+      "channels": [
+        "chest_acc_16g_x",
+        "chest_acc_16g_y",
+        "chest_acc_16g_z"
+      ]
+    },
+    {
+      "run_name": "chest_acc_stats_ep10",
+      "epoch": "10epoch",
+      "base_dataset": "chest_acc",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_acc_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_acc_stats_ep10",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_acc_stats_ep10_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_acc_stats_ep10_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        284,
+        256,
+        3
+      ],
+      "real_channel_mean": [
+        -0.008049000054597855,
+        0.04706300050020218,
+        0.457614004611969
+      ],
+      "synthetic_channel_mean": [
+        0.019581999629735947,
+        0.010913999751210213,
+        0.25662100315093994
+      ],
+      "real_channel_std": [
+        1.12008798122406,
+        1.1828229427337646,
+        1.061669945716858
+      ],
+      "synthetic_channel_std": [
+        0.3926979899406433,
+        0.6485509872436523,
+        0.41991400718688965
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 184,
+        "running": 100
+      },
+      "channels": [
+        "chest_acc_16g_x",
+        "chest_acc_16g_y",
+        "chest_acc_16g_z"
+      ]
+    },
+    {
+      "run_name": "chest_acc_stats_ep20",
+      "epoch": "20epoch",
+      "base_dataset": "chest_acc",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_acc_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_acc_stats_ep20",
+      "plot_png": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_acc_stats_ep20_standardized_overlay.png",
+      "plot_pdf": "outputs/plots/gemma_2act_stats_normalized_overlays/chest_acc_stats_ep20_standardized_overlay.pdf",
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        294,
+        256,
+        3
+      ],
+      "real_channel_mean": [
+        -0.008049000054597855,
+        0.04706300050020218,
+        0.457614004611969
+      ],
+      "synthetic_channel_mean": [
+        -0.00430000014603138,
+        0.0034570000134408474,
+        0.17820599675178528
+      ],
+      "real_channel_std": [
+        1.12008798122406,
+        1.1828229427337646,
+        1.061669945716858
+      ],
+      "synthetic_channel_std": [
+        0.5109090209007263,
+        0.7527729868888855,
+        0.5113139748573303
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 190,
+        "running": 104
+      },
+      "channels": [
+        "chest_acc_16g_x",
+        "chest_acc_16g_y",
+        "chest_acc_16g_z"
+      ]
+    }
+  ]
+}

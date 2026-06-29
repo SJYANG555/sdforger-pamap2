@@ -1,0 +1,65 @@
+{
+  "run_prefix": "chest_gyro_stats_base",
+  "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats",
+  "generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats",
+  "scores_csv": "outputs/generated_stats_filter_extra/chest_gyro_stats_base_stats_consistency_scores.csv",
+  "filters": [
+    {
+      "filter_name": "stats_loose_p70",
+      "keep_fraction": 0.7,
+      "output_dir": "outputs/generated_stats_filter_extra/chest_gyro_stats_base_stats_loose_p70",
+      "kept": 199,
+      "total": 283,
+      "kept_fraction": 0.7031802120141343,
+      "total_counts": {
+        "running": 112,
+        "walking": 171
+      },
+      "kept_counts": {
+        "running": 79,
+        "walking": 120
+      },
+      "stats_score_mean": 0.5441577163932597,
+      "stats_score_median": 0.5740380340374982,
+      "stats_score_max": 0.7014658196944071
+    },
+    {
+      "filter_name": "stats_medium_p50",
+      "keep_fraction": 0.5,
+      "output_dir": "outputs/generated_stats_filter_extra/chest_gyro_stats_base_stats_medium_p50",
+      "kept": 142,
+      "total": 283,
+      "kept_fraction": 0.5017667844522968,
+      "total_counts": {
+        "running": 112,
+        "walking": 171
+      },
+      "kept_counts": {
+        "running": 56,
+        "walking": 86
+      },
+      "stats_score_mean": 0.5005928140215644,
+      "stats_score_median": 0.5323446002985408,
+      "stats_score_max": 0.6251473926107372
+    },
+    {
+      "filter_name": "stats_strict_p35",
+      "keep_fraction": 0.35,
+      "output_dir": "outputs/generated_stats_filter_extra/chest_gyro_stats_base_stats_strict_p35",
+      "kept": 100,
+      "total": 283,
+      "kept_fraction": 0.35335689045936397,
+      "total_counts": {
+        "running": 112,
+        "walking": 171
+      },
+      "kept_counts": {
+        "running": 40,
+        "walking": 60
+      },
+      "stats_score_mean": 0.4629630113251457,
+      "stats_score_median": 0.4853590015874949,
+      "stats_score_max": 0.5916628693059032
+    }
+  ]
+}
