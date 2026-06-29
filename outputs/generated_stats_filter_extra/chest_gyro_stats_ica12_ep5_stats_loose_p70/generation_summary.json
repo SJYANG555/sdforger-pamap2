@@ -1,0 +1,28 @@
+{
+  "source_generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats_ica12_ep5",
+  "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats_ica12",
+  "run_prefix": "chest_gyro_stats_ica12_ep5",
+  "keep_fraction_by_activity": 0.7,
+  "filter": {
+    "filter_name": "stats_loose_p70",
+    "kept": 212,
+    "total": 302,
+    "kept_fraction": 0.7019867549668874,
+    "total_counts": {
+      "running": 114,
+      "walking": 188
+    },
+    "kept_counts": {
+      "running": 80,
+      "walking": 132
+    },
+    "stats_score_mean": 0.46460484602682706,
+    "stats_score_median": 0.4404678051303199,
+    "stats_score_max": 0.7089244762490006
+  },
+  "channels": [
+    "chest_gyro_x",
+    "chest_gyro_y",
+    "chest_gyro_z"
+  ]
+}

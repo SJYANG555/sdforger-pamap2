@@ -1,0 +1,62 @@
+\begin{frame}{PAMAP2 Gemma: Stats Prompt + FastICA Dimension}
+\scriptsize
+\setlength{\tabcolsep}{3.2pt}
+
+\begin{table}
+\centering
+\caption{Chest-gyro setting. Lower ED/DTW is better; higher synthetic-only accuracy is better.}
+\begin{tabular}{cccccccc}
+\toprule
+Epoch & ICA & Valid & ED & DTW & ED/Real & DTW/Real & Syn. Acc. \\
+\midrule
+5  & 3  & 253/305 & 2.357 & 9.005  & 0.734 & 1.206 & 0.377 \\
+5  & 6  & 283/305 & \textbf{1.496} & \textbf{5.529} & \textbf{0.466} & \textbf{0.740} & 0.449 \\
+5  & 12 & \textbf{302/305} & 1.827 & 6.162 & 0.569 & 0.825 & \textbf{0.898} \\
+5  & 18 & 259/305 & 1.935 & 6.998 & 0.603 & 0.937 & 0.590 \\
+\midrule
+10 & 3  & 285/305 & 2.852 & 12.178 & 0.888 & 1.631 & 0.380 \\
+10 & 6  & \textbf{303/305} & \textbf{1.674} & \textbf{5.940} & \textbf{0.522} & \textbf{0.795} & 0.374 \\
+10 & 12 & 299/305 & 2.432 & 6.207 & 0.758 & 0.831 & \textbf{0.964} \\
+10 & 18 & 236/305 & 2.002 & 8.097 & 0.624 & 1.084 & 0.859 \\
+\midrule
+20 & 3  & \textbf{287/305} & 1.893 & \textbf{6.281} & 0.590 & \textbf{0.841} & 0.377 \\
+20 & 6  & 271/305 & 1.996 & 7.589 & 0.622 & 1.016 & 0.564 \\
+20 & 12 & 281/305 & \textbf{1.775} & 6.829 & \textbf{0.553} & 0.914 & \textbf{0.856} \\
+20 & 18 & 179/305 & 2.567 & 11.688 & 0.800 & 1.565 & 0.531 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{-0.4em}
+\begin{table}
+\centering
+\caption{Hand setting. ICA18 at 10 epochs gives the strongest overall trade-off.}
+\begin{tabular}{cccccccc}
+\toprule
+Epoch & ICA & Valid & ED & DTW & ED/Real & DTW/Real & Syn. Acc. \\
+\midrule
+5  & 3  & 237/305 & 214.797 & 678.771 & 4.604 & 11.121 & 0.377 \\
+5  & 6  & \textbf{301/305} & 182.532 & 566.880 & 3.912 & 9.288 & 0.928 \\
+5  & 12 & 178/305 & \textbf{179.532} & \textbf{558.732} & \textbf{3.848} & \textbf{9.154} & 0.928 \\
+5  & 18 & 184/305 & 184.142 & 595.550 & 3.947 & 9.758 & \textbf{0.944} \\
+\midrule
+10 & 3  & 238/305 & 201.723 & 626.955 & 4.324 & 10.272 & 0.377 \\
+10 & 6  & 261/305 & 212.781 & 633.465 & 4.561 & 10.379 & 0.846 \\
+10 & 12 & 258/305 & 189.356 & 605.997 & 4.058 & 9.929 & 0.928 \\
+10 & 18 & \textbf{294/305} & \textbf{182.326} & \textbf{550.216} & \textbf{3.908} & \textbf{9.015} & \textbf{0.954} \\
+\midrule
+20 & 3  & 158/305 & 206.465 & 645.030 & 4.425 & 10.568 & 0.734 \\
+20 & 6  & \textbf{284/305} & 207.388 & 631.668 & 4.445 & 10.349 & 0.921 \\
+20 & 12 & 56/305 & 199.753 & 616.628 & 4.281 & 10.103 & 0.941 \\
+20 & 18 & 254/305 & \textbf{191.101} & \textbf{582.679} & \textbf{4.096} & \textbf{9.547} & \textbf{0.951} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{-0.3em}
+\begin{itemize}
+\item Chest-gyro: ICA6 preserves waveform similarity best, while ICA12 greatly improves downstream utility.
+\item Hand: ICA18 at 10 epochs gives the best trade-off across validity, distance, and synthetic-only accuracy.
+\item ICA24 is omitted from the main table: hand+ICA24 produced 0 valid samples after filtering; chest-gyro+ICA24 was unstable.
+\end{itemize}
+\end{frame}

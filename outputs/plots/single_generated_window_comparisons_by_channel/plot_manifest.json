@@ -1,0 +1,337 @@
+{
+  "runs": [
+    {
+      "run_name": "gemma_2act_chest_gyro_stats_ica12_ep10",
+      "display_name": "Chest gyro + stats + ICA12 + epoch10",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats_ica12",
+      "generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats_ica12_ep10",
+      "output_dir": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10",
+      "selected_samples_csv": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/selected_samples.csv",
+      "num_plots": 10,
+      "standardized": true,
+      "channels": [
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ],
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        299,
+        256,
+        3
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 186,
+        "running": 113
+      },
+      "metrics": {
+        "similarity_overall_mean": {
+          "activity_name": "overall_mean",
+          "num_real": 241,
+          "num_synthetic": 241,
+          "MDD": 0.0115007851272821,
+          "ACD": 0.2837911775686621,
+          "SD": 0.0232941377907991,
+          "KD": 1.593982333279011,
+          "ED": 2.431747019290924,
+          "DTW": 6.206799381228241
+        },
+        "utility": {
+          "real_only": {
+            "accuracy": 0.9639344262295082,
+            "macro_f1": 0.9611244365650456,
+            "weighted_f1": 0.9636945490630296
+          },
+          "synthetic_only": {
+            "accuracy": 0.9639344262295082,
+            "macro_f1": 0.9608193485851756,
+            "weighted_f1": 0.963535986065698
+          },
+          "real_plus_synthetic": {
+            "accuracy": 0.9639344262295082,
+            "macro_f1": 0.960974304691226,
+            "weighted_f1": 0.9636172703504066
+          }
+        }
+      },
+      "plots": [
+        {
+          "synthetic_index": 187,
+          "candidate_id": 192,
+          "prompt_window_id": 5804,
+          "real_index": 192,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.10454477369785309,
+          "mae_to_prompt_real": 0.07865339517593384,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/00_running_candidate192_prompt5804.png"
+        },
+        {
+          "synthetic_index": 186,
+          "candidate_id": 191,
+          "prompt_window_id": 5803,
+          "real_index": 191,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.16989201307296753,
+          "mae_to_prompt_real": 0.13093391060829163,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/01_running_candidate191_prompt5803.png"
+        },
+        {
+          "synthetic_index": 295,
+          "candidate_id": 301,
+          "prompt_window_id": 5913,
+          "real_index": 301,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.3863213360309601,
+          "mae_to_prompt_real": 0.2815397083759308,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/02_running_candidate301_prompt5913.png"
+        },
+        {
+          "synthetic_index": 298,
+          "candidate_id": 304,
+          "prompt_window_id": 5916,
+          "real_index": 304,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.6348802447319031,
+          "mae_to_prompt_real": 0.48246923089027405,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/03_running_candidate304_prompt5916.png"
+        },
+        {
+          "synthetic_index": 297,
+          "candidate_id": 303,
+          "prompt_window_id": 5915,
+          "real_index": 303,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.7039386630058289,
+          "mae_to_prompt_real": 0.5670916438102722,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/04_running_candidate303_prompt5915.png"
+        },
+        {
+          "synthetic_index": 185,
+          "candidate_id": 189,
+          "prompt_window_id": 5610,
+          "real_index": 189,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.11891248822212219,
+          "mae_to_prompt_real": 0.09319204092025757,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/05_walking_candidate189_prompt5610.png"
+        },
+        {
+          "synthetic_index": 1,
+          "candidate_id": 1,
+          "prompt_window_id": 5422,
+          "real_index": 1,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.13079127669334412,
+          "mae_to_prompt_real": 0.10582685470581055,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/06_walking_candidate1_prompt5422.png"
+        },
+        {
+          "synthetic_index": 184,
+          "candidate_id": 188,
+          "prompt_window_id": 5609,
+          "real_index": 188,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.15320125222206116,
+          "mae_to_prompt_real": 0.11587965488433838,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/07_walking_candidate188_prompt5609.png"
+        },
+        {
+          "synthetic_index": 0,
+          "candidate_id": 0,
+          "prompt_window_id": 5421,
+          "real_index": 0,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.19972968101501465,
+          "mae_to_prompt_real": 0.16144056618213654,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/08_walking_candidate0_prompt5421.png"
+        },
+        {
+          "synthetic_index": 12,
+          "candidate_id": 12,
+          "prompt_window_id": 5433,
+          "real_index": 12,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.49337732791900635,
+          "mae_to_prompt_real": 0.38469991087913513,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_chest_gyro_stats_ica12_ep10/09_walking_candidate12_prompt5433.png"
+        }
+      ]
+    },
+    {
+      "run_name": "gemma_2act_hand_stats_ica18_ep10",
+      "display_name": "Hand + stats + ICA18 + epoch10",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_hand_stats_ica18",
+      "generated_dir": "outputs/generated/gemma_2act_hand_stats_ica18_ep10",
+      "output_dir": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10",
+      "selected_samples_csv": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/selected_samples.csv",
+      "num_plots": 10,
+      "standardized": true,
+      "channels": [
+        "hand_acc_16g_x",
+        "hand_acc_16g_y",
+        "hand_acc_16g_z",
+        "hand_gyro_x",
+        "hand_gyro_y",
+        "hand_gyro_z"
+      ],
+      "real_shape": [
+        305,
+        256,
+        6
+      ],
+      "synthetic_shape": [
+        294,
+        256,
+        6
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 188,
+        "running": 106
+      },
+      "metrics": {
+        "similarity_overall_mean": {
+          "activity_name": "overall_mean",
+          "num_real": 234,
+          "num_synthetic": 234,
+          "MDD": 2.0888998210430145,
+          "ACD": 0.2472449894313766,
+          "SD": 0.0104726306162774,
+          "KD": 2.1177259577153733,
+          "ED": 182.32646942138672,
+          "DTW": 550.2155885396156
+        },
+        "utility": {
+          "real_only": {
+            "accuracy": 0.9770491803278688,
+            "macro_f1": 0.9753535353535354,
+            "weighted_f1": 0.9769432025169732
+          },
+          "synthetic_only": {
+            "accuracy": 0.9540983606557376,
+            "macro_f1": 0.9517710309930424,
+            "weighted_f1": 0.9543762507647162
+          },
+          "real_plus_synthetic": {
+            "accuracy": 0.9737704918032788,
+            "macro_f1": 0.9720823798627004,
+            "weighted_f1": 0.9737704918032788
+          }
+        }
+      },
+      "plots": [
+        {
+          "synthetic_index": 188,
+          "candidate_id": 190,
+          "prompt_window_id": 5802,
+          "real_index": 190,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.1754455864429474,
+          "mae_to_prompt_real": 0.11189497262239456,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/00_running_candidate190_prompt5802.png"
+        },
+        {
+          "synthetic_index": 189,
+          "candidate_id": 191,
+          "prompt_window_id": 5803,
+          "real_index": 191,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.1884247362613678,
+          "mae_to_prompt_real": 0.12634584307670593,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/01_running_candidate191_prompt5803.png"
+        },
+        {
+          "synthetic_index": 190,
+          "candidate_id": 192,
+          "prompt_window_id": 5804,
+          "real_index": 192,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.26364582777023315,
+          "mae_to_prompt_real": 0.19532258808612823,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/02_running_candidate192_prompt5804.png"
+        },
+        {
+          "synthetic_index": 292,
+          "candidate_id": 303,
+          "prompt_window_id": 5915,
+          "real_index": 303,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.8630406260490417,
+          "mae_to_prompt_real": 0.563096284866333,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/03_running_candidate303_prompt5915.png"
+        },
+        {
+          "synthetic_index": 291,
+          "candidate_id": 302,
+          "prompt_window_id": 5914,
+          "real_index": 302,
+          "activity_name": "running",
+          "rmse_to_prompt_real": 0.8642576336860657,
+          "mae_to_prompt_real": 0.5513371825218201,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/04_running_candidate302_prompt5914.png"
+        },
+        {
+          "synthetic_index": 187,
+          "candidate_id": 189,
+          "prompt_window_id": 5610,
+          "real_index": 189,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.2019636332988739,
+          "mae_to_prompt_real": 0.13741041719913483,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/05_walking_candidate189_prompt5610.png"
+        },
+        {
+          "synthetic_index": 186,
+          "candidate_id": 188,
+          "prompt_window_id": 5609,
+          "real_index": 188,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.2190890908241272,
+          "mae_to_prompt_real": 0.16373848915100098,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/06_walking_candidate188_prompt5609.png"
+        },
+        {
+          "synthetic_index": 1,
+          "candidate_id": 1,
+          "prompt_window_id": 5422,
+          "real_index": 1,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.34812095761299133,
+          "mae_to_prompt_real": 0.21860665082931519,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/07_walking_candidate1_prompt5422.png"
+        },
+        {
+          "synthetic_index": 185,
+          "candidate_id": 187,
+          "prompt_window_id": 5608,
+          "real_index": 187,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.3876830041408539,
+          "mae_to_prompt_real": 0.3021056652069092,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/08_walking_candidate187_prompt5608.png"
+        },
+        {
+          "synthetic_index": 3,
+          "candidate_id": 3,
+          "prompt_window_id": 5424,
+          "real_index": 3,
+          "activity_name": "walking",
+          "rmse_to_prompt_real": 0.40769803524017334,
+          "mae_to_prompt_real": 0.316562294960022,
+          "plot": "outputs/plots/single_generated_window_comparisons_by_channel/gemma_2act_hand_stats_ica18_ep10/09_walking_candidate3_prompt5424.png"
+        }
+      ]
+    }
+  ]
+}

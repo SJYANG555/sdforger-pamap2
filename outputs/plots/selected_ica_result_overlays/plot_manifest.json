@@ -1,0 +1,155 @@
+{
+  "runs": [
+    {
+      "run_name": "hand_stats_ica18_ep10",
+      "title": "Hand + stats + ICA18 + epoch10",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_hand_stats_ica18",
+      "generated_dir": "outputs/generated/gemma_2act_hand_stats_ica18_ep10",
+      "png": "outputs/plots/selected_ica_result_overlays/hand_stats_ica18_ep10_standardized_overlay_purple.png",
+      "pdf": "outputs/plots/selected_ica_result_overlays/hand_stats_ica18_ep10_standardized_overlay_purple.pdf",
+      "real_shape": [
+        305,
+        256,
+        6
+      ],
+      "synthetic_shape": [
+        294,
+        256,
+        6
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 188,
+        "running": 106
+      },
+      "channels": [
+        "hand_acc_16g_x",
+        "hand_acc_16g_y",
+        "hand_acc_16g_z",
+        "hand_gyro_x",
+        "hand_gyro_y",
+        "hand_gyro_z"
+      ],
+      "colors": {
+        "real_walking": "#7b3fb2",
+        "real_running": "#2f7d32",
+        "synthetic_walking": "#2c7fb8",
+        "synthetic_running": "#f28e2b"
+      }
+    },
+    {
+      "run_name": "chest_gyro_stats_ica12_ep10",
+      "title": "Chest-gyro + stats + ICA12 + epoch10",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats_ica12",
+      "generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats_ica12_ep10",
+      "png": "outputs/plots/selected_ica_result_overlays/chest_gyro_stats_ica12_ep10_standardized_overlay_purple.png",
+      "pdf": "outputs/plots/selected_ica_result_overlays/chest_gyro_stats_ica12_ep10_standardized_overlay_purple.pdf",
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        299,
+        256,
+        3
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 186,
+        "running": 113
+      },
+      "channels": [
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ],
+      "colors": {
+        "real_walking": "#7b3fb2",
+        "real_running": "#2f7d32",
+        "synthetic_walking": "#2c7fb8",
+        "synthetic_running": "#f28e2b"
+      }
+    },
+    {
+      "run_name": "chest_gyro_stats_ica6_ep5",
+      "title": "Chest-gyro + stats + ICA6 + epoch5",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats",
+      "png": "outputs/plots/selected_ica_result_overlays/chest_gyro_stats_ica6_ep5_standardized_overlay_purple.png",
+      "pdf": "outputs/plots/selected_ica_result_overlays/chest_gyro_stats_ica6_ep5_standardized_overlay_purple.pdf",
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        283,
+        256,
+        3
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 171,
+        "running": 112
+      },
+      "channels": [
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ],
+      "colors": {
+        "real_walking": "#7b3fb2",
+        "real_running": "#2f7d32",
+        "synthetic_walking": "#2c7fb8",
+        "synthetic_running": "#f28e2b"
+      }
+    },
+    {
+      "run_name": "chest_gyro_stats_ica6_ep10",
+      "title": "Chest-gyro + stats + ICA6 + epoch10",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats",
+      "generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats_ep10",
+      "png": "outputs/plots/selected_ica_result_overlays/chest_gyro_stats_ica6_ep10_standardized_overlay_purple.png",
+      "pdf": "outputs/plots/selected_ica_result_overlays/chest_gyro_stats_ica6_ep10_standardized_overlay_purple.pdf",
+      "real_shape": [
+        305,
+        256,
+        3
+      ],
+      "synthetic_shape": [
+        303,
+        256,
+        3
+      ],
+      "real_counts": {
+        "walking": 190,
+        "running": 115
+      },
+      "synthetic_counts": {
+        "walking": 188,
+        "running": 115
+      },
+      "channels": [
+        "chest_gyro_x",
+        "chest_gyro_y",
+        "chest_gyro_z"
+      ],
+      "colors": {
+        "real_walking": "#7b3fb2",
+        "real_running": "#2f7d32",
+        "synthetic_walking": "#2c7fb8",
+        "synthetic_running": "#f28e2b"
+      }
+    }
+  ]
+}

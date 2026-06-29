@@ -1,0 +1,50 @@
+{
+  "dataset_dir": "/scratch/work/yangs9/ChatTS/artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats",
+  "plot": "/scratch/work/yangs9/ChatTS/outputs/plots/gemma_2act_stats_normalized_overlays/single_real_running_examples/chest_gyro_stats_high_amplitude_real_running_window_standardized.png",
+  "selection": "running window with largest max(abs(chest_gyro_x_standardized))",
+  "index": 214,
+  "window_id": 5826,
+  "subject_id": 108,
+  "activity_name": "running",
+  "channels": [
+    "chest_gyro_x",
+    "chest_gyro_y",
+    "chest_gyro_z"
+  ],
+  "normalization": "x_norm = (x_raw - train_channel_mean) / train_channel_std",
+  "train_channel_mean": [
+    0.025685999542474747,
+    0.04466399922966957,
+    -0.023966999724507332
+  ],
+  "train_channel_std": [
+    0.6673160195350647,
+    0.9712179899215698,
+    0.47166600823402405
+  ],
+  "normalized_channel_mean": [
+    0.03746400028467178,
+    -0.040516000241041183,
+    -0.09456100314855576
+  ],
+  "normalized_channel_std": [
+    1.4658960103988647,
+    1.3185160160064697,
+    1.1665539741516113
+  ],
+  "normalized_channel_min": [
+    -2.211031913757324,
+    -2.8767740726470947,
+    -2.595194101333618
+  ],
+  "normalized_channel_max": [
+    8.739709854125977,
+    3.0770599842071533,
+    3.0003809928894043
+  ],
+  "raw_channel_std": [
+    0.9782159924507141,
+    1.2805670499801636,
+    0.5502229928970337
+  ]
+}
