@@ -26,6 +26,8 @@ RUNS = [
     ("chest_acc_stats_ep20", "20epoch", "chest_acc", "gemma_2act_chest_acc_stats_ep20"),
 ]
 
+SIMILARITY_METRICS = ["MDD", "ACD", "SD", "KD", "ED", "DTW", "SHR"]
+
 
 def read_json(path: Path) -> dict:
     with open(path, "r", encoding="utf-8") as fp:
@@ -74,8 +76,12 @@ def build_summary(root: Path) -> pd.DataFrame:
         sim = pd.read_csv(sim_path)
         util = pd.read_csv(util_path)
 
-        ed = metric_value(sim, "activity_name", "overall_mean", "ED")
-        dtw = metric_value(sim, "activity_name", "overall_mean", "DTW")
+        sim_values = {
+            metric: metric_value(sim, "activity_name", "overall_mean", metric)
+            for metric in SIMILARITY_METRICS
+        }
+        ed = sim_values["ED"]
+        dtw = sim_values["DTW"]
         real_ed = float(baselines.loc[base_dataset, "real_baseline_ED"]) if base_dataset in baselines.index else np.nan
         real_dtw = float(baselines.loc[base_dataset, "real_baseline_DTW"]) if base_dataset in baselines.index else np.nan
 
@@ -86,8 +92,13 @@ def build_summary(root: Path) -> pd.DataFrame:
                 "valid_generated / 305": f"{int(gen.get('num_generated_embeddings', 0))}/305",
                 "generated_running": generated_running,
                 "generated_walking": generated_walking,
+                "MDD": sim_values["MDD"],
+                "ACD": sim_values["ACD"],
+                "SD": sim_values["SD"],
+                "KD": sim_values["KD"],
                 "ED": ed,
                 "DTW": dtw,
+                "SHR": sim_values["SHR"],
                 "ED_vs_real_baseline": ed / real_ed if real_ed else np.nan,
                 "DTW_vs_real_baseline": dtw / real_dtw if real_dtw else np.nan,
                 "synthetic_only accuracy": metric_value(util, "setting", "synthetic_only", "accuracy"),

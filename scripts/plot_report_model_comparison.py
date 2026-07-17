@@ -47,7 +47,7 @@ RUNS = [
     },
 ]
 
-METRICS = ["MDD", "ACD", "SD", "KD", "ED", "DTW"]
+METRICS = ["MDD", "ACD", "SD", "KD", "ED", "DTW", "SHR"]
 ACTIVITY_ORDER = ["cycling", "running", "sitting", "standing", "walking"]
 MODEL_ORDER = ["GPT-2", "Gemma 2 2B", "Llama 3.2 3B"]
 SUBSET_ORDER = ["18ch full", "12ch hand+chest"]
@@ -97,7 +97,7 @@ def load_summary(root: Path) -> pd.DataFrame:
                 "real_only_macro_f1": float(utility.loc["real_only", "macro_f1"]),
                 "synthetic_only_macro_f1": float(utility.loc["synthetic_only", "macro_f1"]),
                 "real_plus_synthetic_macro_f1": float(utility.loc["real_plus_synthetic", "macro_f1"]),
-                **{f"overall_{metric}": float(overall[metric]) for metric in METRICS},
+                **{f"overall_{metric}": float(overall[metric]) if metric in overall.index else np.nan for metric in METRICS},
             }
         )
     return pd.DataFrame(rows)
@@ -249,7 +249,7 @@ def write_markdown(summary: pd.DataFrame, output_path: Path) -> None:
         "",
         "All runs use the five PAMAP2 activities: cycling, running, sitting, standing, walking.",
         "",
-        "Implemented SDForger-style similarity metrics: MDD, ACD, SD, KD, ED, DTW.",
+        "Implemented SDForger-style similarity metrics: MDD, ACD, SD (Skewness Difference), KD, ED, DTW, and SHR.",
         "Downstream HAR utility: RandomForest real-only, synthetic-only, and real+synthetic accuracy/F1.",
         "",
         "| " + " | ".join(table.columns) + " |",
