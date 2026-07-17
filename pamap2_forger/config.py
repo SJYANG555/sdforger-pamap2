@@ -32,6 +32,10 @@ class EmbeddingConfig:
     permute_columns: bool = True
     text_template: str = "fim_template_textual_encoding"
     include_context_columns: bool = True
+    include_window_stats_prompt: bool = False
+    window_stats_source: str = "raw_window"
+    window_stats: List[str] = field(default_factory=lambda: ["mean", "std", "min", "max"])
+    window_stats_precision: int = 3
     reducer_artifact_name: str = "reducer.pkl"
     scaler_artifact_name: str = "channel_scaler.json"
 
@@ -87,6 +91,9 @@ class GenerationConfig:
     repetition_penalty: float = 1.0
     batch_size: int = 8
     max_prompts: Optional[int] = None
+    auto_token_budget: bool = True
+    prompt_stats_source: str = "metadata"
+    prompt_stats_seed: int = 42
     norm_filter_iqr_factor: float = 3.0
     deduplicate: bool = True
     output_dir: str = "outputs/generated/default"
@@ -99,6 +106,18 @@ class SimilarityConfig:
     dtw_window: Optional[int] = None
     random_seed: int = 42
     output_dir: str = "outputs/evaluation/similarity"
+    mdd_bins: int = 50
+    compute_shr: bool = False
+    shr_seed: int = 42
+    shr_basis_count: int = 20
+    shr_lambda: float = 0.1
+    shr_basis_ratio: float = 0.25
+    shr_c: float = 100.0
+    shr_epsilon: float = 1.0e-5
+    shr_max_iter: int = 1000
+    shr_max_inner_iter: int = 5
+    shr_max_samples_per_activity: Optional[int] = None
+    shr_channel_mode: str = "mean"
 
 
 @dataclass

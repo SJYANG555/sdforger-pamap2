@@ -1,0 +1,492 @@
+% ============================================================
+% Detailed draft for Shanjun / Thread B
+% Scope: Gemma-2 experiments only
+% Paste this block before \bibliographystyle{plainnat} and \bibliography{refs}.
+% ============================================================
+
+\section*{Draft: Shanjun's Gemma-2 Experiments}
+
+\paragraph{Role in the joint paper.}
+This section summarizes the Gemma-2 experiments conducted in the SDForger-style
+HAR time-series generation pipeline. In the joint paper plan, these experiments
+mainly support RQ2: \emph{which conditioning knobs help, and what trade-offs do
+they introduce?} The experiments also provide supporting evidence for RQ1 by
+showing that syntactically valid generations can still fail in class balance,
+similarity, or downstream utility, and they motivate RQ3 by showing that channel
+selection, statistical prompting, latent dimensionality, and filtering do not by
+themselves fully remove collapse.
+
+\subsection*{Chronological Development of the Gemma-2 Experiment Line}
+
+\paragraph{Project branches and experiment stages.}
+The Git history in the SDForger-PAMAP2 repository mirrors the experiment
+progression. The early archive branches store the two-activity Gemma results,
+the MM-Fit branch adds the second-dataset pipeline, and the current
+stats/filtering branches synchronize the window-statistics and filtering
+results. Table~\ref{tab:shanjun-branch-timeline} lists the stages that are
+relevant to this draft.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Chronological organization of Shanjun's Gemma-2 experiment line.}
+\label{tab:shanjun-branch-timeline}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llll}
+\toprule
+Stage & Main question & Main files / branch evidence & Report role \\
+\midrule
+Early PAMAP2 Gemma & Does the SDForger-style pipeline run with Gemma-2? &
+\texttt{gemma}, \texttt{gemma\_5class}, \texttt{gemma\_5class\_v2} outputs &
+Setup / weak-conditioning evidence \\
+Two-activity PAMAP2 & Can walking/running simplify the analysis? &
+\texttt{codex/archive-pamap2-experiments} &
+Main RQ2 setting \\
+Channel sweep & Which sensor subset exposes useful structure? &
+\texttt{gemma\_2act\_\{full,hand,chest,...\}} &
+Main RQ2 result \\
+Stats prompt and epoch sweep & Do window statistics and training length help? &
+\texttt{codex/archive-two-act-stats-results} &
+Main RQ2 result and negative ablation \\
+ICA sweep & Does latent dimensionality improve controllability? &
+\texttt{gemma\_2act\_*stats\_ica\{3,6,12,18,24\}} &
+RQ2 ablation / bridge to RQ3 \\
+Window-128 and filtering & Do granularity and post-hoc QC help? &
+\texttt{codex/sync-256-stats-filter-*} &
+Secondary ablation / appendix \\
+MM-Fit extension & Does the same pipeline transfer to a second dataset? &
+\texttt{codex/mmfit-pipeline} &
+External-validity / appendix \\
+Raw-window Gemma probe & Can we bypass FastICA with raw sequence serialization? &
+\texttt{pamap2\_gemma2\_2b\_2act\_chest\_gyro\_raw\_*} &
+Diagnostic / negative evidence \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection*{Datasets and Preprocessing Choices}
+
+\paragraph{PAMAP2.}
+The main experiments use PAMAP2 with subject-level splits. The five-class
+setting uses \texttt{walking}, \texttt{running}, \texttt{cycling},
+\texttt{sitting}, and \texttt{standing}. The main two-activity setting keeps only
+\texttt{walking} and \texttt{running}, because this reduces label ambiguity and
+focuses the analysis on periodic gait-like motion. Unless otherwise stated, the
+two-activity experiments use train subjects 101--106, validation subject 107,
+and test subject 108. The standard window size is 256 with stride 128; a later
+secondary experiment uses window size 128 and stride 64.
+
+\paragraph{Sensor channel subsets.}
+The experiments deliberately vary the selected PAMAP2 channels. The full
+setting uses 18 channels from hand, chest, and ankle accelerometer/gyroscope
+signals. The two-activity Gemma experiments then compare smaller channel groups:
+\texttt{hand}, \texttt{chest}, \texttt{hand\_acc}, \texttt{chest\_acc},
+\texttt{hand\_gyro}, and \texttt{chest\_gyro}. This channel choice is treated as
+a representation/conditioning knob rather than a mere preprocessing detail,
+because it changes which structure is exposed to the compact latent code.
+
+\paragraph{Latent representation.}
+Most experiments use FastICA as the compact latent representation. The baseline
+two-activity runs use 6 ICA components per selected channel. The ICA sweep tests
+3, 6, 12, 18, and 24 components in selected channel/statistics settings. A
+later diagnostic line uses \texttt{raw\_window} serialization for
+\texttt{chest\_gyro} to test whether bypassing FastICA avoids representation
+loss; this is not used as a main result because it currently lacks complete
+similarity/utility evaluation and shows class-coverage issues.
+
+\paragraph{MM-Fit.}
+The MM-Fit extension uses five exercise classes: \texttt{squats},
+\texttt{pushups}, \texttt{lunges}, \texttt{bicep\_curls}, and
+\texttt{jumping\_jacks}. The selected streams are left/right smartwatch
+accelerometer and gyroscope signals, yielding 12 channels. Windows are 5 seconds
+long, sampled to 250 time steps, with 2.5-second stride. The split follows
+workout-session groups rather than PAMAP2 subject IDs. MM-Fit is therefore used
+as a second-dataset sanity check, not for direct numerical comparison with
+PAMAP2.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Dataset processing choices for the Gemma-2 experiment line.}
+\label{tab:shanjun-datasets}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llllll}
+\toprule
+Dataset / setting & Activities & Channels & Window / stride & Representation & Main role \\
+\midrule
+PAMAP2 5-class & walk/run/cycle/sit/stand & 18 or selected subsets & 256 / 128 & FastICA & Early baseline \\
+PAMAP2 2-act & walking/running & full, hand, chest, acc/gyro subsets & 256 / 128 & FastICA & Main RQ2 setting \\
+PAMAP2 2-act win128 & walking/running & hand, hand\_acc, chest\_gyro & 128 / 64 & FastICA & Secondary ablation \\
+PAMAP2 raw-window & walking/running & chest\_gyro only & 256 / 128 & raw sequence tokens & Diagnostic probe \\
+MM-Fit 5-class & squat/pushup/lunge/curl/jumping jack & L/R watch acc+gyro & 250 / 125 & FastICA & Second dataset \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\subsection*{Gemma-2 Model and Shared Evaluation Protocol}
+
+All main Gemma experiments use \texttt{google/gemma-2-2b} with LoRA fine-tuning.
+The typical LoRA configuration uses rank 16, alpha 32, dropout 0.05, and targets
+attention and MLP projection modules. The evaluation reports three types of
+outputs:
+\begin{itemize}
+  \item generation validity: prompt count, parse success, valid generated count,
+  duplicate ratio, and generated class counts;
+  \item similarity/fidelity: MDD, ACD, SD, KD, ED, DTW, and SHR, where SD is
+  Skewness Difference in the SDForger/TSGBench sense rather than Spectral
+  Difference; ED/real and DTW/real ratios are computed against a real-vs-real
+  baseline when available;
+  \item downstream HAR utility: real-only, synthetic-only, and real-plus-synthetic
+  RandomForest accuracy and macro-F1.
+\end{itemize}
+For the final report, all numerical comparisons should be interpreted within the
+same protocol. ED and DTW should not be compared as absolute numbers across
+different channel normalizations or datasets.
+
+\paragraph{Table-display rule after the metric update.}
+Because the complete similarity block now contains seven metrics
+(MDD/ACD/SD/KD/ED/DTW/SHR), the main-text Gemma tables should remain compact
+and should not repeat every metric in every ablation table. In the main body, we
+keep validity, ED/real, DTW/real, and HAR utility as the most readable summary
+columns. We then add one full similarity table, either in the main text for the
+representative settings or in the appendix for the full sweep, with columns
+\texttt{MDD}, \texttt{ACD}, \texttt{SD (skew.)}, \texttt{KD}, \texttt{ED},
+\texttt{DTW}, and \texttt{SHR}. This keeps the report aligned with
+SDForger-style evaluation while avoiding very wide main-result tables.
+
+\subsection*{Stage 1: Early PAMAP2 Five-Class Gemma Runs}
+
+The first Gemma experiments tested whether the SDForger-style pipeline could be
+trained and evaluated beyond GPT-2. These runs used the five-class PAMAP2 setup
+and later variants with selected channel subsets. They are useful background,
+but they should not dominate the main results because the protocols changed
+across runs.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Selected early PAMAP2 five-class Gemma results. These are supporting
+evidence, not the main RQ2 result. ``Cond. acc.'' refers to the extended
+condition-consistency classifier, not the TSTR utility classifier.}
+\label{tab:shanjun-fiveclass}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Run & Valid synthetic & W-dist. gap & DTW gap & Cond. acc. & Cond. macro-F1 & Suggested use \\
+\midrule
+\texttt{gemma} & 227 & 1.303 & 296.631 & 0.815 & 0.261 & early baseline \\
+\texttt{gemma\_5class} & 636 & 1.926 & 320.165 & 0.310 & 0.166 & weak conditioning \\
+\texttt{gemma\_5class\_v2} & 857 & 1.629 & 258.321 & 0.622 & 0.581 & improved baseline \\
+\texttt{gemma\_5class\_v2\_chest} & 695 & 0.994 & 96.133 & 0.230 & 0.136 & fidelity-oriented subset \\
+\texttt{gemma\_5class\_v2\_hand} & 362 & 2.583 & 486.448 & 0.312 & 0.237 & weak utility \\
+\texttt{gemma\_5class\_v2\_hand\_chest} & 857 & 1.506 & 271.590 & 0.685 & 0.666 & best 5-class condition consistency \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Brief interpretation.}
+These runs show that switching to Gemma-2 and changing channel subsets can
+produce syntactically valid synthetic windows, but the relationship between
+fidelity and condition consistency is unstable. This motivated the later
+two-activity setting, where the channel/prompt trade-off could be studied more
+cleanly.
+
+\subsection*{Stage 2: PAMAP2 Two-Activity Channel Sweep}
+
+The main experiment line restricts PAMAP2 to \texttt{walking} and
+\texttt{running}. The first two-activity sweep compares sensor channel subsets
+without statistical prompts. The goal is to test whether channel selection
+itself is a conditioning/representation knob.
+
+\begin{table}[t]
+\centering
+\small
+\caption{PAMAP2 two-activity Gemma channel sweep without statistical prompts.
+ED/real and DTW/real are computed against the corresponding real-vs-real
+baseline for each channel group.}
+\label{tab:shanjun-channel}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Setting & Valid & Run & Walk & ED/real & DTW/real & Syn acc. & Syn F1 & Real+Syn acc. \\
+\midrule
+\texttt{full} & 83/305 & 27 & 56 & 3.084 & 5.678 & 0.390 & 0.331 & 0.984 \\
+\texttt{hand} & 226/305 & 82 & 144 & 4.158 & 10.162 & 0.921 & 0.917 & 0.977 \\
+\texttt{chest} & 213/305 & 102 & 111 & 0.862 & 2.206 & 0.384 & 0.297 & 0.964 \\
+\texttt{hand\_acc} & 181/305 & 71 & 110 & 4.275 & 11.272 & 0.387 & 0.303 & 0.961 \\
+\texttt{chest\_acc} & 274/305 & 110 & 164 & 0.826 & 2.410 & 0.220 & 0.204 & 0.964 \\
+\texttt{hand\_gyro} & 202/305 & 94 & 108 & 1.104 & 3.902 & 0.387 & 0.303 & 0.689 \\
+\texttt{chest\_gyro} & 249/305 & 101 & 148 & 0.721 & 1.130 & 0.374 & 0.291 & 0.954 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Brief interpretation.}
+The hand-channel setting is strongest for downstream synthetic-only utility,
+whereas chest gyroscope is strongest for similarity. Full-channel generation is
+not automatically best. This supports the joint paper's claim that what the
+latent representation exposes matters as much as the nominal LLM capacity.
+
+\subsection*{Stage 3: Epoch Scaling Without Statistical Prompts}
+
+We next tested whether longer training alone improves generation. Selected
+strong or informative channel groups were trained for 5, 10, and 20 epochs.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Epoch scaling without statistical prompts. Longer training changes the
+trade-off but does not monotonically improve utility or similarity.}
+\label{tab:shanjun-epoch}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+Setting & Epoch & Valid & ED/real & DTW/real & Syn acc. & Syn F1 & Real+Syn acc. \\
+\midrule
+\texttt{hand} & 5 & 226/305 & 4.158 & 10.162 & 0.921 & 0.917 & 0.977 \\
+\texttt{hand} & 10 & 75/305 & 4.584 & 11.115 & 0.820 & 0.817 & 0.977 \\
+\texttt{hand} & 20 & 139/305 & 4.378 & 10.746 & 0.377 & 0.297 & 0.974 \\
+\texttt{chest\_gyro} & 5 & 249/305 & 0.721 & 1.130 & 0.374 & 0.291 & 0.954 \\
+\texttt{chest\_gyro} & 10 & 294/305 & 0.454 & 0.736 & 0.370 & 0.286 & 0.954 \\
+\texttt{chest\_gyro} & 20 & 301/305 & 0.653 & 1.065 & 0.370 & 0.286 & 0.961 \\
+\texttt{chest} & 5 & 213/305 & 0.862 & 2.206 & 0.384 & 0.297 & 0.964 \\
+\texttt{chest} & 10 & 298/305 & 0.944 & 1.684 & 0.380 & 0.295 & 0.970 \\
+\texttt{chest} & 20 & 74/305 & 1.030 & 2.904 & 0.626 & 0.626 & 0.964 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Brief interpretation.}
+More epochs are not a reliable fix. For example, \texttt{hand} remains useful at
+5 epochs but degrades at 20 epochs, while \texttt{chest\_gyro} improves
+similarity at 10 epochs without improving synthetic-only utility. This is a
+negative ablation: training longer changes the model behavior but does not
+resolve collapse.
+
+\subsection*{Stage 4: Statistical Prompt Conditioning}
+
+The next intervention adds window-level statistics to the serialized training
+text: mean, standard deviation, minimum, and maximum, with three decimal digits.
+The purpose is to strengthen the conditioning signal by explicitly exposing
+summary statistics to the LLM.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Statistical prompt results for selected channel groups and epochs.}
+\label{tab:shanjun-stats}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+Setting & Epoch & Valid & ED/real & DTW/real & Syn acc. & Syn F1 & Real+Syn acc. \\
+\midrule
+\texttt{hand + stats} & 5 & 301/305 & 3.912 & 9.288 & 0.928 & 0.925 & 0.970 \\
+\texttt{hand + stats} & 10 & 261/305 & 4.561 & 10.379 & 0.846 & 0.844 & 0.970 \\
+\texttt{hand + stats} & 20 & 284/305 & 4.445 & 10.349 & 0.921 & 0.919 & 0.957 \\
+\texttt{chest\_gyro + stats} & 5 & 283/305 & 0.466 & 0.740 & 0.449 & 0.412 & 0.954 \\
+\texttt{chest\_gyro + stats} & 10 & 303/305 & 0.522 & 0.795 & 0.374 & 0.298 & 0.957 \\
+\texttt{chest\_gyro + stats} & 20 & 271/305 & 0.622 & 1.016 & 0.564 & 0.554 & 0.957 \\
+\texttt{chest + stats} & 5 & 270/305 & 0.692 & 1.556 & 0.370 & 0.293 & 0.967 \\
+\texttt{chest\_acc + stats} & 5 & 280/305 & 0.858 & 2.307 & 0.370 & 0.296 & 0.967 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Brief interpretation.}
+Statistical prompts generally improve validity and can improve selected utility
+or similarity, but they do not remove the trade-off. \texttt{hand + stats} is the
+strongest utility-oriented setting, while \texttt{chest\_gyro + stats} is the
+strongest similarity-oriented setting. This suggests that prompt statistics help
+only when the selected channels and latent representation expose information
+that the model can steer.
+
+\subsection*{Stage 5: ICA Dimensionality Sweep}
+
+To test whether latent capacity is the bottleneck, we varied the number of
+FastICA components per channel in the two strongest statistics-prompt families:
+\texttt{chest\_gyro + stats} and \texttt{hand + stats}.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Condensed ICA sweep. The table keeps representative rows that should be
+shown in the main report; the full sweep can be placed in an appendix.}
+\label{tab:shanjun-ica}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llrrrrrr}
+\toprule
+Setting & ICA / epoch & Valid & ED/real & DTW/real & Syn acc. & Syn F1 & Real+Syn acc. \\
+\midrule
+\texttt{chest\_gyro + stats} & ICA3 / ep5 & 253/305 & 0.734 & 1.206 & 0.377 & 0.290 & 0.957 \\
+\texttt{chest\_gyro + stats} & ICA6 / ep5 & 283/305 & 0.466 & 0.740 & 0.449 & 0.412 & 0.954 \\
+\texttt{chest\_gyro + stats} & ICA12 / ep5 & 302/305 & 0.569 & 0.825 & 0.898 & 0.894 & 0.964 \\
+\texttt{chest\_gyro + stats} & ICA12 / ep10 & 299/305 & 0.758 & 0.831 & 0.964 & 0.961 & 0.964 \\
+\texttt{chest\_gyro + stats} & ICA18 / ep10 & 236/305 & 0.624 & 1.084 & 0.859 & 0.841 & 0.951 \\
+\texttt{hand + stats} & ICA6 / ep5 & 301/305 & 3.912 & 9.288 & 0.928 & 0.925 & 0.970 \\
+\texttt{hand + stats} & ICA12 / ep10 & 258/305 & 4.058 & 9.929 & 0.928 & 0.925 & 0.974 \\
+\texttt{hand + stats} & ICA18 / ep10 & 294/305 & 3.908 & 9.015 & 0.954 & 0.952 & 0.974 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Brief interpretation.}
+Increasing ICA dimensionality can help, but the effect is not monotonic.
+\texttt{chest\_gyro + stats} benefits strongly from ICA12 in downstream utility,
+whereas similarity is already strong at ICA6. This supports the distinction
+between representation capacity and steerability: adding dimensions helps only
+when the new latent variables align with conditionable structure.
+
+\subsection*{Stage 6: Window-128, Statistics Source, and Filtering}
+
+The window-128 experiments increase the number of training/test windows and test
+whether shorter windows and alternative statistics sources improve generation.
+These runs are valuable but should be treated as secondary ablations because the
+protocol differs from the main window-256 setting.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Window-128 statistics-prompt experiments. These results are useful as a
+secondary ablation because the window length and number of prompts differ from
+the main setting. ED/ref and DTW/ref are retained as compact distance summaries;
+the full SDForger-style similarity metrics, including SD (skew.) and SHR, should
+be reported in the accompanying full-metric CSV or appendix table.}
+\label{tab:shanjun-win128}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+Setting & Source & Valid rate & ED/ref & DTW/ref & Syn acc. & Real acc. & Real+Syn acc. \\
+\midrule
+\texttt{hand stats ICA12 ep5} & raw stats & 0.461 & 15.613 & 24.999 & 0.952 & 0.977 & 0.971 \\
+\texttt{hand stats ICA12 ep10} & raw stats & 0.032 & 15.883 & 24.906 & 0.947 & 0.977 & 0.974 \\
+\texttt{hand\_acc stats ICA12 ep5} & raw stats & 0.545 & 15.074 & 30.364 & 0.926 & 0.976 & 0.955 \\
+\texttt{hand\_acc stats ICA12 ep10} & raw stats & 0.976 & 15.143 & 31.652 & 0.745 & 0.976 & 0.961 \\
+\texttt{chest\_gyro stats ICA12 ep5} & raw stats & 0.992 & 1.314 & 1.809 & 0.503 & 0.961 & 0.958 \\
+\texttt{chest\_gyro stats ICA12 ep10} & raw stats & 0.850 & 0.891 & 1.312 & 0.357 & 0.961 & 0.955 \\
+\texttt{chest\_gyro icastats ep5} & embedding stats & 0.980 & -- & -- & 0.955 & 0.961 & 0.964 \\
+\texttt{chest\_gyro icastats ep10} & embedding stats & 0.919 & -- & -- & 0.959 & 0.961 & 0.962 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Post-hoc filtering.}
+The p25/p50/p75 consistency-filtering experiments keep only a target fraction of
+generated candidates according to a statistics-consistency score. They are useful
+for quality control, but the results should be placed in an appendix: filtering
+can improve selected downstream numbers or maintain real-plus-synthetic accuracy,
+but it reduces the number of retained synthetic samples and does not solve the
+underlying generation problem. After the SDForger-style recomputation, the
+filtering table should additionally report the full similarity block in the
+appendix, because filtering can change distributional metrics such as MDD, SD
+(skew.), KD, and SHR even when the compact ED/ref and DTW/ref columns look
+similar.
+
+\paragraph{Brief interpretation.}
+Window granularity and statistics source change the validity/utility/similarity
+trade-off. In particular, embedding-channel statistics for \texttt{chest\_gyro}
+give high synthetic-only utility in the window-128 setting, but the protocol is
+different enough that it should be framed as a secondary finding rather than as
+the main result.
+
+\subsection*{Stage 7: Raw-Window Gemma Diagnostic}
+
+A later diagnostic experiment replaces FastICA latents with serialized raw
+\texttt{chest\_gyro} windows. The motivation is to test whether compact linear
+latent codes are the main bottleneck. The raw-window representation uses 768
+values per window (256 time steps times 3 channels), per-channel standardization,
+and window-level statistics in the prompt.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Raw-window Gemma diagnostic probes. These runs are not main results
+because they currently lack complete similarity/utility evaluation and show
+class-coverage issues.}
+\label{tab:shanjun-raw}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrll}
+\toprule
+Run & Prompts & Parse success & Valid & Token budget & Generated classes & Suggested use \\
+\midrule
+\texttt{genprobe8} & 8 & 8 & 0 & 2300 & none & negative diagnostic \\
+\texttt{genprobe8\_tok6500} & 8 & 8 & 8 & 6500 & walking only & parse/length diagnostic \\
+\texttt{genprobe32\_tok6500} & 32 & 32 & 32 & 6500 & walking only & class-coverage diagnostic \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Brief interpretation.}
+Longer token budgets make raw-window parsing possible, but the valid candidates
+cover only \texttt{walking} in the observed probes. This suggests that simply
+removing FastICA and serializing raw windows is not yet a reliable solution; it
+also makes the generation problem much longer and harder for the LLM.
+
+\subsection*{Stage 8: MM-Fit Gemma Extension}
+
+The MM-Fit experiment tests whether the pipeline can be transferred to another
+HAR-like dataset. It uses 12 smartwatch channels and five exercise classes. This
+experiment should be reported as a second-dataset sanity check rather than a
+direct comparison against PAMAP2.
+
+\begin{table}[t]
+\centering
+\small
+\caption{MM-Fit Gemma-2 five-class result. This is a second-dataset extension,
+not directly comparable to PAMAP2 absolute values.}
+\label{tab:shanjun-mmfit}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Dataset & Prompts & Valid & Classes covered & ED & DTW & Syn acc. & Syn F1 & Real+Syn acc. \\
+\midrule
+MM-Fit Gemma-2 & 406 & 369 & 5/5 & 86.460 & 218.915 & 0.515 & 0.538 & 0.975 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Brief interpretation.}
+The MM-Fit Gemma run demonstrates that the pipeline can be moved beyond PAMAP2,
+with full class coverage and non-empty utility evaluation. However, the
+real-only classifier is already very strong on MM-Fit, and the synthetic-only
+score remains far below real-only. This supports the broader thesis that LLM
+generation requires stronger conditioning and representation design, not only
+dataset transfer.
+
+\subsection*{Recommended Results to Show in the Final Report}
+
+For the main body, I recommend showing the following results:
+\begin{itemize}
+  \item the two-activity PAMAP2 channel sweep
+  (Table~\ref{tab:shanjun-channel});
+  \item the epoch-scaling negative ablation
+  (Table~\ref{tab:shanjun-epoch});
+  \item the statistical-prompt comparison
+  (Table~\ref{tab:shanjun-stats});
+  \item a condensed ICA-dimensionality table
+  (Table~\ref{tab:shanjun-ica});
+  \item one secondary table for window-128/statistics-source experiments if space
+  allows (Table~\ref{tab:shanjun-win128}).
+\end{itemize}
+The early five-class Gemma table, MM-Fit extension, raw-window diagnostic, and
+filtering results should be placed in the appendix or summarized briefly in the
+main text. In addition, the final report should include one appendix table or
+machine-readable supplementary CSV for the complete SDForger-style similarity
+metrics, because the compact main tables intentionally omit MDD, ACD, SD
+(skew.), KD, and SHR for readability.
+
+\subsection*{Short Result Analysis}
+
+Across the Gemma-2 experiments, the most consistent observation is that no single
+knob dominates all metrics. Channel choice controls what the latent code exposes:
+\texttt{hand} produces stronger downstream utility, while \texttt{chest\_gyro}
+produces stronger similarity. Statistical prompts strengthen the conditioning
+interface and improve validity, but their gains depend on the selected channel
+and latent dimensionality. Longer training is not a reliable fix; it can improve
+some similarity metrics while leaving synthetic-only utility unchanged or worse.
+Increasing ICA dimensionality helps locally, especially for
+\texttt{chest\_gyro + stats}, but the effect is non-monotonic. Post-hoc
+filtering and raw-window serialization are useful diagnostics, yet neither
+provides a complete solution. These findings support the joint paper's central
+claim: controllability in LLM-based synthetic HAR generation is primarily a
+conditioning-and-representation problem, not simply a matter of using a larger
+model or training longer.
