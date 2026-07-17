@@ -1,0 +1,65 @@
+{
+  "run_prefix": "hand_stats_base",
+  "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_hand_stats",
+  "generated_dir": "outputs/generated/gemma_2act_hand_stats",
+  "scores_csv": "outputs/generated_stats_filter_extra/hand_stats_base_stats_consistency_scores.csv",
+  "filters": [
+    {
+      "filter_name": "stats_loose_p70",
+      "keep_fraction": 0.7,
+      "output_dir": "outputs/generated_stats_filter_extra/hand_stats_base_stats_loose_p70",
+      "kept": 212,
+      "total": 301,
+      "kept_fraction": 0.7043189368770764,
+      "total_counts": {
+        "running": 113,
+        "walking": 188
+      },
+      "kept_counts": {
+        "running": 80,
+        "walking": 132
+      },
+      "stats_score_mean": 0.6420099881016218,
+      "stats_score_median": 0.6375355855781262,
+      "stats_score_max": 0.7760085733956583
+    },
+    {
+      "filter_name": "stats_medium_p50",
+      "keep_fraction": 0.5,
+      "output_dir": "outputs/generated_stats_filter_extra/hand_stats_base_stats_medium_p50",
+      "kept": 151,
+      "total": 301,
+      "kept_fraction": 0.5016611295681063,
+      "total_counts": {
+        "running": 113,
+        "walking": 188
+      },
+      "kept_counts": {
+        "running": 57,
+        "walking": 94
+      },
+      "stats_score_mean": 0.6154917990778372,
+      "stats_score_median": 0.616009195737643,
+      "stats_score_max": 0.7247009562071165
+    },
+    {
+      "filter_name": "stats_strict_p35",
+      "keep_fraction": 0.35,
+      "output_dir": "outputs/generated_stats_filter_extra/hand_stats_base_stats_strict_p35",
+      "kept": 106,
+      "total": 301,
+      "kept_fraction": 0.3521594684385382,
+      "total_counts": {
+        "running": 113,
+        "walking": 188
+      },
+      "kept_counts": {
+        "running": 40,
+        "walking": 66
+      },
+      "stats_score_mean": 0.5921212826435686,
+      "stats_score_median": 0.5919326674826088,
+      "stats_score_max": 0.6836197573421374
+    }
+  ]
+}

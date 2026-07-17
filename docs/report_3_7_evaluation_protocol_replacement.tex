@@ -1,0 +1,283 @@
+\subsection{Evaluation Protocol}
+\label{sec:evaluation_protocol}
+
+We evaluate synthetic time-series data from three complementary perspectives:
+generation validity, similarity to real windows, and downstream task utility.
+This unified protocol is shared across the joint study even though the concrete
+datasets and tasks differ across PAMAP2 and MM-Fit. Following SDForger
+\cite{rousseau2025sdforger} and the TSGBench evaluation taxonomy
+\cite{ang2023tsgbench}, we use feature-based and distance-based similarity
+metrics to quantify fidelity, prompt-adherence metrics to quantify
+controllability, and task-utility metrics to test whether generated data is
+useful for downstream classification or inference. Lower similarity scores
+indicate closer agreement with real data, while higher adherence and utility
+scores indicate better controllability and downstream performance.
+
+\paragraph{Generation validity.}
+Before computing similarity or utility, we first check whether generated samples
+can be parsed and reconstructed as valid time-series windows. For a set of
+$N_{\mathrm{prompt}}$ generation prompts and $N_{\mathrm{valid}}$ valid decoded
+outputs, we report the valid generation rate
+\begin{equation}
+    \mathrm{ValidRate}
+    =
+    \frac{N_{\mathrm{valid}}}{N_{\mathrm{prompt}}}.
+\end{equation}
+We also inspect duplicate rate and class coverage. If
+$N_{\mathrm{unique}}$ is the number of unique generated windows after
+protocol-specific duplicate checking, the duplicate rate is
+\begin{equation}
+    \mathrm{DuplicateRate}
+    =
+    1-\frac{N_{\mathrm{unique}}}{N_{\mathrm{valid}}}.
+\end{equation}
+These diagnostics explain invalid decoding, mode collapse, and missing activity
+classes, but they are not substitutes for fidelity or downstream utility.
+
+\paragraph{Similarity metrics.}
+For each activity or class $a$, let
+$\mathcal{R}_a=\{X_i\}_{i=1}^{n_a}$ denote real windows and
+$\mathcal{G}_a=\{\tilde{X}_i\}_{i=1}^{m_a}$ denote generated windows, where
+$X_i,\tilde{X}_i\in\mathbb{R}^{L\times C}$ have length $L$ and $C$ channels.
+To keep computations comparable, we sample at most a fixed number of windows per
+class. Feature-based metrics use the sampled real and generated sets directly;
+distance-based metrics use paired real--generated windows. The final reported
+score is the mean over classes.
+
+\paragraph{Feature-based similarity.}
+Marginal Distribution Difference (MDD) compares empirical marginal
+distributions across time steps and channels \cite{ang2023tsgbench}. For time
+step $t$ and channel $c$, let $h_{t,c}^{R}(b)$ and $h_{t,c}^{G}(b)$ be
+histogram density estimates for real and generated values in bin $b$. We compute
+\begin{equation}
+    \mathrm{MDD}(a)
+    =
+    \frac{1}{LCB}
+    \sum_{t=1}^{L}\sum_{c=1}^{C}\sum_{b=1}^{B}
+    \left|
+    h_{t,c}^{R}(b)-h_{t,c}^{G}(b)
+    \right| ,
+\end{equation}
+where $B$ is the number of histogram bins. Autocorrelation Difference (ACD)
+compares temporal dependency structure:
+\begin{equation}
+    \mathrm{ACD}(a)
+    =
+    \frac{1}{C}
+    \sum_{c=1}^{C}
+    \left\|
+    \boldsymbol{\rho}_{c}^{R}
+    -
+    \boldsymbol{\rho}_{c}^{G}
+    \right\|_2 ,
+\end{equation}
+where $\boldsymbol{\rho}_{c}$ is the autocorrelation vector for channel $c$ over
+lags $0,\ldots,\tau_{\max}-1$. Skewness Difference (SD) measures the difference
+in distribution asymmetry:
+\begin{equation}
+    \mathrm{SD}(a)
+    =
+    \frac{1}{C}
+    \sum_{c=1}^{C}
+    \left|
+    \gamma_c^{R}-\gamma_c^{G}
+    \right| ,
+\end{equation}
+where $\gamma_c=\mathbb{E}[(x_c-\mu_c)^3]/\sigma_c^3$ is channel-wise skewness.
+Kurtosis Difference (KD) compares tail behavior:
+\begin{equation}
+    \mathrm{KD}(a)
+    =
+    \frac{1}{C}
+    \sum_{c=1}^{C}
+    \left|
+    \kappa_c^{R}-\kappa_c^{G}
+    \right| ,
+\end{equation}
+where $\kappa_c=\mathbb{E}[(x_c-\mu_c)^4]/\sigma_c^4-3$ is excess kurtosis.
+These definitions follow the TSGBench/SDForger feature-based metric family
+\cite{ang2023tsgbench,rousseau2025sdforger}.
+
+\paragraph{Distance-based similarity.}
+Euclidean Distance (ED) measures point-wise similarity between paired real and
+generated windows:
+\begin{equation}
+    \mathrm{ED}(a)
+    =
+    \frac{1}{N_a C}
+    \sum_{i=1}^{N_a}\sum_{c=1}^{C}
+    \left\|
+    X_{i,:,c}-\tilde{X}_{i,:,c}
+    \right\|_2 .
+\end{equation}
+Dynamic Time Warping (DTW) measures similarity under elastic temporal alignment
+\cite{sakoe1978dtw}:
+\begin{equation}
+    \mathrm{DTW}(a)
+    =
+    \frac{1}{N_a}
+    \sum_{i=1}^{N_a}
+    D_{\mathrm{DTW}}\!\left(X_i,\tilde{X}_i\right),
+\end{equation}
+where
+\begin{equation}
+    D_{\mathrm{DTW}}(u,v)
+    =
+    \min_{\pi}
+    \sum_{(p,q)\in\pi}
+    \left\|
+    u_p-v_q
+    \right\|_2
+\end{equation}
+over monotonic warping paths $\pi$. We also compute the SDForger shapelet
+reconstruction metric, reported as SHR or SHAP-RE in the SDForger
+implementation \cite{rousseau2025sdforger}. Shapelets are learned from real
+windows using the SIDL reconstruction objective, then generated windows are
+reconstructed using the learned shapelets. Let $S$ be the learned shapelet basis,
+$\alpha_i$ the sparse coefficients, and $\mathcal{T}_{\delta_i}(S)$ the basis
+shifted by offsets $\delta_i$. The reconstruction score is
+\begin{equation}
+    \mathrm{SHR}(a)
+    =
+    \frac{1}{N_a}
+    \sum_{i=1}^{N_a}
+    \frac{1}{2}
+    \left\|
+    \tilde{X}_i
+    -
+    \alpha_i\mathcal{T}_{\delta_i}(S)
+    \right\|_2^2 .
+\end{equation}
+When a real-vs-real baseline is available, we additionally report normalized
+ratios:
+\begin{equation}
+    \mathrm{ED/real}
+    =
+    \frac{\mathrm{ED}(\hat{x},x_{\mathrm{real}})}
+    {\mathrm{ED}(x_{\mathrm{real}}^{(1)},x_{\mathrm{real}}^{(2)})},
+    \qquad
+    \mathrm{DTW/real}
+    =
+    \frac{\mathrm{DTW}(\hat{x},x_{\mathrm{real}})}
+    {\mathrm{DTW}(x_{\mathrm{real}}^{(1)},x_{\mathrm{real}}^{(2)})}.
+\end{equation}
+These ratios are interpreted only within the same dataset, channel selection,
+window length, and normalization protocol; they are not used for absolute
+comparison across PAMAP2 and MM-Fit.
+
+\paragraph{Prompt adherence.}
+For descriptor-level prompt-control experiments, fidelity is not sufficient:
+the generated signal must also follow the requested condition. We therefore use
+Spearman rank correlation \cite{spearman1904general} between requested
+descriptor values and measured descriptor values from generated signals. Given
+$N$ generated samples, requested descriptor values $q_i$, and measured
+descriptor values $v_i$, prompt adherence is
+\begin{equation}
+    \rho_s(q,v)
+    =
+    1
+    -
+    \frac{6\sum_{i=1}^{N}d_i^2}
+    {N(N^2-1)},
+    \qquad
+    d_i=\operatorname{rank}(q_i)-\operatorname{rank}(v_i),
+\end{equation}
+when there are no rank ties; with ties, we compute the Pearson correlation
+between the ranked variables. This metric distinguishes controllability from
+raw similarity: a model may produce realistic windows while failing to follow
+the requested descriptor, or vice versa.
+
+\paragraph{Downstream utility.}
+Finally, we evaluate whether synthetic data is useful for downstream activity or
+exercise recognition. For PAMAP2 experiments, each window is flattened and
+evaluated with a RandomForestClassifier \cite{breiman2001randomforest} under
+three training settings:
+\begin{equation}
+    \mathcal{D}_{\mathrm{train}}
+    =
+    \begin{cases}
+    \mathcal{D}_{\mathrm{real}}, &
+    \text{real-only},\\
+    \mathcal{D}_{\mathrm{syn}}, &
+    \text{synthetic-only},\\
+    \mathcal{D}_{\mathrm{real}}\cup\mathcal{D}_{\mathrm{syn}}, &
+    \text{real-plus-synthetic}.
+    \end{cases}
+\end{equation}
+All three settings are evaluated on held-out real samples. The real-only setting
+is the supervised baseline, synthetic-only is a train-on-synthetic-test-on-real
+test of standalone synthetic utility, and real-plus-synthetic measures whether
+synthetic data improves data augmentation. For MM-Fit, the same utility
+principle is applied to the task-specific inference protocol, including
+equal-size synthetic and real-data comparisons and low-real-data fine-tuning
+settings. Because the inputs, labels, and tasks differ, utility scores are
+compared within each protocol rather than numerically across datasets.
+
+We report accuracy,
+\begin{equation}
+    \mathrm{Accuracy}
+    =
+    \frac{1}{N}
+    \sum_{i=1}^{N}\mathbf{1}[\hat{y}_i=y_i],
+\end{equation}
+and macro-F1,
+\begin{equation}
+    \mathrm{MacroF1}
+    =
+    \frac{1}{|\mathcal{Y}|}
+    \sum_{y\in\mathcal{Y}}
+    \frac{2\,\mathrm{Precision}_y\,\mathrm{Recall}_y}
+    {\mathrm{Precision}_y+\mathrm{Recall}_y}.
+\end{equation}
+Confusion matrices are used where space allows to identify class-wise failure
+modes. In all cases, utility evaluation tests whether the generated data
+preserves enough task-relevant structure to support real downstream recognition.
+
+% BibTeX entries needed by this subsection:
+%
+% @article{ang2023tsgbench,
+%   title        = {{TSGBench}: Time Series Generation Benchmark},
+%   author       = {Ang, Yihao and Huang, Qiang and Bao, Yifan and Tung, Anthony K. H. and Huang, Zhiyong},
+%   journal      = {Proceedings of the VLDB Endowment},
+%   volume       = {17},
+%   number       = {3},
+%   pages        = {305--318},
+%   year         = {2023}
+% }
+%
+% @inproceedings{rousseau2025sdforger,
+%   title     = {Forging Time Series with Language: A Large Language Model Approach to Synthetic Data Generation},
+%   author    = {Rousseau, C{\'e}cile and Boschi, Tobia and Cornacchia, Giandomenico and Salwala, Dhaval and Pascale, Alessandra and Moreno, Juan Bernabe},
+%   booktitle = {Advances in Neural Information Processing Systems},
+%   year      = {2025}
+% }
+%
+% @article{sakoe1978dtw,
+%   title   = {Dynamic Programming Algorithm Optimization for Spoken Word Recognition},
+%   author  = {Sakoe, Hiroaki and Chiba, Seibi},
+%   journal = {IEEE Transactions on Acoustics, Speech, and Signal Processing},
+%   volume  = {26},
+%   number  = {1},
+%   pages   = {43--49},
+%   year    = {1978}
+% }
+%
+% @article{spearman1904general,
+%   title   = {The Proof and Measurement of Association between Two Things},
+%   author  = {Spearman, Charles},
+%   journal = {The American Journal of Psychology},
+%   volume  = {15},
+%   number  = {1},
+%   pages   = {72--101},
+%   year    = {1904}
+% }
+%
+% @article{breiman2001randomforest,
+%   title   = {Random Forests},
+%   author  = {Breiman, Leo},
+%   journal = {Machine Learning},
+%   volume  = {45},
+%   number  = {1},
+%   pages   = {5--32},
+%   year    = {2001}
+% }

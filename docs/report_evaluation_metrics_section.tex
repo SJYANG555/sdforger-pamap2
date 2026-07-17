@@ -1,0 +1,186 @@
+\subsection{Evaluation Metrics}
+\label{sec:evaluation_metrics}
+
+We evaluate the generated PAMAP2 windows from two complementary perspectives:
+similarity to the real sensor-window distribution and downstream human-activity
+recognition (HAR) utility. This follows the evaluation logic used by
+SDForger~\cite{rousseau2025sdforger}, which separates similarity metrics from
+task-utility metrics, and the TSGBench taxonomy~\cite{ang2023tsgbench}, which
+groups time-series similarity metrics into feature-based and distance-based
+measures. Lower values are better for all similarity metrics, while higher
+values are better for HAR utility metrics.
+
+For each activity class $a$, let
+$\mathcal{R}_a=\{X_i\}_{i=1}^{n_a}$ denote sampled real windows and
+$\mathcal{G}_a=\{\tilde{X}_i\}_{i=1}^{m_a}$ denote sampled generated windows,
+where each window $X_i,\tilde{X}_i\in\mathbb{R}^{L\times C}$ has length $L$ and
+$C$ sensor channels. The implementation samples at most a fixed number of
+windows per activity, computes an activity-wise score, and then reports the
+macro-average over activities.
+
+\paragraph{Feature-based similarity.}
+The first group measures whether generated windows preserve real-data
+statistics and temporal structure. Marginal Distribution Difference (MDD)
+compares empirical marginal distributions over time steps and channels:
+\begin{equation}
+    \mathrm{MDD}(a)=
+    \frac{1}{LCB}
+    \sum_{t=1}^{L}\sum_{c=1}^{C}\sum_{b=1}^{B}
+    \left|h_{t,c}^{R}(b)-h_{t,c}^{G}(b)\right| ,
+\end{equation}
+where $h_{t,c}^{R}$ and $h_{t,c}^{G}$ are real and generated histogram density
+estimates and $B$ is the number of bins.
+Autocorrelation Difference (ACD) compares the lag-wise autocorrelation of the
+real and generated windows:
+\begin{equation}
+    \mathrm{ACD}(a)=
+    \frac{1}{C}
+    \sum_{c=1}^{C}
+    \left\|\boldsymbol{\rho}_{c}^{R}
+    -\boldsymbol{\rho}_{c}^{G}\right\|_2 ,
+\end{equation}
+where $\boldsymbol{\rho}_{c}$ is the autocorrelation vector for channel $c$.
+Skewness Difference (SD) compares the distribution asymmetry of real
+and generated windows:
+\begin{equation}
+    \mathrm{SD}(a)=
+    \frac{1}{C}
+    \sum_{c=1}^{C}
+    \left|
+    \gamma(r_{a,c})-\gamma(g_{a,c})
+    \right| ,
+\end{equation}
+where $\gamma(\cdot)$ denotes skewness. Finally, Kurtosis Difference (KD)
+compares the excess kurtosis of real and generated channel distributions:
+\begin{equation}
+    \mathrm{KD}(a)=
+    \frac{1}{C}
+    \sum_{c=1}^{C}
+    \left|
+    \kappa(r_{a,c})-\kappa(g_{a,c})
+    \right| ,
+\end{equation}
+where $r_{a,c}$ and $g_{a,c}$ are the flattened real and generated values for
+channel $c$, and $\kappa(\cdot)$ denotes excess kurtosis.
+
+\paragraph{Distance-based similarity.}
+The second group compares paired real and generated windows directly. Euclidean
+Distance (ED) is averaged over paired samples and channels:
+\begin{equation}
+    \mathrm{ED}(a)=
+    \frac{1}{N_a C}
+    \sum_{i=1}^{N_a}\sum_{c=1}^{C}
+    \left\|X_{i,:,c}-\tilde{X}_{i,:,c}\right\|_2 .
+\end{equation}
+Dynamic Time Warping (DTW) measures temporally flexible alignment between paired
+real and generated windows~\cite{sakoe1978dtw}:
+\begin{equation}
+    \mathrm{DTW}(a)=
+    \frac{1}{N_a}
+    \sum_{i=1}^{N_a}
+    D_{\mathrm{DTW}}\!\left(X_i,\tilde{X}_i\right),
+\end{equation}
+where
+\begin{equation}
+    D_{\mathrm{DTW}}(u,v)=
+    \min_{\pi}
+    \sum_{(p,q)\in\pi}\left\|u_p-v_q\right\|_2
+\end{equation}
+over monotonic warping paths $\pi$. We also compute the SDForger shapelet
+reconstruction metric SHR/SHAP-RE when enabled. Shapelets are learned from real
+windows and then used to reconstruct generated windows:
+\begin{equation}
+    \mathrm{SHR}(a)
+    =
+    \frac{1}{N_a}
+    \sum_{i=1}^{N_a}
+    \frac{1}{2}
+    \left\|
+    \tilde{X}_i-\alpha_i\mathcal{T}_{\delta_i}(S)
+    \right\|_2^2 ,
+\end{equation}
+where $S$ is the learned shapelet basis, $\alpha_i$ are sparse coefficients, and
+$\mathcal{T}_{\delta_i}$ shifts the basis by offsets $\delta_i$. When
+available, we additionally report ED/real and DTW/real, obtained by dividing the
+real--synthetic score by the corresponding real-vs-real baseline. These ratios
+are interpreted within a fixed dataset, channel subset, window length, and
+normalization protocol.
+
+\paragraph{Downstream HAR utility.}
+Similarity alone does not guarantee that synthetic data is useful for a
+downstream task. We therefore evaluate HAR utility with a
+RandomForestClassifier~\cite{breiman2001randomforest}. Each window is flattened
+into a feature vector and the classifier is evaluated on the held-out real test
+set under three training settings:
+\begin{equation}
+    \mathcal{D}_{\mathrm{train}}=
+    \begin{cases}
+    \mathcal{D}_{\mathrm{real}}, & \text{real-only},\\
+    \mathcal{D}_{\mathrm{syn}}, & \text{synthetic-only},\\
+    \mathcal{D}_{\mathrm{real}}\cup\mathcal{D}_{\mathrm{syn}},
+    & \text{real-plus-synthetic}.
+    \end{cases}
+\end{equation}
+The real-only setting is the supervised baseline, synthetic-only corresponds to
+train-on-synthetic-test-on-real utility, and real-plus-synthetic measures whether
+generated windows improve or degrade augmentation performance. For each setting
+we report accuracy,
+\begin{equation}
+    \mathrm{Accuracy}=
+    \frac{1}{N}\sum_{i=1}^{N}\mathbf{1}[\hat{y}_i=y_i],
+\end{equation}
+and macro-F1,
+\begin{equation}
+    \mathrm{MacroF1}=
+    \frac{1}{|\mathcal{Y}|}
+    \sum_{y\in\mathcal{Y}}
+    \frac{2\,\mathrm{Precision}_y\,\mathrm{Recall}_y}
+    {\mathrm{Precision}_y+\mathrm{Recall}_y}.
+\end{equation}
+Confusion matrices are additionally used to inspect class-wise failure modes.
+
+\paragraph{Implementation note.}
+The metrics above describe the exact evaluation used in our current repository:
+MDD, ACD, SD, KD, ED, DTW, optional SHR, and Random-Forest HAR utility with
+real-only, synthetic-only, and real-plus-synthetic settings. The abbreviation SD
+is therefore written explicitly as Skewness Difference, matching the
+TSGBench/SDForger metric description~\cite{ang2023tsgbench,rousseau2025sdforger}.
+
+% BibTeX entries used by this section:
+%
+% @article{ang2023tsgbench,
+%   title        = {{TSGBench}: Time Series Generation Benchmark},
+%   author       = {Ang, Yihao and Huang, Qiang and Bao, Yifan and Tung, Anthony K. H. and Huang, Zhiyong},
+%   journal      = {Proceedings of the VLDB Endowment},
+%   volume       = {17},
+%   number       = {3},
+%   pages        = {305--318},
+%   year         = {2023}
+% }
+%
+% @inproceedings{rousseau2025sdforger,
+%   title     = {Forging Time Series with Language: A Large Language Model Approach to Synthetic Data Generation},
+%   author    = {Rousseau, C{\'e}cile and Boschi, Tobia and Cornacchia, Giandomenico and Salwala, Dhaval and Pascale, Alessandra and Moreno, Juan Bernabe},
+%   booktitle = {Advances in Neural Information Processing Systems},
+%   year      = {2025}
+% }
+%
+% @article{sakoe1978dtw,
+%   title   = {Dynamic Programming Algorithm Optimization for Spoken Word Recognition},
+%   author  = {Sakoe, Hiroaki and Chiba, Seibi},
+%   journal = {IEEE Transactions on Acoustics, Speech, and Signal Processing},
+%   volume  = {26},
+%   number  = {1},
+%   pages   = {43--49},
+%   year    = {1978}
+% }
+%
+% @article{breiman2001randomforest,
+%   title   = {Random Forests},
+%   author  = {Breiman, Leo},
+%   journal = {Machine Learning},
+%   volume  = {45},
+%   number  = {1},
+%   pages   = {5--32},
+%   year    = {2001}
+% }

@@ -1,0 +1,14 @@
+{
+  "num_rows": 3,
+  "metrics_columns": [
+    "activity_name",
+    "num_real",
+    "num_synthetic",
+    "MDD",
+    "ACD",
+    "SD",
+    "KD",
+    "ED",
+    "DTW"
+  ]
+}

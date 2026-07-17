@@ -1,0 +1,134 @@
+{
+  "runs": [
+    {
+      "run_prefix": "chest_gyro_stats_ica12_ep10",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_chest_gyro_stats_ica12",
+      "generated_dir": "outputs/generated/gemma_2act_chest_gyro_stats_ica12_ep10",
+      "scores_csv": "outputs/generated_stats_filter/chest_gyro_stats_ica12_ep10_stats_consistency_scores.csv",
+      "filters": [
+        {
+          "filter_name": "stats_loose_p70",
+          "keep_fraction": 0.7,
+          "output_dir": "outputs/generated_stats_filter/chest_gyro_stats_ica12_ep10_stats_loose_p70",
+          "kept": 211,
+          "total": 299,
+          "kept_fraction": 0.705685618729097,
+          "total_counts": {
+            "running": 113,
+            "walking": 186
+          },
+          "kept_counts": {
+            "running": 80,
+            "walking": 131
+          },
+          "stats_score_mean": 0.4997472145573861,
+          "stats_score_median": 0.4791544016447836,
+          "stats_score_max": 0.8618484164171345
+        },
+        {
+          "filter_name": "stats_medium_p50",
+          "keep_fraction": 0.5,
+          "output_dir": "outputs/generated_stats_filter/chest_gyro_stats_ica12_ep10_stats_medium_p50",
+          "kept": 150,
+          "total": 299,
+          "kept_fraction": 0.5016722408026756,
+          "total_counts": {
+            "running": 113,
+            "walking": 186
+          },
+          "kept_counts": {
+            "running": 57,
+            "walking": 93
+          },
+          "stats_score_mean": 0.43701499133797217,
+          "stats_score_median": 0.4343763287544177,
+          "stats_score_max": 0.664688463348255
+        },
+        {
+          "filter_name": "stats_strict_p35",
+          "keep_fraction": 0.35,
+          "output_dir": "outputs/generated_stats_filter/chest_gyro_stats_ica12_ep10_stats_strict_p35",
+          "kept": 106,
+          "total": 299,
+          "kept_fraction": 0.35451505016722407,
+          "total_counts": {
+            "running": 113,
+            "walking": 186
+          },
+          "kept_counts": {
+            "running": 40,
+            "walking": 66
+          },
+          "stats_score_mean": 0.3893613477506553,
+          "stats_score_median": 0.3891210121176018,
+          "stats_score_max": 0.5349179250608311
+        }
+      ]
+    },
+    {
+      "run_prefix": "hand_stats_ica18_ep10",
+      "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_hand_stats_ica18",
+      "generated_dir": "outputs/generated/gemma_2act_hand_stats_ica18_ep10",
+      "scores_csv": "outputs/generated_stats_filter/hand_stats_ica18_ep10_stats_consistency_scores.csv",
+      "filters": [
+        {
+          "filter_name": "stats_loose_p70",
+          "keep_fraction": 0.7,
+          "output_dir": "outputs/generated_stats_filter/hand_stats_ica18_ep10_stats_loose_p70",
+          "kept": 207,
+          "total": 294,
+          "kept_fraction": 0.7040816326530612,
+          "total_counts": {
+            "running": 106,
+            "walking": 188
+          },
+          "kept_counts": {
+            "running": 75,
+            "walking": 132
+          },
+          "stats_score_mean": 0.5771134743634931,
+          "stats_score_median": 0.5781706154480264,
+          "stats_score_max": 0.6804740365481392
+        },
+        {
+          "filter_name": "stats_medium_p50",
+          "keep_fraction": 0.5,
+          "output_dir": "outputs/generated_stats_filter/hand_stats_ica18_ep10_stats_medium_p50",
+          "kept": 147,
+          "total": 294,
+          "kept_fraction": 0.5,
+          "total_counts": {
+            "running": 106,
+            "walking": 188
+          },
+          "kept_counts": {
+            "running": 53,
+            "walking": 94
+          },
+          "stats_score_mean": 0.5547642602287594,
+          "stats_score_median": 0.5572166265940545,
+          "stats_score_max": 0.631512208145199
+        },
+        {
+          "filter_name": "stats_strict_p35",
+          "keep_fraction": 0.35,
+          "output_dir": "outputs/generated_stats_filter/hand_stats_ica18_ep10_stats_strict_p35",
+          "kept": 104,
+          "total": 294,
+          "kept_fraction": 0.35374149659863946,
+          "total_counts": {
+            "running": 106,
+            "walking": 188
+          },
+          "kept_counts": {
+            "running": 38,
+            "walking": 66
+          },
+          "stats_score_mean": 0.5370631561865943,
+          "stats_score_median": 0.5414152925227471,
+          "stats_score_max": 0.5976390368528572
+        }
+      ]
+    }
+  ]
+}

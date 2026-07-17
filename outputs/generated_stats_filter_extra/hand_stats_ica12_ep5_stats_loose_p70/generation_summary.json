@@ -1,0 +1,31 @@
+{
+  "source_generated_dir": "outputs/generated/gemma_2act_hand_stats_ica12_ep5",
+  "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_hand_stats_ica12",
+  "run_prefix": "hand_stats_ica12_ep5",
+  "keep_fraction_by_activity": 0.7,
+  "filter": {
+    "filter_name": "stats_loose_p70",
+    "kept": 126,
+    "total": 178,
+    "kept_fraction": 0.7078651685393258,
+    "total_counts": {
+      "running": 55,
+      "walking": 123
+    },
+    "kept_counts": {
+      "running": 39,
+      "walking": 87
+    },
+    "stats_score_mean": 0.6701255260411054,
+    "stats_score_median": 0.6721624071381451,
+    "stats_score_max": 0.7624622335350043
+  },
+  "channels": [
+    "hand_acc_16g_x",
+    "hand_acc_16g_y",
+    "hand_acc_16g_z",
+    "hand_gyro_x",
+    "hand_gyro_y",
+    "hand_gyro_z"
+  ]
+}

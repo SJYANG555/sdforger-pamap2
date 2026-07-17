@@ -205,9 +205,12 @@ def plot_similarity_metrics(metrics: pd.DataFrame, output_path: Path) -> Optiona
     if metrics.empty:
         return None
     metrics = metrics[metrics["activity_name"] != "overall_mean"].copy()
-    metric_columns = ["MDD", "ACD", "SD", "KD", "ED", "DTW"]
+    metric_columns = [metric for metric in ["MDD", "ACD", "SD", "KD", "ED", "DTW", "SHR"] if metric in metrics.columns]
     ensure_dir(output_path.parent)
-    fig, axes = plt.subplots(2, 3, figsize=(13, 7))
+    n_cols = 4 if len(metric_columns) > 6 else 3
+    n_rows = int(np.ceil(len(metric_columns) / n_cols))
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(4.3 * n_cols, 3.5 * n_rows))
+    axes = np.atleast_1d(axes).ravel()
     for ax, metric in zip(axes.ravel(), metric_columns):
         ax.bar(
             metrics["activity_name"],
@@ -217,6 +220,8 @@ def plot_similarity_metrics(metrics: pd.DataFrame, output_path: Path) -> Optiona
         ax.set_title(metric)
         ax.tick_params(axis="x", rotation=35)
         ax.grid(axis="y", alpha=0.2)
+    for ax in axes[len(metric_columns):]:
+        ax.axis("off")
     fig.suptitle("Real/synthetic similarity metrics")
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(output_path, dpi=200)

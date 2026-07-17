@@ -1,0 +1,31 @@
+{
+  "source_generated_dir": "outputs/generated/gemma_2act_hand_stats",
+  "dataset_dir": "artifacts/pamap2_sdforger_dataset_2act_hand_stats",
+  "run_prefix": "hand_stats_base",
+  "keep_fraction_by_activity": 0.35,
+  "filter": {
+    "filter_name": "stats_strict_p35",
+    "kept": 106,
+    "total": 301,
+    "kept_fraction": 0.3521594684385382,
+    "total_counts": {
+      "running": 113,
+      "walking": 188
+    },
+    "kept_counts": {
+      "running": 40,
+      "walking": 66
+    },
+    "stats_score_mean": 0.5921212826435686,
+    "stats_score_median": 0.5919326674826088,
+    "stats_score_max": 0.6836197573421374
+  },
+  "channels": [
+    "hand_acc_16g_x",
+    "hand_acc_16g_y",
+    "hand_acc_16g_z",
+    "hand_gyro_x",
+    "hand_gyro_y",
+    "hand_gyro_z"
+  ]
+}

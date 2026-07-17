@@ -1,0 +1,18 @@
+{
+  "num_rows": 3,
+  "metrics_columns": [
+    "activity_name",
+    "num_real",
+    "num_synthetic",
+    "MDD",
+    "ACD",
+    "SD",
+    "KD",
+    "ED",
+    "DTW",
+    "SHR"
+  ],
+  "metric_impl": "sdforger_tsgbench_mdd_acd_skewness_sd_kd_ed_dtw_shr",
+  "compute_shr": true,
+  "source_resolved_config": "outputs/evaluation/similarity/gemma_2act_chest_gyro_stats_ica12_ep10/resolved_config.yaml"
+}
